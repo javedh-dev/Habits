@@ -15,4 +15,5 @@
 <resources>
     <string name="app_name">Habits</string>
     <string name="test_string">This is sample card</string>
+    <string name="phone_number">Phone number</string>
 </resources>

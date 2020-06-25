@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "526875148403",
+    "firebase_url": "https://habits-zenex.firebaseio.com",
+    "project_id": "habits-zenex",
+    "storage_bucket": "habits-zenex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526875148403:android:3d526209ff169edd12aa06",
+        "android_client_info": {
+          "package_name": "tech.zenex.habits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526875148403-nhdj97te6h16nh5cup8vv38h23vl3lmn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.zenex.habits",
+            "certificate_hash": "1ddf73eea7ffe7261d87067af7ac3c6eec9fb269"
+          }
+        },
+        {
+          "client_id": "526875148403-3g1eiqall7u8jus1q07vpnn7koab0qdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDudWdpFY1FIWHQmgdYbTdhQsHJ_-ik0Fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526875148403-3g1eiqall7u8jus1q07vpnn7koab0qdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
