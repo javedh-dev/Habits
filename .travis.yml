@@ -9,7 +9,9 @@ android:
 
 before_install: 
  - chmod +x gradlew
- - yes | sdkmanager "platforms;android-28"
+ - yes | sdkmanager "platforms;android-30"
  
+script: ./gradlew assembleRelease --stacktrace
+
 licenses:
  - '.+'
