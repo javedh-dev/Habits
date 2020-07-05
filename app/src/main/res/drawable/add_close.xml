@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -13,11 +12,8 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <color name="colorPrimary">#1f4068</color>
-    <color name="colorPrimaryDark">#162447</color>
-    <color name="colorAccent">#e43f5a</color>
-    <color name="colorWhite">#FFFFFF</color>
-    <color name="translucent">#30AAAAAA</color>
-</resources>
-
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="0"
+    android:toDegrees="45">
+    <bitmap android:src="@drawable/ic_baseline_add_24" />
+</rotate>

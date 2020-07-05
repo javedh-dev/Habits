@@ -16,4 +16,30 @@
     <string name="app_name">Habits</string>
     <string name="test_string">This is sample card</string>
     <string name="phone_number">Phone number</string>
+    <string name="add_habit_text">Add Habit</string>
+    <string name="develop_habit_type">DEVELOP</string>
+    <string name="break_habit_type">BREAK</string>
+    <string name="create_button_text">Create</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="habit_title">Habit</string>
+    <string name="habit_completed_percentage">80%</string>
+    <string name="streak">Streak</string>
+    <string name="none_filler">--</string>
+    <string name="average">Average</string>
+    <string name="habit_name">Habit Name</string>
+    <string name="habit_percentage_placeholder">%d%%</string>
+    <string name="did_you_do_it_today">Did you do it today?</string>
+    <string name="yes">YES</string>
+    <string name="no">No</string>
+
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
 </resources>

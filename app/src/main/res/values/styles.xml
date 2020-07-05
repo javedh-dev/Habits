@@ -15,10 +15,45 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+    </style>
+
+    <style name="WhiteRipple">
+        <item name="colorControlHighlight">@color/colorWhite</item>
+    </style>
+
+    <style name="SheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>
+        <item name="android:backgroundDimAmount">0.2</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/translucent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="bottomSheetDialogTheme">@style/AppTheme</item>
+        <item name="theme">@style/AppTheme</item>
+    </style>
+
+    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">5dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">36dp</item>
+        <item name="android:minHeight">36dp</item><!--
+        <item name="strokeColor">@color/toggle_selector</item>
+        <item name="rippleColor">@color/toggle_ripple_color</item>
+        <item name="backgroundTint">@color/toggle_background_tint</item>
+        <item name="android:textColor">@color/toggle_text_color</item>
+        <item name="iconTint">@color/toggle_text_color</item>-->
     </style>
 
 </resources>

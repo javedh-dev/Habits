@@ -15,13 +15,13 @@
 package tech.zenex.habits;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -35,10 +35,11 @@ import com.zenex.habits.R;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import tech.zenex.habits.utils.HabitsSharedPreferencesUtil;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "FIREBASE_AUTH";
-    RecyclerView rv;
     TextInputEditText phoneNumber;
     FloatingActionButton loginButton;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
@@ -90,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
                         assert user != null;
                         Log.d(TAG, "signInWithCredential:success with " + user.getDisplayName());
-
+                        setLoginCredentials();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
 
@@ -98,5 +99,14 @@ public class LoginActivity extends AppCompatActivity {
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                     }
                 });
+    }
+
+    private void setLoginCredentials() {
+        try {
+            SharedPreferences sp = HabitsSharedPreferencesUtil.getSharedPreference("login_cred", getApplicationContext());
+            sp.edit().putBoolean("isLoggedIn", true).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
