@@ -14,7 +14,7 @@
 
 package tech.zenex.habits.interfaces;
 
-import tech.zenex.habits.models.Habit;
+import tech.zenex.habits.models.database.Habit;
 
 public interface NewHabitRecyclerViewListener {
     void onNext(Habit habit);

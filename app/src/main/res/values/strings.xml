@@ -17,12 +17,12 @@
     <string name="test_string">This is sample card</string>
     <string name="phone_number">Phone number</string>
     <string name="add_habit_text">Add Habit</string>
-    <string name="develop_habit_type">DEVELOP</string>
-    <string name="break_habit_type">BREAK</string>
+    <string name="develop_habit_type">Develop</string>
+    <string name="break_habit_type">Break</string>
     <string name="create_button_text">Create</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="habit_title">Habit</string>
-    <string name="habit_completed_percentage">80%</string>
+    <string name="habit_completed_percentage">32%</string>
     <string name="streak">Streak</string>
     <string name="none_filler">--</string>
     <string name="average">Average</string>
@@ -41,5 +41,12 @@
         <item>Singapore</item>
         <item>New Zealand</item>
         <item>India</item>
+    </string-array>
+
+    <string-array name="journal_types">
+        <item>General</item>
+        <item>Gratitude</item>
+        <item>Guilt</item>
+        <item>Encourage</item>
     </string-array>
 </resources>

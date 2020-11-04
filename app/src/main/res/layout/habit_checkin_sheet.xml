@@ -35,7 +35,7 @@
 
             <View
                 android:layout_width="50dp"
-                android:layout_height="10dp"
+                android:layout_height="5dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:background="@drawable/dragger" />
@@ -48,7 +48,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/question"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -61,20 +61,17 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/habit_type"
+                android:id="@+id/check_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
-                app:checkedButton="@+id/no_btn"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                android:layout_margin="20dp">
 
                 <Button
                     android:id="@+id/yes_btn"
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:text="@string/yes"
                     app:icon="@drawable/ic_baseline_check_24" />
 
@@ -82,7 +79,7 @@
                     android:id="@+id/no_btn"
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:text="@string/no"
                     app:icon="@drawable/ic_baseline_close_24" />
 

@@ -24,9 +24,14 @@ import androidx.room.TypeConverters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import tech.zenex.habits.models.Habit;
+import tech.zenex.habits.database.dao.HabitDAO;
+import tech.zenex.habits.database.dao.HabitTrackerDAO;
+import tech.zenex.habits.database.dao.JournalEntryDAO;
+import tech.zenex.habits.models.database.Habit;
+import tech.zenex.habits.models.database.HabitTracker;
+import tech.zenex.habits.models.database.JournalEntry;
 
-@Database(version = 1, entities = {Habit.class}, exportSchema = false)
+@Database(version = 1, entities = {Habit.class, JournalEntry.class, HabitTracker.class}, exportSchema = false)
 @TypeConverters(value = HabitsTypeConverters.class)
 public abstract class HabitsDatabase extends RoomDatabase {
 
@@ -40,8 +45,7 @@ public abstract class HabitsDatabase extends RoomDatabase {
             synchronized (HabitsDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            HabitsDatabase.class,
-                            "habits_database")
+                            HabitsDatabase.class, "habits.db")
                             .build();
                 }
             }
@@ -50,4 +54,9 @@ public abstract class HabitsDatabase extends RoomDatabase {
     }
 
     public abstract HabitDAO habitDao();
+
+    public abstract JournalEntryDAO journalDao();
+
+    public abstract HabitTrackerDAO habitTrackerDAO();
+
 }

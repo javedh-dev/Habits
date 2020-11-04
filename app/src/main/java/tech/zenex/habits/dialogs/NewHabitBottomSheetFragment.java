@@ -14,14 +14,17 @@
 
 package tech.zenex.habits.dialogs;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -31,18 +34,20 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.zenex.habits.R;
 
+import java.util.Date;
 import java.util.Objects;
 
-import tech.zenex.habits.models.Habit;
 import tech.zenex.habits.models.MainActivityViewModel;
+import tech.zenex.habits.models.database.Habit;
 
 public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     ViewPager2 newHabitWizard;
     FragmentManager fragmentManager;
     MaterialButton create, cancel;
     Habit habit;
-    EditText habitTitle;
+    EditText habitName, habitDesc;
     MaterialButtonToggleGroup habitType;
+    Switch onceADay;
 
     public NewHabitBottomSheetFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -56,13 +61,17 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
 //        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         habit = new Habit();
         View view = inflater.inflate(R.layout.new_habit_sheet, container, false);
-        habitTitle = view.findViewById(R.id.habit_title);
+        habitName = view.findViewById(R.id.habit_name);
+        habitDesc = view.findViewById(R.id.habit_desc);
         habitType = view.findViewById(R.id.habit_type);
+        onceADay = view.findViewById(R.id.once_a_day);
+//        targetDate = view.findViewById(R.id.target_date);
         /*newHabitWizard = view.findViewById(R.id.new_habit_wizard);
         newHabitWizard.setAdapter(new NewHabitWizardAdapter(this, habit));
         newHabitWizard.getCurrentItem();
@@ -72,11 +81,18 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
         cancel = view.findViewById(R.id.cancel);
         cancel.setOnClickListener(view1 -> Objects.requireNonNull(getDialog()).dismiss());
         create.setOnClickListener(view1 -> {
-            habit.setName(habitTitle.getText().toString());
+            habit.setName(habitName.getText().toString());
             habit.setHabitType(getHabitType(habitType.getCheckedButtonId()));
+            habit.setDescription(habitDesc.getText().toString());
+            habit.setCreationDate(new Date(System.currentTimeMillis()));
+            habit.setOnceADay(onceADay.isChecked());
             MainActivityViewModel.addHabit(habit);
             Objects.requireNonNull(getDialog()).dismiss();
         });
+        /*targetDate.setOnClickListener(v -> {
+            AlertDialog dialog = new DatePickerDialog(Objects.requireNonNull(getContext()));
+            dialog.show();
+        });*/
 
         return view;
     }

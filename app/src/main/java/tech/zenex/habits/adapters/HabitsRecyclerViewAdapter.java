@@ -31,8 +31,12 @@ import com.zenex.habits.R;
 import java.util.List;
 import java.util.Objects;
 
+import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.dialogs.HabitCheckInBottomSheetFragment;
-import tech.zenex.habits.models.Habit;
+import tech.zenex.habits.dialogs.JournalEntrySheetFragment;
+import tech.zenex.habits.models.database.Habit;
+import tech.zenex.habits.models.database.HabitTracker;
+import tech.zenex.habits.models.database.JournalEntry;
 
 public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecyclerViewAdapter.ViewHolder> {
 
@@ -40,7 +44,8 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
     private Context context;
     private FragmentManager fragmentManager;
 
-    public HabitsRecyclerViewAdapter(Context context, MutableLiveData<List<Habit>> mainActivityViewModel, FragmentManager fragmentManager) {
+    public HabitsRecyclerViewAdapter(Context context, MutableLiveData<List<Habit>> mainActivityViewModel,
+                                     FragmentManager fragmentManager) {
         this.context = context;
         this.habits = mainActivityViewModel;
         this.fragmentManager = fragmentManager;
@@ -60,9 +65,28 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
         int percentage = (int) (Math.random() * 100);
         holder.progressBar.setProgress(percentage);
         holder.progressPercentage.setText(String.format(context.getString(R.string.habit_percentage_placeholder), percentage));
+        HabitsDatabase.databaseWriteExecutor.execute(() -> {
+            List<HabitTracker> trackers = HabitsDatabase.getDatabase(context).habitTrackerDAO().
+                    getAllTrackerEntriesForHabit(habit.getHabitID());
+            holder.checkins.setText("" + trackers.size());
+        });
+
+        HabitsDatabase.databaseWriteExecutor.execute(() -> {
+            List<JournalEntry> journals = HabitsDatabase.getDatabase(context).journalDao().
+                    getAllJournalEntriesForHabit(habit.getHabitID());
+            holder.journals.setText("" + journals.size());
+        });
+
         holder.card.setOnClickListener(view -> {
-            HabitCheckInBottomSheetFragment bottomSheetFragment = new HabitCheckInBottomSheetFragment(fragmentManager, habit);
+            HabitCheckInBottomSheetFragment bottomSheetFragment =
+                    new HabitCheckInBottomSheetFragment(fragmentManager, habit, this);
             bottomSheetFragment.show(fragmentManager, "HabitCheckInSheet");
+        });
+        holder.card.setOnLongClickListener(v -> {
+            JournalEntrySheetFragment bottomSheetFragment = new JournalEntrySheetFragment(fragmentManager,
+                    habit, this);
+            bottomSheetFragment.show(fragmentManager, "JournalEntrySheet");
+            return true;
         });
     }
 
@@ -73,7 +97,7 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView habitName, progressPercentage;
+        private TextView habitName, progressPercentage, checkins, journals;
         private CircularProgressBar progressBar;
         private View card;
 
@@ -83,6 +107,8 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
             this.habitName = itemView.findViewById(R.id.habit_name);
             this.progressBar = itemView.findViewById(R.id.progress_bar);
             this.progressPercentage = itemView.findViewById(R.id.progress_percentage);
+            this.checkins = itemView.findViewById(R.id.check_ins);
+            this.journals = itemView.findViewById(R.id.journals);
         }
     }
 

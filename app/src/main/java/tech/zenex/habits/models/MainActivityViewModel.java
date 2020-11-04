@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Objects;
 
 import tech.zenex.habits.database.HabitsDatabase;
+import tech.zenex.habits.models.database.Habit;
+import tech.zenex.habits.models.database.HabitTracker;
+import tech.zenex.habits.models.database.JournalEntry;
 
 import static tech.zenex.habits.database.HabitsDatabase.getDatabase;
 
@@ -46,7 +49,8 @@ public class MainActivityViewModel extends ViewModel {
     private static void loadHabits() {
         List<Habit> habits = new ArrayList<>();
         for (int i = 0; i < 17; i++) {
-            habits.add(new Habit("Habit-" + i, "I want to achieve this goal in " + i * 10 + " days.", Habit.HabitType.BREAK));
+            habits.add(new Habit("Habit-" + i, "I want to achieve this goal in " + i * 10 + " days.",
+                    Habit.HabitType.BREAK, false));
         }
         mHabits.setValue(habits);
     }
@@ -55,4 +59,13 @@ public class MainActivityViewModel extends ViewModel {
         HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitDao().insert(habit));
         Objects.requireNonNull(mHabits.getValue()).add(habit);
     }
+
+    public static void addHabitTracker(HabitTracker habitTracker) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitTrackerDAO().insert(habitTracker));
+    }
+
+    public static void addJournalEntry(JournalEntry journalEntry) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.journalDao().insert(journalEntry));
+    }
+
 }

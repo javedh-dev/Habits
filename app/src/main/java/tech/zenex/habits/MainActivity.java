@@ -14,7 +14,6 @@
 
 package tech.zenex.habits;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -39,16 +38,16 @@ public class MainActivity extends AppCompatActivity {
     CarouselView carouselView;
     FloatingActionButton addHabitFAB;
     BottomAppBar appBar;
-    int[] images = {R.drawable.img1, R.drawable.img2, R.drawable.img3};
+    int[] images = {R.drawable.img3, R.drawable.img2, R.drawable.img1};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!checkLoginStatus()) {
+        /*if (!checkLoginStatus()) {
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             finish();
-        }
+        }*/
         setContentView(R.layout.activity_main);
         rv = findViewById(R.id.habits_list);
         rv.setLayoutManager(new GridLayoutManager(this, 2));

@@ -16,7 +16,10 @@ package tech.zenex.habits.database;
 
 import androidx.room.TypeConverter;
 
-import tech.zenex.habits.models.Habit;
+import java.util.Date;
+
+import tech.zenex.habits.models.database.Habit;
+import tech.zenex.habits.models.database.JournalEntry;
 
 public class HabitsTypeConverters {
     @TypeConverter
@@ -27,5 +30,35 @@ public class HabitsTypeConverters {
     @TypeConverter
     public Habit.HabitType fromStringToHabitType(String habitType) {
         return habitType.equalsIgnoreCase("BREAK") ? Habit.HabitType.BREAK : Habit.HabitType.DEVELOP;
+    }
+
+    @TypeConverter
+    public static Date toDate(Long dateLong) {
+        return dateLong == null ? null : new Date(dateLong);
+    }
+
+    @TypeConverter
+    public static Long fromDate(Date date) {
+        return date == null ? null : date.getTime();
+    }
+
+    @TypeConverter
+    public String fromJournalTypeToString(JournalEntry.JournalType habitType) {
+        return habitType.name();
+    }
+
+    @TypeConverter
+    public JournalEntry.JournalType fromStringToJournalType(String journalTYpe) {
+        JournalEntry.JournalType type = JournalEntry.JournalType.GENERAL;
+        switch (journalTYpe) {
+            case "GRATITUDE":
+                return JournalEntry.JournalType.GRATITUDE;
+            case "GUILT":
+                return JournalEntry.JournalType.GUILT;
+            case "ENCOURAGE":
+                return JournalEntry.JournalType.ENCOURAGE;
+            default:
+                return JournalEntry.JournalType.GENERAL;
+        }
     }
 }
