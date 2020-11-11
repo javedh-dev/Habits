@@ -14,8 +14,8 @@
 
 package tech.zenex.habits.interfaces;
 
-import tech.zenex.habits.models.database.Habit;
+import tech.zenex.habits.database.entities.HabitEntity;
 
 public interface NewHabitRecyclerViewListener {
-    void onNext(Habit habit);
+    void onNext(HabitEntity habitEntity);
 }

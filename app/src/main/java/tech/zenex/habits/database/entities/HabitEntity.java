@@ -12,17 +12,22 @@
  * limitations under the License.
  */
 
-package tech.zenex.habits.models.database;
+package tech.zenex.habits.database.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
+import org.joda.time.DateTimeComparator;
+import org.joda.time.LocalDateTime;
+
+import java.util.List;
+
+import tech.zenex.habits.database.HabitDetails;
 
 @Entity(tableName = "habits")
-public class Habit {
+public class HabitEntity implements Comparable<HabitEntity> {
 
     @PrimaryKey(autoGenerate = true)
     private int habitID;
@@ -30,17 +35,23 @@ public class Habit {
     private String name = "";
     private String description;
     private HabitType habitType;
-    private Date creationDate;
+    private LocalDateTime creationDate;
     private boolean isOnceADay;
-    private Date lastCheckIn;
+    private LocalDateTime lastCheckIn = new LocalDateTime(0);
+    private LocalDateTime lastFailed = LocalDateTime.now();
     private int streakDays = 21;
 
-    public Habit() {
+    @Ignore
+    private List<HabitTrackerEntity> habitTrackerEntities;
+    @Ignore
+    private List<JournalEntryEntity> journalEntries;
+
+    public HabitEntity() {
 
     }
 
     @Ignore
-    public Habit(@NonNull String name, String description, HabitType habitType, boolean isOnceADay) {
+    public HabitEntity(@NonNull String name, String description, HabitType habitType, boolean isOnceADay) {
         this.name = name;
         this.description = description;
         this.habitType = habitType;
@@ -48,10 +59,24 @@ public class Habit {
     }
 
     @Ignore
-    public Habit(@NonNull String name, String description, HabitType habitType) {
+    public HabitEntity(@NonNull String name, String description, HabitType habitType) {
         this.name = name;
         this.description = description;
         this.habitType = habitType;
+    }
+
+    public HabitEntity(HabitDetails habitDetails) {
+        this.name = habitDetails.getHabitEntity().getName();
+        this.description = habitDetails.getHabitEntity().getDescription();
+        this.creationDate = habitDetails.getHabitEntity().getCreationDate();
+        this.habitID = habitDetails.getHabitEntity().getHabitID();
+        this.habitType = habitDetails.getHabitEntity().getHabitType();
+        this.isOnceADay = habitDetails.getHabitEntity().isOnceADay();
+        this.lastCheckIn = habitDetails.getHabitEntity().getLastCheckIn();
+        this.streakDays = habitDetails.getHabitEntity().getStreakDays();
+        this.journalEntries = habitDetails.getJournalEntryEntities();
+        this.habitTrackerEntities = habitDetails.getHabitTrackerEntities();
+
     }
 
     @NonNull
@@ -88,11 +113,11 @@ public class Habit {
     }
 
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -117,11 +142,11 @@ public class Habit {
                 '}';
     }
 
-    public Date getLastCheckIn() {
+    public LocalDateTime getLastCheckIn() {
         return lastCheckIn;
     }
 
-    public void setLastCheckIn(Date lastCheckIn) {
+    public void setLastCheckIn(LocalDateTime lastCheckIn) {
         this.lastCheckIn = lastCheckIn;
     }
 
@@ -131,6 +156,35 @@ public class Habit {
 
     public void setStreakDays(int streakDays) {
         this.streakDays = streakDays;
+    }
+
+    public List<HabitTrackerEntity> getHabitTrackerEntities() {
+        return habitTrackerEntities;
+    }
+
+    public void setHabitTrackerEntities(List<HabitTrackerEntity> habitTrackerEntities) {
+        this.habitTrackerEntities = habitTrackerEntities;
+    }
+
+    public List<JournalEntryEntity> getJournalEntries() {
+        return journalEntries;
+    }
+
+    public void setJournalEntries(List<JournalEntryEntity> journalEntries) {
+        this.journalEntries = journalEntries;
+    }
+
+    @Override
+    public int compareTo(HabitEntity o) {
+        return DateTimeComparator.getDateOnlyInstance().compare(this, o);
+    }
+
+    public LocalDateTime getLastFailed() {
+        return lastFailed;
+    }
+
+    public void setLastFailed(LocalDateTime lastFailed) {
+        this.lastFailed = lastFailed;
     }
 
     public enum HabitType {DEVELOP, BREAK}

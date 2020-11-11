@@ -12,40 +12,33 @@
  * limitations under the License.
  */
 
-package tech.zenex.habits.models.database;
+package tech.zenex.habits.database.entities;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
+import org.joda.time.DateTimeComparator;
+import org.joda.time.LocalDateTime;
 
-@Entity(tableName = "habits_tracker")
-public class HabitTracker {
+@Entity(tableName = "habits_tracker", foreignKeys = @ForeignKey(entity = HabitEntity.class,
+        parentColumns = "habitID", childColumns = "habitID", onDelete = ForeignKey.CASCADE))
+public class HabitTrackerEntity implements Comparable<HabitTrackerEntity> {
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @ForeignKey(entity = Habit.class, parentColumns = "habitID", childColumns = "habitID", onDelete =
-            ForeignKey.CASCADE)
     private int habitID;
-    private Date checkInTime;
-    private boolean done;
+    private LocalDateTime checkInTime;
+    private HabitEntity.HabitType type;
 
-    public HabitTracker() {
+    public HabitTrackerEntity() {
     }
 
-    public HabitTracker(int habitID, boolean done) {
+    public HabitTrackerEntity(int habitID, HabitEntity.HabitType type) {
         this.habitID = habitID;
-        this.done = done;
-        this.checkInTime = new Date(System.currentTimeMillis());
+        this.type = type;
+        this.checkInTime = LocalDateTime.now();
     }
 
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
 
     public long getId() {
         return id;
@@ -63,11 +56,24 @@ public class HabitTracker {
         this.habitID = habitID;
     }
 
-    public Date getCheckInTime() {
+    public LocalDateTime getCheckInTime() {
         return checkInTime;
     }
 
-    public void setCheckInTime(Date checkInTime) {
+    public void setCheckInTime(LocalDateTime checkInTime) {
         this.checkInTime = checkInTime;
+    }
+
+    @Override
+    public int compareTo(HabitTrackerEntity o) {
+        return DateTimeComparator.getDateOnlyInstance().compare(this, o);
+    }
+
+    public HabitEntity.HabitType getType() {
+        return type;
+    }
+
+    public void setType(HabitEntity.HabitType type) {
+        this.type = type;
     }
 }

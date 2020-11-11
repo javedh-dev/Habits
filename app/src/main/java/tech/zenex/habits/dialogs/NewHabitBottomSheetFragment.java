@@ -32,19 +32,20 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.zenex.habits.R;
 
-import java.util.Date;
+import org.joda.time.LocalDateTime;
+
 import java.util.Objects;
 
+import tech.zenex.habits.R;
+import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.models.MainActivityViewModel;
-import tech.zenex.habits.models.database.Habit;
 
 public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     ViewPager2 newHabitWizard;
     FragmentManager fragmentManager;
     MaterialButton create, cancel;
-    Habit habit;
+    HabitEntity habitEntity;
     EditText habitName, habitDesc;
     MaterialButtonToggleGroup habitType;
     Switch onceADay;
@@ -65,7 +66,7 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        habit = new Habit();
+        habitEntity = new HabitEntity();
         View view = inflater.inflate(R.layout.new_habit_sheet, container, false);
         habitName = view.findViewById(R.id.habit_name);
         habitDesc = view.findViewById(R.id.habit_desc);
@@ -81,12 +82,12 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
         cancel = view.findViewById(R.id.cancel);
         cancel.setOnClickListener(view1 -> Objects.requireNonNull(getDialog()).dismiss());
         create.setOnClickListener(view1 -> {
-            habit.setName(habitName.getText().toString());
-            habit.setHabitType(getHabitType(habitType.getCheckedButtonId()));
-            habit.setDescription(habitDesc.getText().toString());
-            habit.setCreationDate(new Date(System.currentTimeMillis()));
-            habit.setOnceADay(onceADay.isChecked());
-            MainActivityViewModel.addHabit(habit);
+            habitEntity.setName(habitName.getText().toString());
+            habitEntity.setHabitType(getHabitType(habitType.getCheckedButtonId()));
+            habitEntity.setDescription(habitDesc.getText().toString());
+            habitEntity.setCreationDate(LocalDateTime.now());
+            habitEntity.setOnceADay(onceADay.isChecked());
+            MainActivityViewModel.addHabit(habitEntity);
             Objects.requireNonNull(getDialog()).dismiss();
         });
         /*targetDate.setOnClickListener(v -> {
@@ -97,8 +98,8 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
         return view;
     }
 
-    private Habit.HabitType getHabitType(int id) {
-        if (id == R.id.develop) return Habit.HabitType.DEVELOP;
-        else return Habit.HabitType.BREAK;
+    private HabitEntity.HabitType getHabitType(int id) {
+        if (id == R.id.develop) return HabitEntity.HabitType.DEVELOP;
+        else return HabitEntity.HabitType.BREAK;
     }
 }

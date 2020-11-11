@@ -28,24 +28,24 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.zenex.habits.R;
 
 import java.util.Objects;
 
+import tech.zenex.habits.R;
 import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitsDatabase;
-import tech.zenex.habits.models.database.Habit;
-import tech.zenex.habits.models.database.JournalEntry;
+import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.database.entities.JournalEntryEntity;
 
 public class JournalEntrySheetFragment extends BottomSheetDialogFragment {
     FragmentManager fragmentManager;
-    Habit habit;
+    HabitEntity habitEntity;
     HabitsRecyclerViewAdapter adapter;
 
-    public JournalEntrySheetFragment(FragmentManager fragmentManager, Habit habit,
+    public JournalEntrySheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity,
                                      HabitsRecyclerViewAdapter adapter) {
         this.fragmentManager = fragmentManager;
-        this.habit = habit;
+        this.habitEntity = habitEntity;
         this.adapter = adapter;
     }
 
@@ -65,11 +65,11 @@ public class JournalEntrySheetFragment extends BottomSheetDialogFragment {
         Button add = v.findViewById(R.id.add_entry);
         Button cancel = v.findViewById(R.id.cancel);
         Spinner journalType = v.findViewById(R.id.journal_type);
-        journalTitle.setText(this.habit.getName());
+        journalTitle.setText(this.habitEntity.getName());
         add.setOnClickListener(v1 -> HabitsDatabase.databaseWriteExecutor.execute(() -> {
             HabitsDatabase.getDatabase(null).journalDao().insert(
-                    new JournalEntry(habit.getHabitID(),
-                            JournalEntry.getJournalType(journalType.getSelectedItem().toString()),
+                    new JournalEntryEntity(habitEntity.getHabitID(),
+                            JournalEntryEntity.getJournalType(journalType.getSelectedItem().toString()),
                             entry.getText().toString()));
             Objects.requireNonNull(getDialog()).dismiss();
         }));

@@ -16,21 +16,24 @@ package tech.zenex.habits;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.synnapps.carouselview.CarouselView;
-import com.zenex.habits.R;
 
+import java.util.List;
 import java.util.Objects;
 
 import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
+import tech.zenex.habits.database.HabitDetails;
+import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.dialogs.NewHabitBottomSheetFragment;
-import tech.zenex.habits.models.MainActivityViewModel;
 import tech.zenex.habits.utils.HabitsSharedPreferencesUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,22 +54,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         rv = findViewById(R.id.habits_list);
         rv.setLayoutManager(new GridLayoutManager(this, 2));
-        rv.setAdapter(new HabitsRecyclerViewAdapter(this, MainActivityViewModel.getHabits(), getSupportFragmentManager()));
+        LiveData<List<HabitDetails>> data = getHabits();
+        data.observe(this, habitDetails -> {
+            Log.d("Habit-Data", data.getValue().toString());
+            Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged();
+        });
+        rv.setAdapter(new HabitsRecyclerViewAdapter(this, data, getSupportFragmentManager()));
 
-        MainActivityViewModel.getHabits().observe(this, habits -> Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged());
+//        MainActivityViewModel.getHabits().observe(this, habits -> Objects.requireNonNull(rv.getAdapter())
+//        .notifyDataSetChanged());
 
+//        Log.d("Habit-Data",MainActivityViewModel.getHabits().toString());
         appBar = findViewById(R.id.app_bar);
         addHabitFAB = findViewById(R.id.add_habit);
         addHabitFAB.setOnClickListener(view -> changeFABAlignment());
         carouselView = findViewById(R.id.carouselView);
-        carouselView.setPageCount(images.length);
         carouselView.setImageListener((position, imageView) -> imageView.setImageResource(images[position]));
+        carouselView.setPageCount(images.length);
 
+    }
+
+    private LiveData<List<HabitDetails>> getHabits() {
+        return HabitsDatabase.getDatabase(getApplicationContext()).habitDao().getAllHabits();
     }
 
     private boolean checkLoginStatus() {
         try {
-            SharedPreferences sp = HabitsSharedPreferencesUtil.getSharedPreference("login_cred", getApplicationContext());
+            SharedPreferences sp = HabitsSharedPreferencesUtil.getSharedPreference("login_cred",
+                    getApplicationContext());
             return sp.getBoolean("isLoggedIn", false);
         } catch (Exception e) {
             e.printStackTrace();

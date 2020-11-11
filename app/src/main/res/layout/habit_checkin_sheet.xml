@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/did_you_do_it_today"
+                    android:text="Did You...?"
                     android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -65,23 +65,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="20dp">
+                android:layout_margin="20dp"
+                app:singleSelection="true">
 
                 <Button
-                    android:id="@+id/yes_btn"
+                    android:id="@+id/break_btn"
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
-                    android:text="@string/yes"
-                    app:icon="@drawable/ic_baseline_check_24" />
+                    android:text="break" />
 
                 <Button
-                    android:id="@+id/no_btn"
+                    android:id="@+id/develop_btn"
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
-                    android:text="@string/no"
-                    app:icon="@drawable/ic_baseline_close_24" />
+                    android:text="develop" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>

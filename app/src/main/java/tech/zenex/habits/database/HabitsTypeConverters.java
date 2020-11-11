@@ -14,51 +14,60 @@
 
 package tech.zenex.habits.database;
 
+import android.util.Log;
+
 import androidx.room.TypeConverter;
 
-import java.util.Date;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
-import tech.zenex.habits.models.database.Habit;
-import tech.zenex.habits.models.database.JournalEntry;
+import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.database.entities.JournalEntryEntity;
 
 public class HabitsTypeConverters {
+
+    private static final DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/YYYY HH:mm:ss.SSS");
+
     @TypeConverter
-    public String fromHabitTypeToString(Habit.HabitType habitType) {
+    public static LocalDateTime toDate(String dateTime) {
+//        Log.d("Date", dateTime);
+        return dateTime == null ? null : formatter.parseLocalDateTime(dateTime);
+    }
+
+    @TypeConverter
+    public static String fromDate(LocalDateTime dateTime) {
+        Log.d("Date", String.valueOf(dateTime));
+        return dateTime == null ? null : formatter.print(dateTime);
+    }
+
+    @TypeConverter
+    public String fromHabitTypeToString(HabitEntity.HabitType habitType) {
         return habitType.name();
     }
 
     @TypeConverter
-    public Habit.HabitType fromStringToHabitType(String habitType) {
-        return habitType.equalsIgnoreCase("BREAK") ? Habit.HabitType.BREAK : Habit.HabitType.DEVELOP;
+    public HabitEntity.HabitType fromStringToHabitType(String habitType) {
+        return habitType.equalsIgnoreCase("BREAK") ? HabitEntity.HabitType.BREAK :
+                HabitEntity.HabitType.DEVELOP;
     }
 
     @TypeConverter
-    public static Date toDate(Long dateLong) {
-        return dateLong == null ? null : new Date(dateLong);
-    }
-
-    @TypeConverter
-    public static Long fromDate(Date date) {
-        return date == null ? null : date.getTime();
-    }
-
-    @TypeConverter
-    public String fromJournalTypeToString(JournalEntry.JournalType habitType) {
+    public String fromJournalTypeToString(JournalEntryEntity.JournalType habitType) {
         return habitType.name();
     }
 
     @TypeConverter
-    public JournalEntry.JournalType fromStringToJournalType(String journalTYpe) {
-        JournalEntry.JournalType type = JournalEntry.JournalType.GENERAL;
+    public JournalEntryEntity.JournalType fromStringToJournalType(String journalTYpe) {
         switch (journalTYpe) {
             case "GRATITUDE":
-                return JournalEntry.JournalType.GRATITUDE;
+                return JournalEntryEntity.JournalType.GRATITUDE;
             case "GUILT":
-                return JournalEntry.JournalType.GUILT;
+                return JournalEntryEntity.JournalType.GUILT;
             case "ENCOURAGE":
-                return JournalEntry.JournalType.ENCOURAGE;
+                return JournalEntryEntity.JournalType.ENCOURAGE;
             default:
-                return JournalEntry.JournalType.GENERAL;
+                return JournalEntryEntity.JournalType.GENERAL;
         }
     }
 }

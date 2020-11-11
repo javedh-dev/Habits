@@ -21,20 +21,20 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import tech.zenex.habits.models.database.JournalEntry;
+import tech.zenex.habits.database.entities.JournalEntryEntity;
 
 @Dao
 public interface JournalEntryDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(JournalEntry entry);
+    void insert(JournalEntryEntity entry);
 
-    @Query(value = "DELETE FROM journal")
+    @Query(value = "DELETE FROM journal_entries")
     void deleteAll();
 
-    @Query(value = "Select * from journal")
-    List<JournalEntry> getAllJournalEntries();
+    @Query(value = "Select * from journal_entries")
+    List<JournalEntryEntity> getAllJournalEntries();
 
-    @Query(value = "Select * from journal where habitID = :habitID")
-    List<JournalEntry> getAllJournalEntriesForHabit(int habitID);
+    @Query(value = "Select * from journal_entries where habitID = :habitID")
+    List<JournalEntryEntity> getAllJournalEntriesForHabit(int habitID);
 }

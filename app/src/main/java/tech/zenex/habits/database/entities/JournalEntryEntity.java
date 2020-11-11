@@ -12,30 +12,30 @@
  * limitations under the License.
  */
 
-package tech.zenex.habits.models.database;
+package tech.zenex.habits.database.entities;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
+import org.joda.time.DateTimeComparator;
+import org.joda.time.LocalDateTime;
 
-@Entity(tableName = "journal")
-public class JournalEntry {
+@Entity(tableName = "journal_entries", foreignKeys = @ForeignKey(entity = HabitEntity.class,
+        parentColumns = "habitID", childColumns = "habitID", onDelete = ForeignKey.CASCADE))
+public class JournalEntryEntity implements Comparable<JournalEntryEntity> {
     @PrimaryKey(autoGenerate = true)
     private Long journalId;
-    private Date timestamp;
-    @ForeignKey(entity = Habit.class, parentColumns = "habitID", childColumns = "habitID", onDelete =
-            ForeignKey.CASCADE)
+    private LocalDateTime timestamp;
     private int habitID;
     private JournalType journalType;
     private String entry;
 
-    public JournalEntry() {
+    public JournalEntryEntity() {
     }
 
-    public JournalEntry(int habitID, JournalType journalType, String entry) {
-        this.timestamp = new Date(System.currentTimeMillis());
+    public JournalEntryEntity(int habitID, JournalType journalType, String entry) {
+        this.timestamp = LocalDateTime.now();
         this.habitID = habitID;
         this.journalType = journalType;
         this.entry = entry;
@@ -62,11 +62,11 @@ public class JournalEntry {
         this.journalId = journalId;
     }
 
-    public Date getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -92,6 +92,11 @@ public class JournalEntry {
 
     public void setEntry(String entry) {
         this.entry = entry;
+    }
+
+    @Override
+    public int compareTo(JournalEntryEntity o) {
+        return DateTimeComparator.getDateOnlyInstance().compare(this, o);
     }
 
     public enum JournalType {

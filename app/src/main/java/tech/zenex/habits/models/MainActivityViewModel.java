@@ -14,23 +14,21 @@
 
 package tech.zenex.habits.models;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.HabitsDatabase;
-import tech.zenex.habits.models.database.Habit;
-import tech.zenex.habits.models.database.HabitTracker;
-import tech.zenex.habits.models.database.JournalEntry;
+import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.database.entities.HabitTrackerEntity;
+import tech.zenex.habits.database.entities.JournalEntryEntity;
 
 import static tech.zenex.habits.database.HabitsDatabase.getDatabase;
 
 public class MainActivityViewModel extends ViewModel {
-    private static MutableLiveData<List<Habit>> mHabits = new MutableLiveData<>();
-    private static HabitsDatabase habitsDatabase;
+    private static final HabitsDatabase habitsDatabase;
+    private static List<HabitDetails> mHabits;
    /* public MainActivityViewModel(Context context){
         HabitsDatabase.getDatabase(context);
         mHabits =
@@ -38,34 +36,29 @@ public class MainActivityViewModel extends ViewModel {
 
     static {
         habitsDatabase = getDatabase(null);
-        HabitsDatabase.databaseWriteExecutor.execute(() ->
-                mHabits.postValue(habitsDatabase.habitDao().getAllHabits()));
+//        HabitsDatabase.databaseWriteExecutor.execute(() ->
+//                mHabits = habitsDatabase.habitDao().getAllHabits());
     }
 
-    public static MutableLiveData<List<Habit>> getHabits() {
+    public static List<HabitDetails> getHabits() {
+        while (mHabits == null) {
+//            mHabits = habitsDatabase.habitDao().getAllHabits();
+
+        }
         return mHabits;
     }
 
-    private static void loadHabits() {
-        List<Habit> habits = new ArrayList<>();
-        for (int i = 0; i < 17; i++) {
-            habits.add(new Habit("Habit-" + i, "I want to achieve this goal in " + i * 10 + " days.",
-                    Habit.HabitType.BREAK, false));
-        }
-        mHabits.setValue(habits);
+    public static void addHabit(HabitEntity habitEntity) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitDao().insert(habitEntity));
+//        Objects.requireNonNull(mHabits.getValue()).add(habitEntity);
     }
 
-    public static void addHabit(Habit habit) {
-        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitDao().insert(habit));
-        Objects.requireNonNull(mHabits.getValue()).add(habit);
+    public static void addHabitTracker(HabitTrackerEntity habitTrackerEntity) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitTrackerDAO().insert(habitTrackerEntity));
     }
 
-    public static void addHabitTracker(HabitTracker habitTracker) {
-        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitTrackerDAO().insert(habitTracker));
-    }
-
-    public static void addJournalEntry(JournalEntry journalEntry) {
-        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.journalDao().insert(journalEntry));
+    public static void addJournalEntry(JournalEntryEntity journalEntryEntity) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.journalDao().insert(journalEntryEntity));
     }
 
 }

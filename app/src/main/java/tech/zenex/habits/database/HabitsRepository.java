@@ -12,30 +12,23 @@
  * limitations under the License.
  */
 
-package tech.zenex.habits.database.dao;
+package tech.zenex.habits.database;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-import androidx.room.Transaction;
 
 import java.util.List;
 
-import tech.zenex.habits.database.HabitDetails;
+import tech.zenex.habits.database.dao.HabitDAO;
+import tech.zenex.habits.database.dao.HabitTrackerDAO;
+import tech.zenex.habits.database.dao.JournalEntryDAO;
 import tech.zenex.habits.database.entities.HabitEntity;
 
-@Dao
-public interface HabitDAO {
+public class HabitsRepository {
+    HabitDAO habitDAO;
+    JournalEntryDAO journalEntryDAO;
+    HabitTrackerDAO habitTrackerDAO;
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(HabitEntity habitEntity);
+    LiveData<List<HabitEntity>> mHabits;
 
-    @Query(value = "DELETE FROM habits")
-    void deleteAllHabits();
 
-    @Transaction
-    @Query("Select * from habits")
-    LiveData<List<HabitDetails>> getAllHabits();
 }

@@ -26,28 +26,28 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.zenex.habits.R;
 
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import tech.zenex.habits.R;
 import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitsDatabase;
+import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.database.entities.HabitTrackerEntity;
 import tech.zenex.habits.models.MainActivityViewModel;
-import tech.zenex.habits.models.database.Habit;
-import tech.zenex.habits.models.database.HabitTracker;
 
 public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
     FragmentManager fragmentManager;
-    Habit habit;
+    HabitEntity habitEntity;
     MaterialButtonToggleGroup checkIn;
     HabitsRecyclerViewAdapter adapter;
 
-    public HabitCheckInBottomSheetFragment(FragmentManager fragmentManager, Habit habit,
+    public HabitCheckInBottomSheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity,
                                            HabitsRecyclerViewAdapter adapter) {
         this.fragmentManager = fragmentManager;
-        this.habit = habit;
+        this.habitEntity = habitEntity;
         this.adapter = adapter;
     }
 
@@ -64,9 +64,9 @@ public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
         View v = inflater.inflate(R.layout.habit_checkin_sheet, container, false);
         checkIn = v.findViewById(R.id.check_in);
         checkIn.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            boolean checkInStatus = isCheckInStatus(checkedId, isChecked);
+            HabitEntity.HabitType checkInStatus = isCheckInStatus(checkedId, isChecked);
             HabitsDatabase.databaseWriteExecutor.execute(() -> {
-                HabitTracker tracker = new HabitTracker(habit.getHabitID(), checkInStatus);
+                HabitTrackerEntity tracker = new HabitTrackerEntity(habitEntity.getHabitID(), checkInStatus);
                 MainActivityViewModel.addHabitTracker(tracker);
             });
             new Timer().schedule(new TimerTask() {
@@ -79,12 +79,12 @@ public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
         return v;
     }
 
-    private boolean isCheckInStatus(int checkedId, boolean isChecked) {
-        boolean checkInStatus = false;
-        if (checkedId == R.id.yes_btn && isChecked) {
-            checkInStatus = true;
+    private HabitEntity.HabitType isCheckInStatus(int checkedId, boolean isChecked) {
+        if (checkedId == R.id.break_btn && isChecked) {
+            return HabitEntity.HabitType.BREAK;
+        } else {
+            return HabitEntity.HabitType.DEVELOP;
         }
-        return checkInStatus;
     }
 
     @Override

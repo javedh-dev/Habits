@@ -22,29 +22,32 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
-import com.zenex.habits.R;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
+import org.joda.time.Days;
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 import java.util.Objects;
 
-import tech.zenex.habits.database.HabitsDatabase;
+import tech.zenex.habits.R;
+import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.dialogs.HabitCheckInBottomSheetFragment;
 import tech.zenex.habits.dialogs.JournalEntrySheetFragment;
-import tech.zenex.habits.models.database.Habit;
-import tech.zenex.habits.models.database.HabitTracker;
-import tech.zenex.habits.models.database.JournalEntry;
 
 public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecyclerViewAdapter.ViewHolder> {
 
-    MutableLiveData<List<Habit>> habits;
-    private Context context;
-    private FragmentManager fragmentManager;
+    private final Context context;
+    private final FragmentManager fragmentManager;
+    LiveData<List<HabitDetails>> habits;
 
-    public HabitsRecyclerViewAdapter(Context context, MutableLiveData<List<Habit>> mainActivityViewModel,
+    public HabitsRecyclerViewAdapter(Context context, LiveData<List<HabitDetails>> mainActivityViewModel,
                                      FragmentManager fragmentManager) {
         this.context = context;
         this.habits = mainActivityViewModel;
@@ -60,34 +63,40 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Habit habit = Objects.requireNonNull(habits.getValue()).get(position);
-        holder.habitName.setText(habit.getName());
-        int percentage = (int) (Math.random() * 100);
+        HabitDetails habitDetails = Objects.requireNonNull(habits.getValue()).get(position);
+        holder.habitName.setText(habitDetails.getHabitEntity().getName());
+        int percentage = getPercentage(habitDetails);
         holder.progressBar.setProgress(percentage);
         holder.progressPercentage.setText(String.format(context.getString(R.string.habit_percentage_placeholder), percentage));
-        HabitsDatabase.databaseWriteExecutor.execute(() -> {
-            List<HabitTracker> trackers = HabitsDatabase.getDatabase(context).habitTrackerDAO().
-                    getAllTrackerEntriesForHabit(habit.getHabitID());
-            holder.checkins.setText("" + trackers.size());
-        });
 
-        HabitsDatabase.databaseWriteExecutor.execute(() -> {
-            List<JournalEntry> journals = HabitsDatabase.getDatabase(context).journalDao().
-                    getAllJournalEntriesForHabit(habit.getHabitID());
-            holder.journals.setText("" + journals.size());
-        });
+        holder.checkins.setText("" + habitDetails.getHabitTrackerEntities().size());
+
+        holder.journals.setText("" + habitDetails.getJournalEntryEntities().size());
 
         holder.card.setOnClickListener(view -> {
-            HabitCheckInBottomSheetFragment bottomSheetFragment =
-                    new HabitCheckInBottomSheetFragment(fragmentManager, habit, this);
-            bottomSheetFragment.show(fragmentManager, "HabitCheckInSheet");
+            if (habitDetails.getHabitEntity().isOnceADay() &&
+                    DateTimeComparator.getDateOnlyInstance().
+                            compare(habitDetails.getHabitEntity().getLastCheckIn(), DateTime.now()) == 0) {
+                Snackbar.make(holder.card, "You have already checked in Today.", Snackbar.LENGTH_LONG).show();
+            } else {
+                HabitCheckInBottomSheetFragment bottomSheetFragment =
+                        new HabitCheckInBottomSheetFragment(fragmentManager, habitDetails.getHabitEntity(),
+                                this);
+                bottomSheetFragment.show(fragmentManager, "HabitCheckInSheet");
+            }
         });
         holder.card.setOnLongClickListener(v -> {
             JournalEntrySheetFragment bottomSheetFragment = new JournalEntrySheetFragment(fragmentManager,
-                    habit, this);
+                    habitDetails.getHabitEntity(), this);
             bottomSheetFragment.show(fragmentManager, "JournalEntrySheet");
             return true;
         });
+    }
+
+    private int getPercentage(HabitDetails habitDetails) {
+        int streak = Days.daysBetween(LocalDateTime.now(),
+                habitDetails.getHabitEntity().getLastFailed()).getDays();
+        return (int) (streak / (float) habitDetails.getHabitEntity().getStreakDays()) * 100;
     }
 
     @Override
@@ -97,9 +106,12 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView habitName, progressPercentage, checkins, journals;
-        private CircularProgressBar progressBar;
-        private View card;
+        private final TextView habitName;
+        private final TextView progressPercentage;
+        private final TextView checkins;
+        private final TextView journals;
+        private final CircularProgressBar progressBar;
+        private final View card;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

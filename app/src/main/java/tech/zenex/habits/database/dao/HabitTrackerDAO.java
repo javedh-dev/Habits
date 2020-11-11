@@ -21,21 +21,21 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import tech.zenex.habits.models.database.HabitTracker;
+import tech.zenex.habits.database.entities.HabitTrackerEntity;
 
 @Dao
 public interface HabitTrackerDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(HabitTracker habitTracker);
+    void insert(HabitTrackerEntity habitTrackerEntity);
 
     @Query(value = "DELETE FROM habits_tracker")
     void deleteAll();
 
-    @Query(value = "Select * from habits_tracker")
-    List<HabitTracker> getAllTrackerEntries();
+    @Query(value = "Select * from habits_tracker order by checkInTime")
+    List<HabitTrackerEntity> getAllTrackerEntries();
 
-    @Query(value = "Select * from habits_tracker where habitID = :habitID")
-    List<HabitTracker> getAllTrackerEntriesForHabit(int habitID);
+    @Query(value = "Select * from habits_tracker where habitID = :habitID order by checkInTime")
+    List<HabitTrackerEntity> getAllTrackerEntriesForHabit(int habitID);
 
 }

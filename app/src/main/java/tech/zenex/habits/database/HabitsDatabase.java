@@ -16,10 +16,12 @@ package tech.zenex.habits.database;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,11 +29,12 @@ import java.util.concurrent.Executors;
 import tech.zenex.habits.database.dao.HabitDAO;
 import tech.zenex.habits.database.dao.HabitTrackerDAO;
 import tech.zenex.habits.database.dao.JournalEntryDAO;
-import tech.zenex.habits.models.database.Habit;
-import tech.zenex.habits.models.database.HabitTracker;
-import tech.zenex.habits.models.database.JournalEntry;
+import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.database.entities.HabitTrackerEntity;
+import tech.zenex.habits.database.entities.JournalEntryEntity;
 
-@Database(version = 1, entities = {Habit.class, JournalEntry.class, HabitTracker.class}, exportSchema = false)
+@Database(version = 1, entities = {HabitEntity.class, JournalEntryEntity.class, HabitTrackerEntity.class},
+        exportSchema = false)
 @TypeConverters(value = HabitsTypeConverters.class)
 public abstract class HabitsDatabase extends RoomDatabase {
 
@@ -44,9 +47,24 @@ public abstract class HabitsDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (HabitsDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            HabitsDatabase.class, "habits.db")
-                            .build();
+                    Builder<HabitsDatabase> habitsDatabaseBuilder =
+                            Room.databaseBuilder(context.getApplicationContext(), HabitsDatabase.class,
+                                    "habits.db");
+                    habitsDatabaseBuilder.addCallback(new Callback() {
+                        @Override
+                        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                            super.onCreate(db);
+                            db.execSQL("CREATE TRIGGER if not exists habits_tracker_added after insert on " +
+                                    "habits_tracker\n" +
+                                    "begin\n" +
+                                    "UPDATE habits set lastCheckIn=strftime('%d/%m/%Y %H:%M:%f','now') " +
+                                    "where habits.habitID = new.habitID;\n" +
+                                    "UPDATE habits set lastFailed=strftime('%d/%m/%Y %H:%M:%f','now') where" +
+                                    " habits.habitID = new.habitID and not habits.habitType=new.type;\n" +
+                                    "end");
+                        }
+                    });
+                    INSTANCE = habitsDatabaseBuilder.build();
                 }
             }
         }
