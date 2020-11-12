@@ -40,6 +40,7 @@ public class HabitEntity implements Comparable<HabitEntity> {
     private LocalDateTime lastCheckIn = new LocalDateTime(0);
     private LocalDateTime lastFailed = LocalDateTime.now();
     private int streakDays = 21;
+    private int color;
 
     @Ignore
     private List<HabitTrackerEntity> habitTrackerEntities;
@@ -185,6 +186,14 @@ public class HabitEntity implements Comparable<HabitEntity> {
 
     public void setLastFailed(LocalDateTime lastFailed) {
         this.lastFailed = lastFailed;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public enum HabitType {DEVELOP, BREAK}

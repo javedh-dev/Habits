@@ -28,8 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
 import org.joda.time.Days;
 import org.joda.time.LocalDateTime;
 
@@ -65,18 +63,18 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HabitDetails habitDetails = Objects.requireNonNull(habits.getValue()).get(position);
         holder.habitName.setText(habitDetails.getHabitEntity().getName());
-        int percentage = getPercentage(habitDetails);
+        int percentage = (int) (Math.random() * 100);
         holder.progressBar.setProgress(percentage);
         holder.progressPercentage.setText(String.format(context.getString(R.string.habit_percentage_placeholder), percentage));
-
+        holder.progressBar.setProgressBarColor(habitDetails.getHabitEntity().getColor());
         holder.checkins.setText("" + habitDetails.getHabitTrackerEntities().size());
 
         holder.journals.setText("" + habitDetails.getJournalEntryEntities().size());
 
         holder.card.setOnClickListener(view -> {
             if (habitDetails.getHabitEntity().isOnceADay() &&
-                    DateTimeComparator.getDateOnlyInstance().
-                            compare(habitDetails.getHabitEntity().getLastCheckIn(), DateTime.now()) == 0) {
+                    habitDetails.getHabitEntity().getLastCheckIn().toLocalDate()
+                            .equals(LocalDateTime.now().toLocalDate())) {
                 Snackbar.make(holder.card, "You have already checked in Today.", Snackbar.LENGTH_LONG).show();
             } else {
                 HabitCheckInBottomSheetFragment bottomSheetFragment =

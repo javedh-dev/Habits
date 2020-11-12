@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
     implementation 'com.synnapps:carouselview:0.1.5'
     implementation 'joda-time:joda-time:2.10.5'
+    implementation 'com.github.dhaval2404:colorpicker:1.2.1'
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"

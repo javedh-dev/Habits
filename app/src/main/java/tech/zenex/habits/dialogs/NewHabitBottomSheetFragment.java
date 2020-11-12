@@ -14,21 +14,27 @@
 
 package tech.zenex.habits.dialogs;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog;
+import com.github.dhaval2404.colorpicker.model.ColorShape;
+import com.github.dhaval2404.colorpicker.model.ColorSwatch;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -48,7 +54,11 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     HabitEntity habitEntity;
     EditText habitName, habitDesc;
     MaterialButtonToggleGroup habitType;
-    Switch onceADay;
+    SwitchCompat onceADay;
+    Button advancedButton;
+    LinearLayout advancedOptions;
+    View colorPicker;
+    int color = Color.RED;
 
     public NewHabitBottomSheetFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -65,13 +75,17 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         habitEntity = new HabitEntity();
         View view = inflater.inflate(R.layout.new_habit_sheet, container, false);
         habitName = view.findViewById(R.id.habit_name);
         habitDesc = view.findViewById(R.id.habit_desc);
         habitType = view.findViewById(R.id.habit_type);
         onceADay = view.findViewById(R.id.once_a_day);
+        advancedButton = view.findViewById(R.id.advanced_button);
+        advancedOptions = view.findViewById(R.id.advanced_options);
+        colorPicker = view.findViewById(R.id.color_picker);
 //        targetDate = view.findViewById(R.id.target_date);
         /*newHabitWizard = view.findViewById(R.id.new_habit_wizard);
         newHabitWizard.setAdapter(new NewHabitWizardAdapter(this, habit));
@@ -87,9 +101,33 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
             habitEntity.setDescription(habitDesc.getText().toString());
             habitEntity.setCreationDate(LocalDateTime.now());
             habitEntity.setOnceADay(onceADay.isChecked());
+            habitEntity.setColor(color);
             MainActivityViewModel.addHabit(habitEntity);
             Objects.requireNonNull(getDialog()).dismiss();
         });
+        advancedButton.setOnClickListener(v -> {
+            if (advancedOptions.getVisibility() == View.GONE) {
+                advancedOptions.setVisibility(View.VISIBLE);
+            } else {
+                advancedOptions.setVisibility(View.GONE);
+            }
+        });
+
+        colorPicker.setOnClickListener(v -> new MaterialColorPickerDialog.
+                Builder(Objects.requireNonNull(getContext()),
+                "Pick Color",
+                "Choose",
+                "Cancel",
+                (i, s) -> {
+                    colorPicker.setBackgroundColor(i);
+                    color = i;
+                },
+                null,
+                ColorSwatch._900,
+                ColorShape.CIRCLE,
+                null)
+                .show());
+
         /*targetDate.setOnClickListener(v -> {
             AlertDialog dialog = new DatePickerDialog(Objects.requireNonNull(getContext()));
             dialog.show();

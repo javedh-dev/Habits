@@ -18,7 +18,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="0dp"
+    android:animateLayoutChanges="true"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <androidx.cardview.widget.CardView
@@ -130,21 +130,74 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
-                <Switch
-                    android:id="@+id/once_a_day"
+                <Button
+                    android:id="@+id/advanced_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableRight="@drawable/caret"
+                    android:padding="0dp"
+                    android:text="Advanced Options"
+                    android:textAlignment="textEnd"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/advanced_options"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Once a day check-in" />
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-                <Space
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/once_a_day"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Once a day check-in" />
+
+                    <Space
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Choose Color"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content" />
+
+                        <View
+                            android:id="@+id/color_picker"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="#F00" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--<Space
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="1" />-->
                 <!--<TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
