@@ -37,7 +37,7 @@ import java.util.Objects;
 import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.dialogs.HabitCheckInBottomSheetFragment;
-import tech.zenex.habits.dialogs.JournalEntrySheetFragment;
+import tech.zenex.habits.dialogs.HabitMenuSheetFragment;
 
 public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecyclerViewAdapter.ViewHolder> {
 
@@ -78,15 +78,17 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
                 Snackbar.make(holder.card, "You have already checked in Today.", Snackbar.LENGTH_LONG).show();
             } else {
                 HabitCheckInBottomSheetFragment bottomSheetFragment =
-                        new HabitCheckInBottomSheetFragment(fragmentManager, habitDetails.getHabitEntity(),
-                                this);
+                        new HabitCheckInBottomSheetFragment(fragmentManager, habitDetails.getHabitEntity());
                 bottomSheetFragment.show(fragmentManager, "HabitCheckInSheet");
             }
         });
         holder.card.setOnLongClickListener(v -> {
-            JournalEntrySheetFragment bottomSheetFragment = new JournalEntrySheetFragment(fragmentManager,
-                    habitDetails.getHabitEntity(), this);
-            bottomSheetFragment.show(fragmentManager, "JournalEntrySheet");
+//            JournalEntrySheetFragment bottomSheetFragment = new JournalEntrySheetFragment(fragmentManager,
+//                    habitDetails.getHabitEntity(), this);
+            HabitMenuSheetFragment fragment = new HabitMenuSheetFragment(fragmentManager,
+                    habitDetails.getHabitEntity());
+            fragment.show(fragmentManager, "JournalEntrySheet");
+//            showPopUpMenu(holder.circleMenuView);
             return true;
         });
     }
@@ -110,6 +112,7 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
         private final TextView journals;
         private final CircularProgressBar progressBar;
         private final View card;
+//        private final CircleMenuView circleMenuView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,8 +122,13 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
             this.progressPercentage = itemView.findViewById(R.id.progress_percentage);
             this.checkins = itemView.findViewById(R.id.check_ins);
             this.journals = itemView.findViewById(R.id.journals);
+//            this.circleMenuView = itemView.findViewById(R.id.circle_menu);
         }
     }
 
+//    private void showPopUpMenu(CircleMenuView circleMenuView){
+//        circleMenuView.setVisibility(View.VISIBLE);
+//        circleMenuView.open(true);
+//    }
 
 }

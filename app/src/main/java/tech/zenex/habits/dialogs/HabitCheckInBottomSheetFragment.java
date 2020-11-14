@@ -32,7 +32,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import tech.zenex.habits.R;
-import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.database.entities.HabitTrackerEntity;
@@ -42,13 +41,10 @@ public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
     FragmentManager fragmentManager;
     HabitEntity habitEntity;
     MaterialButtonToggleGroup checkIn;
-    HabitsRecyclerViewAdapter adapter;
 
-    public HabitCheckInBottomSheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity,
-                                           HabitsRecyclerViewAdapter adapter) {
+    public HabitCheckInBottomSheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity) {
         this.fragmentManager = fragmentManager;
         this.habitEntity = habitEntity;
-        this.adapter = adapter;
     }
 
     @Override
@@ -85,11 +81,5 @@ public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
         } else {
             return HabitEntity.HabitType.DEVELOP;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        adapter.notifyDataSetChanged();
-        super.onDestroy();
     }
 }

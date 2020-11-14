@@ -17,8 +17,8 @@
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:behavior_hideable="false"
     android:animateLayoutChanges="true"
+    app:behavior_hideable="false"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <androidx.cardview.widget.CardView
@@ -81,7 +81,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:checkedButton="@+id/develop"
                     app:selectionRequired="true"
                     app:singleSelection="true">
 
@@ -152,48 +151,86 @@
                     android:id="@+id/advanced_options"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:visibility="gone">
 
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/once_a_day"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Once a day check-in" />
-
-                    <Space
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent" />
-
-
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="end|center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/once_a_day"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Choose Color"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="15sp" />
+                            android:layout_weight="1"
+                            android:text="Once a day check-in" />
 
                         <Space
                             android:layout_width="20dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent" />
 
-                        <View
-                            android:id="@+id/color_picker"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:background="#F00" />
 
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="end|center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Choose Color"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="15sp" />
+
+                            <Space
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content" />
+
+                            <View
+                                android:id="@+id/color_picker"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="#F00" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingTop="18dp"
+                        android:paddingBottom="18dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Streak Limit"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
+
+                        <SeekBar
+                            android:id="@+id/streak_seekbar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:min="0"
+                            android:progress="21" />
+
+                        <TextView
+                            android:id="@+id/streak_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="21 Days"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
-
                 <!--<Space
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

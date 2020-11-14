@@ -38,4 +38,7 @@ public interface HabitDAO {
     @Transaction
     @Query("Select * from habits")
     LiveData<List<HabitDetails>> getAllHabits();
+
+    @Query(value = "DELETE FROM habits where habitID=:habitID")
+    void deleteHabit(int habitID);
 }

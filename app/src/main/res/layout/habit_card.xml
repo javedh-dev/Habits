@@ -19,11 +19,24 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
+    android:background="@color/colorPrimary"
     android:foreground="?attr/selectableItemBackgroundBorderless">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp">
+
+        <com.ramotion.circlemenu.CircleMenuView
+            android:id="@+id/circle_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:clickable="false"
+            android:visibility="gone"
+            app:button_colors="@array/colors"
+            app:button_icons="@array/icons" />
+
 
         <com.mikhaellopez.circularprogressbar.CircularProgressBar
             android:id="@+id/progress_bar"
@@ -144,5 +157,6 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
+
     </RelativeLayout>
 </LinearLayout>

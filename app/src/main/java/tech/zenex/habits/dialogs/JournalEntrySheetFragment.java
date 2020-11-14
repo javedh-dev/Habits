@@ -32,7 +32,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.Objects;
 
 import tech.zenex.habits.R;
-import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.database.entities.JournalEntryEntity;
@@ -40,13 +39,10 @@ import tech.zenex.habits.database.entities.JournalEntryEntity;
 public class JournalEntrySheetFragment extends BottomSheetDialogFragment {
     FragmentManager fragmentManager;
     HabitEntity habitEntity;
-    HabitsRecyclerViewAdapter adapter;
 
-    public JournalEntrySheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity,
-                                     HabitsRecyclerViewAdapter adapter) {
+    public JournalEntrySheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity) {
         this.fragmentManager = fragmentManager;
         this.habitEntity = habitEntity;
-        this.adapter = adapter;
     }
 
     @Override
@@ -77,9 +73,4 @@ public class JournalEntrySheetFragment extends BottomSheetDialogFragment {
         return v;
     }
 
-    @Override
-    public void onDestroy() {
-        adapter.notifyDataSetChanged();
-        super.onDestroy();
-    }
 }

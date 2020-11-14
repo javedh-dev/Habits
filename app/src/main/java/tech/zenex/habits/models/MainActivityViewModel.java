@@ -61,4 +61,8 @@ public class MainActivityViewModel extends ViewModel {
         HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.journalDao().insert(journalEntryEntity));
     }
 
+    public static void deleteHabit(int habitID) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitDao().deleteHabit(habitID));
+    }
+
 }
