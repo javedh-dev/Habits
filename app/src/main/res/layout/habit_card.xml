@@ -25,21 +25,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
-
-        <com.ramotion.circlemenu.CircleMenuView
-            android:id="@+id/circle_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:clickable="false"
-            android:visibility="gone"
-            app:button_colors="@array/colors"
-            app:button_icons="@array/icons" />
+        android:layout_margin="10dp">
 
 
         <com.mikhaellopez.circularprogressbar.CircularProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/streak_progress"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_centerHorizontal="true"
@@ -49,7 +39,21 @@
             app:cpb_progress_direction="to_left"
             app:cpb_progressbar_color="@color/colorAccent"
             app:cpb_progressbar_width="5dp"
-            app:cpb_progress="33"
+            app:cpb_progress="32"
+            app:cpb_round_border="true" />
+
+        <com.mikhaellopez.circularprogressbar.CircularProgressBar
+            android:id="@+id/daily_progress"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            app:cpb_background_progressbar_color="@color/translucent"
+            app:cpb_background_progressbar_width="5dp"
+            app:cpb_progress="12"
+            app:cpb_progress_direction="to_left"
+            app:cpb_progressbar_color="@color/colorAccent"
+            app:cpb_progressbar_width="5dp"
             app:cpb_round_border="true" />
 
         <RelativeLayout

@@ -118,7 +118,7 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
             super(itemView);
             this.card = itemView;
             this.habitName = itemView.findViewById(R.id.habit_name);
-            this.progressBar = itemView.findViewById(R.id.progress_bar);
+            this.progressBar = itemView.findViewById(R.id.streak_progress);
             this.progressPercentage = itemView.findViewById(R.id.progress_percentage);
             this.checkins = itemView.findViewById(R.id.check_ins);
             this.journals = itemView.findViewById(R.id.journals);

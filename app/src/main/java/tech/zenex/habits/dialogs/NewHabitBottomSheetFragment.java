@@ -137,7 +137,7 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
                     color = i;
                 },
                 null,
-                ColorSwatch._900,
+                ColorSwatch.A400,
                 ColorShape.CIRCLE,
                 null)
                 .show());
@@ -172,19 +172,20 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
             habitDesc.setText(habitEntity.getDescription());
             int hType = habitEntity.getHabitType() == HabitEntity.HabitType.BREAK ? R.id.break_btn :
                     R.id.develop_btn;
-            if (habitType.getCheckedButtonId() != hType)
-                habitType.clearChecked();
-            habitType.check(R.id.break_btn);
+//            if (habitType.getCheckedButtonId() != hType)
+//                habitType.clearChecked();
+            habitType.check(hType);
             colorPicker.setBackgroundColor(habitEntity.getColor());
             color = habitEntity.getColor();
             onceADay.setChecked(habitEntity.isOnceADay());
             streakSeekbar.setProgress(habitEntity.getStreakDays());
             create.setText("Update");
+            habitType.getCheckedButtonId();
         }
     }
 
     private HabitEntity.HabitType getHabitType(int id) {
-        if (id == R.id.develop) return HabitEntity.HabitType.DEVELOP;
+        if (id == R.id.develop_btn) return HabitEntity.HabitType.DEVELOP;
         else return HabitEntity.HabitType.BREAK;
     }
 }
