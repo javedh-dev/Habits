@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Did You...?"
+                    android:text="So, what was it...?"
                     android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -71,16 +71,22 @@
                 <Button
                     android:id="@+id/break_btn"
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:text="break" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_check_24"
+                    android:drawableTint="@color/green_900"
+                    android:text="SUCCESS"
+                    android:textColor="@color/green_900" />
 
                 <Button
                     android:id="@+id/develop_btn"
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:text="develop" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_close_black_24dp"
+                    android:drawableTint="@color/red_900"
+                    android:text="FAILURE"
+                    android:textColor="@color/red_900" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>

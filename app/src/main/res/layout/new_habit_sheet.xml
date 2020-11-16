@@ -82,21 +82,23 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     app:selectionRequired="true"
+                    app:checkedButton="@+id/develop_btn"
                     app:singleSelection="true">
 
-                    <Button
-                        android:id="@+id/develop"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/develop_btn"
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/develop_habit_type"
                         android:textAllCaps="false" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/break_habit_type"
+                        android:id="@+id/break_btn"
                         android:textAllCaps="false" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
