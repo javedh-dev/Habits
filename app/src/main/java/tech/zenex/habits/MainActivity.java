@@ -14,6 +14,7 @@
 
 package tech.zenex.habits;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.synnapps.carouselview.CarouselView;
 
 import java.util.List;
@@ -36,14 +37,13 @@ import java.util.Objects;
 import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.HabitsDatabase;
-import tech.zenex.habits.dialogs.HomeNavigationBottomSheetFragment;
 import tech.zenex.habits.dialogs.NewHabitBottomSheetFragment;
 import tech.zenex.habits.utils.HabitsSharedPreferencesUtil;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView rv;
     CarouselView carouselView;
-    FloatingActionButton addHabitFAB;
+    ExtendedFloatingActionButton addHabitFAB;
     BottomAppBar appBar;
     int[] images = {R.drawable.img3, R.drawable.img2, R.drawable.img1};
 
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        Log.d("Habit-Data",MainActivityViewModel.getHabits().toString());
         appBar = findViewById(R.id.app_bar);
+        appBar.setNavigationIcon(R.drawable.settings);
         setSupportActionBar(appBar);
         addHabitFAB = findViewById(R.id.add_habit);
         addHabitFAB.setOnClickListener(view -> changeFABAlignment());
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
+//        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -111,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
 //            Toast.makeText(getApplicationContext(),"Home clicked",Toast.LENGTH_LONG).show();
-            new HomeNavigationBottomSheetFragment(getSupportFragmentManager()).show(getSupportFragmentManager(), "HomeMenu");
+//            new HomeNavigationBottomSheetFragment(getSupportFragmentManager()).show
+//            (getSupportFragmentManager(), "HomeMenu");
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
