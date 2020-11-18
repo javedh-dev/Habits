@@ -52,6 +52,17 @@
         <item name="theme">@style/AppTheme</item>
     </style>
 
+    <style name="SheetDialog.WithoutKeyBoard" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <!--        <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>-->
+        <item name="android:backgroundDimAmount">0.2</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/translucent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="bottomSheetDialogTheme">@style/AppTheme</item>
+        <item name="theme">@style/AppTheme</item>
+    </style>
+
     <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="iconPadding">8dp</item>
         <item name="android:insetTop">0dp</item>

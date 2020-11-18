@@ -38,7 +38,7 @@ import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.dialogs.NewHabitBottomSheetFragment;
-import tech.zenex.habits.utils.HabitsSharedPreferencesUtil;
+import tech.zenex.habits.utils.HabitsPreferencesUtil;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView rv;
@@ -86,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkLoginStatus() {
         try {
-            SharedPreferences sp = HabitsSharedPreferencesUtil.getSharedPreference("login_cred",
-                    getApplicationContext());
+            SharedPreferences sp = HabitsPreferencesUtil.getSharedPreference("login_cred");
             return sp.getBoolean("isLoggedIn", false);
         } catch (Exception e) {
             e.printStackTrace();

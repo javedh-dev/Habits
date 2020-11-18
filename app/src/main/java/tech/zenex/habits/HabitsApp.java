@@ -23,6 +23,7 @@ import java.util.List;
 
 import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.utils.HabitsPreferencesUtil;
 
 public class HabitsApp extends Application {
 
@@ -56,6 +57,7 @@ public class HabitsApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        HabitsPreferencesUtil.setContext(getApplicationContext());
 //        TypefaceUtil.overrideFont(getApplicationContext(), "serif", "fonts/OpenSans.ttf");
 //        HabitsDatabase.getDatabase(this);
 //        HabitsDatabase.databaseWriteExecutor.execute(() -> {

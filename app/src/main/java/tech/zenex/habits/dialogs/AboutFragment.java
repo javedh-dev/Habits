@@ -37,10 +37,7 @@ public class AboutFragment extends EasyAboutFragment {
                 .addItem(new NormalAboutItem.Builder(context)
                         .setTitle("Licenses")
                         .setIcon(R.drawable.settings)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                            }
+                        .setOnClickListener(view -> {
                         })
                         .build())
                 .build());
@@ -57,18 +54,12 @@ public class AboutFragment extends EasyAboutFragment {
                 .addItem(new NormalAboutItem.Builder(context)
                         .setTitle("Clickable item")
                         .setSubtitle("This item has onClick and onLongClick listener.")
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                        .setOnClickListener(view -> {
 //                                    Toast.makeText(context, "onClick", Toast.LENGTH_SHORT).show();
-                            }
                         })
-                        .setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View view) {
+                        .setOnLongClickListener(view -> {
 //                                    Toast.makeText(context, "onLongClick", Toast.LENGTH_SHORT).show();
-                                return false;
-                            }
+                            return false;
                         })
                         .setIcon(R.drawable.info)
                         .build())

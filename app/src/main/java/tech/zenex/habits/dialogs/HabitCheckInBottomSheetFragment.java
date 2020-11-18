@@ -50,7 +50,7 @@ public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.SheetDialog);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.SheetDialog_WithoutKeyBoard);
     }
 
     @Nullable
@@ -80,10 +80,11 @@ public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private HabitEntity.HabitType isCheckInStatus(int checkedId, boolean isChecked) {
-        if (checkedId == R.id.break_btn && isChecked) {
-            return HabitEntity.HabitType.BREAK;
+        if (checkedId == R.id.success_btn && isChecked) {
+            return habitEntity.getHabitType();
         } else {
-            return HabitEntity.HabitType.DEVELOP;
+            return habitEntity.getHabitType() == HabitEntity.HabitType.DEVELOP ?
+                    HabitEntity.HabitType.BREAK : HabitEntity.HabitType.DEVELOP;
         }
     }
 }

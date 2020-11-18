@@ -27,6 +27,7 @@ import org.joda.time.LocalDateTime;
 import java.util.List;
 
 import tech.zenex.habits.database.HabitDetails;
+import tech.zenex.habits.utils.HabitsPreferencesUtil;
 
 @Entity(tableName = "habits")
 public class HabitEntity implements Comparable<HabitEntity> {
@@ -210,7 +211,8 @@ public class HabitEntity implements Comparable<HabitEntity> {
 
     @Ignore
     public void incrementFailedCounter() {
-        failureCounter = failureCounter >= 2 ? 0 : failureCounter + 1;
+        failureCounter = failureCounter >= HabitsPreferencesUtil.getDefaultSharedPreference().getInt(
+                "allowed_failures", 3) ? 0 : failureCounter + 1;
         Log.d("Failure Counter", String.format("%d", failureCounter));
         if (failureCounter == 0) {
             streakStart = LocalDateTime.now();

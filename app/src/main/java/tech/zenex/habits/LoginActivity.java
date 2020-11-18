@@ -34,7 +34,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import tech.zenex.habits.utils.HabitsSharedPreferencesUtil;
+import tech.zenex.habits.utils.HabitsPreferencesUtil;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setLoginCredentials() {
         try {
-            SharedPreferences sp = HabitsSharedPreferencesUtil.getSharedPreference("login_cred", getApplicationContext());
+            SharedPreferences sp = HabitsPreferencesUtil.getSharedPreference("login_cred");
             sp.edit().putBoolean("isLoggedIn", true).apply();
         } catch (Exception e) {
             e.printStackTrace();

@@ -12,7 +12,8 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--    <PreferenceCategory app:title="@string/messages_header">-->
 
@@ -45,6 +46,30 @@
     <!--            app:title="@string/attachment_title" />-->
 
     <!--    </PreferenceCategory>-->
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/app_name">
+        <SwitchPreferenceCompat
+            android:summary="Enable to backup and restore online privately."
+            app:iconSpaceReserved="false"
+            app:key="backup"
+            app:title="Backup &amp; Restore" />
+        <EditTextPreference
+            android:summary="Always remember the key It'll be used to restore"
+            app:dependency="backup"
+            app:iconSpaceReserved="false"
+            app:title="Backup key" />
+        <SeekBarPreference
+            android:defaultValue="3"
+            android:max="10"
+            android:summary="Streak will be reset to zero after failures."
+            app:iconSpaceReserved="false"
+            app:key="allowed_failures"
+            app:min="0"
+            app:showSeekBarValue="true"
+            app:title="Streak Reset Threshold" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
