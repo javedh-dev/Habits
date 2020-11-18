@@ -14,6 +14,8 @@
 
 package tech.zenex.habits.database.entities;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -38,7 +40,9 @@ public class HabitEntity implements Comparable<HabitEntity> {
     private LocalDateTime creationDate;
     private boolean isOnceADay;
     private LocalDateTime lastCheckIn = new LocalDateTime(0);
-    private LocalDateTime lastFailed = LocalDateTime.now();
+    private int failureCounter = 0;
+    private LocalDateTime streakStart = LocalDateTime.now();
+    //    private LocalDateTime lastFailed = LocalDateTime.now();
     private int streakDays = 21;
     private int color;
 
@@ -180,20 +184,38 @@ public class HabitEntity implements Comparable<HabitEntity> {
         return DateTimeComparator.getDateOnlyInstance().compare(this, o);
     }
 
-    public LocalDateTime getLastFailed() {
-        return lastFailed;
-    }
-
-    public void setLastFailed(LocalDateTime lastFailed) {
-        this.lastFailed = lastFailed;
-    }
-
     public int getColor() {
         return color;
     }
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public int getFailureCounter() {
+        return failureCounter;
+    }
+
+    public void setFailureCounter(int failureCounter) {
+        this.failureCounter = failureCounter;
+    }
+
+    public LocalDateTime getStreakStart() {
+        return streakStart;
+    }
+
+    public void setStreakStart(LocalDateTime streakStart) {
+        this.streakStart = streakStart;
+    }
+
+    @Ignore
+    public void incrementFailedCounter() {
+        failureCounter = failureCounter >= 2 ? 0 : failureCounter + 1;
+        Log.d("Failure Counter", String.format("%d", failureCounter));
+        if (failureCounter == 0) {
+            streakStart = LocalDateTime.now();
+        }
+
     }
 
     public enum HabitType {DEVELOP, BREAK}

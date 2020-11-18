@@ -48,8 +48,8 @@ public class MainActivityViewModel extends ViewModel {
         return mHabits;
     }
 
-    public static void addHabit(HabitEntity habitEntity) {
-        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitDao().insert(habitEntity));
+    public static void upsertHabit(HabitEntity habitEntity) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitDao().upsert(habitEntity));
 //        Objects.requireNonNull(mHabits.getValue()).add(habitEntity);
     }
 

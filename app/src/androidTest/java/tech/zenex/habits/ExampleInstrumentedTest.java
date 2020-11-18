@@ -35,6 +35,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.tech.zenex.tech.zenex.habits", appContext.getPackageName());
+        assertEquals("tech.zenex.habits", appContext.getPackageName());
     }
 }

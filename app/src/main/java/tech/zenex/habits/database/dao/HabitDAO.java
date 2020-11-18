@@ -20,6 +20,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -27,18 +28,29 @@ import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.entities.HabitEntity;
 
 @Dao
-public interface HabitDAO {
+public abstract class HabitDAO {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(HabitEntity habitEntity);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    public abstract long insert(HabitEntity habitEntity);
+
+    @Transaction
+    public void upsert(HabitEntity obj) {
+        long id = insert(obj);
+        if (id == -1) {
+            update(obj);
+        }
+    }
+
+    @Update
+    public abstract void update(HabitEntity habitEntity);
 
     @Query(value = "DELETE FROM habits")
-    void deleteAllHabits();
+    public abstract void deleteAllHabits();
 
     @Transaction
     @Query("Select * from habits")
-    LiveData<List<HabitDetails>> getAllHabits();
+    public abstract LiveData<List<HabitDetails>> getAllHabits();
 
     @Query(value = "DELETE FROM habits where habitID=:habitID")
-    void deleteHabit(int habitID);
+    public abstract void deleteHabit(int habitID);
 }

@@ -34,7 +34,7 @@ import tech.zenex.habits.database.entities.HabitTrackerEntity;
 import tech.zenex.habits.database.entities.JournalEntryEntity;
 
 @Database(version = 1, entities = {HabitEntity.class, JournalEntryEntity.class, HabitTrackerEntity.class},
-        exportSchema = false)
+        exportSchema = true)
 @TypeConverters(value = HabitsTypeConverters.class)
 public abstract class HabitsDatabase extends RoomDatabase {
 
@@ -59,8 +59,6 @@ public abstract class HabitsDatabase extends RoomDatabase {
                                     "begin\n" +
                                     "UPDATE habits set lastCheckIn=strftime('%d/%m/%Y %H:%M:%f','now') " +
                                     "where habits.habitID = new.habitID;\n" +
-                                    "UPDATE habits set lastFailed=strftime('%d/%m/%Y %H:%M:%f','now') where" +
-                                    " habits.habitID = new.habitID and not habits.habitType=new.type;\n" +
                                     "end");
                         }
                     });

@@ -48,6 +48,31 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="Interface">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="enable_dark_mode"
+            app:summary="Enables system wide dark mode"
+            app:title="Dark Mode" />
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="show_once_per_day"
+            app:summary="Display icon for check-in frequency in Habit Card"
+            app:title="Show Habit Frequency" />
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="show_habit_type"
+            app:summary="Display icon for Habit type in Habit Card"
+            app:title="Show Habit Type" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="About">
         <PreferenceScreen
             app:iconSpaceReserved="false"

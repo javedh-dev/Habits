@@ -60,8 +60,9 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     LinearLayout advancedOptions;
     View colorPicker;
     int color = Color.RED;
-    SeekBar streakSeekbar;
+    SeekBar streakSeekBar;
     TextView streakText;
+    private boolean isUpdate = false;
 
     public NewHabitBottomSheetFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -70,6 +71,7 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     public NewHabitBottomSheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity) {
         this.fragmentManager = fragmentManager;
         this.habitEntity = habitEntity;
+        this.isUpdate = true;
     }
 
     @Override
@@ -93,7 +95,7 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
         advancedButton = view.findViewById(R.id.advanced_button);
         advancedOptions = view.findViewById(R.id.advanced_options);
         colorPicker = view.findViewById(R.id.color_picker);
-        streakSeekbar = view.findViewById(R.id.streak_seekbar);
+        streakSeekBar = view.findViewById(R.id.streak_seekbar);
         streakText = view.findViewById(R.id.streak_text);
 //        targetDate = view.findViewById(R.id.target_date);
         /*
@@ -115,8 +117,8 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
             habitEntity.setCreationDate(LocalDateTime.now());
             habitEntity.setOnceADay(onceADay.isChecked());
             habitEntity.setColor(color);
-            habitEntity.setStreakDays(streakSeekbar.getProgress());
-            MainActivityViewModel.addHabit(habitEntity);
+            habitEntity.setStreakDays(streakSeekBar.getProgress());
+            MainActivityViewModel.upsertHabit(habitEntity);
             Objects.requireNonNull(getDialog()).dismiss();
         });
         advancedButton.setOnClickListener(v -> {
@@ -128,7 +130,7 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         colorPicker.setOnClickListener(v -> new MaterialColorPickerDialog.
-                Builder(Objects.requireNonNull(getContext()),
+                Builder(requireContext(),
                 "Pick Color",
                 "Choose",
                 "Cancel",
@@ -146,7 +148,7 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
             AlertDialog dialog = new DatePickerDialog(Objects.requireNonNull(getContext()));
             dialog.show();
         });*/
-        streakSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        streakSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 streakText.setText(progress + " Days");
@@ -178,8 +180,10 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
             colorPicker.setBackgroundColor(habitEntity.getColor());
             color = habitEntity.getColor();
             onceADay.setChecked(habitEntity.isOnceADay());
-            streakSeekbar.setProgress(habitEntity.getStreakDays());
-            create.setText("Update");
+            streakSeekBar.setProgress(habitEntity.getStreakDays());
+            if (isUpdate) {
+                create.setText("Update");
+            }
             habitType.getCheckedButtonId();
         }
     }

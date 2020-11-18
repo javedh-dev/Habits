@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.joda.time.Days;
 import org.joda.time.LocalDateTime;
 
 import java.util.List;
@@ -80,12 +79,6 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
 //            showPopUpMenu(holder.circleMenuView);
             return true;
         });
-    }
-
-    private int getPercentage(HabitDetails habitDetails) {
-        int streak = Days.daysBetween(LocalDateTime.now(),
-                habitDetails.getHabitEntity().getLastFailed()).getDays();
-        return (int) (streak / (float) habitDetails.getHabitEntity().getStreakDays()) * 100;
     }
 
     @Override

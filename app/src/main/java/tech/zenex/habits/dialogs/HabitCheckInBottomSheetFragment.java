@@ -64,6 +64,10 @@ public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
             HabitsDatabase.databaseWriteExecutor.execute(() -> {
                 HabitTrackerEntity tracker = new HabitTrackerEntity(habitEntity.getHabitID(), checkInStatus);
                 MainActivityViewModel.addHabitTracker(tracker);
+                if (checkInStatus != habitEntity.getHabitType()) {
+                    habitEntity.incrementFailedCounter();
+                    HabitsDatabase.getDatabase(getContext()).habitDao().update(habitEntity);
+                }
             });
             new Timer().schedule(new TimerTask() {
                 @Override

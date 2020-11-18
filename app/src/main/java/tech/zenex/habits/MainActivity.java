@@ -118,4 +118,11 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        this.rv.getAdapter().notifyDataSetChanged();
+    }
 }
