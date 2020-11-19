@@ -85,8 +85,8 @@ public class HabitCard extends RelativeLayout {
     }
 
     public void setHabitType(HabitEntity.HabitType type) {
-        habitType.setImageResource(type == HabitEntity.HabitType.DEVELOP ? R.drawable.link :
-                R.drawable.broken_link);
+        habitType.setImageResource(type == HabitEntity.HabitType.DEVELOP ? R.drawable.link_dark :
+                R.drawable.broken_link_dark);
         boolean showHabitType = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
                 "show_habit_type", false);
         habitType.setVisibility(showHabitType ? VISIBLE : GONE);
@@ -94,7 +94,7 @@ public class HabitCard extends RelativeLayout {
     }
 
     public void setOnceADay(boolean onceADay) {
-        this.onceADay.setImageResource(onceADay ? R.drawable.once : R.drawable.infinity);
+        this.onceADay.setImageResource(onceADay ? R.drawable.once_dark : R.drawable.infinity_dark);
         boolean showOncePerDay = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
                 "show_once_per_day", false);
         this.onceADay.setVisibility(showOncePerDay ? VISIBLE : GONE);

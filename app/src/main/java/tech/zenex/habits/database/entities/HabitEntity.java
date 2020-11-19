@@ -14,22 +14,22 @@
 
 package tech.zenex.habits.database.entities;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDateTime;
 
-import java.util.List;
-
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.utils.HabitsPreferencesUtil;
 
-@Entity(tableName = "habits")
+@Entity(tableName = "habits", indices = {@Index("habitID")})
 public class HabitEntity implements Comparable<HabitEntity> {
 
     @PrimaryKey(autoGenerate = true)
@@ -43,17 +43,10 @@ public class HabitEntity implements Comparable<HabitEntity> {
     private LocalDateTime lastCheckIn = new LocalDateTime(0);
     private int failureCounter = 0;
     private LocalDateTime streakStart = LocalDateTime.now();
-    //    private LocalDateTime lastFailed = LocalDateTime.now();
     private int streakDays = 21;
     private int color;
 
-    @Ignore
-    private List<HabitTrackerEntity> habitTrackerEntities;
-    @Ignore
-    private List<JournalEntryEntity> journalEntries;
-
     public HabitEntity() {
-
     }
 
     @Ignore
@@ -80,9 +73,6 @@ public class HabitEntity implements Comparable<HabitEntity> {
         this.isOnceADay = habitDetails.getHabitEntity().isOnceADay();
         this.lastCheckIn = habitDetails.getHabitEntity().getLastCheckIn();
         this.streakDays = habitDetails.getHabitEntity().getStreakDays();
-        this.journalEntries = habitDetails.getJournalEntryEntities();
-        this.habitTrackerEntities = habitDetails.getHabitTrackerEntities();
-
     }
 
     @NonNull
@@ -138,13 +128,18 @@ public class HabitEntity implements Comparable<HabitEntity> {
     @NonNull
     @Override
     public String toString() {
-        return "Habit{" +
+        return "HabitEntity{" +
                 "habitID=" + habitID +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", habitType=" + habitType +
                 ", creationDate=" + creationDate +
                 ", isOnceADay=" + isOnceADay +
+                ", lastCheckIn=" + lastCheckIn +
+                ", failureCounter=" + failureCounter +
+                ", streakStart=" + streakStart +
+                ", streakDays=" + streakDays +
+                ", color=" + color +
                 '}';
     }
 
@@ -162,22 +157,6 @@ public class HabitEntity implements Comparable<HabitEntity> {
 
     public void setStreakDays(int streakDays) {
         this.streakDays = streakDays;
-    }
-
-    public List<HabitTrackerEntity> getHabitTrackerEntities() {
-        return habitTrackerEntities;
-    }
-
-    public void setHabitTrackerEntities(List<HabitTrackerEntity> habitTrackerEntities) {
-        this.habitTrackerEntities = habitTrackerEntities;
-    }
-
-    public List<JournalEntryEntity> getJournalEntries() {
-        return journalEntries;
-    }
-
-    public void setJournalEntries(List<JournalEntryEntity> journalEntries) {
-        this.journalEntries = journalEntries;
     }
 
     @Override
@@ -210,8 +189,8 @@ public class HabitEntity implements Comparable<HabitEntity> {
     }
 
     @Ignore
-    public void incrementFailedCounter() {
-        failureCounter = failureCounter >= HabitsPreferencesUtil.getDefaultSharedPreference().getInt(
+    public void incrementFailedCounter(Context context) {
+        failureCounter = failureCounter >= HabitsPreferencesUtil.getDefaultSharedPreference(context).getInt(
                 "allowed_failures", 3) ? 0 : failureCounter + 1;
         Log.d("Failure Counter", String.format("%d", failureCounter));
         if (failureCounter == 0) {
@@ -222,5 +201,4 @@ public class HabitEntity implements Comparable<HabitEntity> {
 
     public enum HabitType {DEVELOP, BREAK}
 
-    public enum Repetition {DAILY, WEEKLY, ALTERNATE_DAYS}
 }

@@ -14,15 +14,19 @@
 
 package tech.zenex.habits.database.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDateTime;
 
 @Entity(tableName = "habits_tracker", foreignKeys = @ForeignKey(entity = HabitEntity.class,
-        parentColumns = "habitID", childColumns = "habitID", onDelete = ForeignKey.CASCADE))
+        parentColumns = "habitID", childColumns = "habitID", onDelete = ForeignKey.CASCADE),
+        indices = {@Index("habitID")})
 public class HabitTrackerEntity implements Comparable<HabitTrackerEntity> {
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -33,6 +37,7 @@ public class HabitTrackerEntity implements Comparable<HabitTrackerEntity> {
     public HabitTrackerEntity() {
     }
 
+    @Ignore
     public HabitTrackerEntity(int habitID, HabitEntity.HabitType type) {
         this.habitID = habitID;
         this.type = type;
@@ -75,5 +80,16 @@ public class HabitTrackerEntity implements Comparable<HabitTrackerEntity> {
 
     public void setType(HabitEntity.HabitType type) {
         this.type = type;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "HabitTrackerEntity{" +
+                "id=" + id +
+                ", habitID=" + habitID +
+                ", checkInTime=" + checkInTime +
+                ", type=" + type +
+                '}';
     }
 }

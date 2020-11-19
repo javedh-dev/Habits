@@ -18,20 +18,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
-import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKey;
-
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 public class HabitsPreferencesUtil {
-
-    private static Context context;
 
     private HabitsPreferencesUtil() {
     }
 
-    public static SharedPreferences getSharedPreference(String fileName) throws GeneralSecurityException,
+    /*public static SharedPreferences getSharedPreference(String fileName, Context context) throws
+    GeneralSecurityException,
             IOException {
         MasterKey masterKey = new
                 MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS).
@@ -44,13 +38,9 @@ public class HabitsPreferencesUtil {
                         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
                 );
-    }
+    }*/
 
-    public static SharedPreferences getDefaultSharedPreference() {
+    public static SharedPreferences getDefaultSharedPreference(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
-    }
-
-    public static void setContext(Context context) {
-        HabitsPreferencesUtil.context = context;
     }
 }

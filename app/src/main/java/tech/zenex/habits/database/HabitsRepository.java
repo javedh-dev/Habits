@@ -14,21 +14,33 @@
 
 package tech.zenex.habits.database;
 
-import androidx.lifecycle.LiveData;
-
-import java.util.List;
-
-import tech.zenex.habits.database.dao.HabitDAO;
-import tech.zenex.habits.database.dao.HabitTrackerDAO;
-import tech.zenex.habits.database.dao.JournalEntryDAO;
 import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.database.entities.HabitTrackerEntity;
+import tech.zenex.habits.database.entities.JournalEntryEntity;
+
+import static tech.zenex.habits.database.HabitsDatabase.getDatabase;
 
 public class HabitsRepository {
-    HabitDAO habitDAO;
-    JournalEntryDAO journalEntryDAO;
-    HabitTrackerDAO habitTrackerDAO;
 
-    LiveData<List<HabitEntity>> mHabits;
+    private static final HabitsDatabase habitsDatabase;
 
+    static {
+        habitsDatabase = getDatabase(null);
+    }
 
+    public static void upsertHabit(HabitEntity habitEntity) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitDao().upsert(habitEntity));
+    }
+
+    public static void addHabitTracker(HabitTrackerEntity habitTrackerEntity) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitTrackerDAO().insert(habitTrackerEntity));
+    }
+
+    public static void addJournalEntry(JournalEntryEntity journalEntryEntity) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.journalDao().insert(journalEntryEntity));
+    }
+
+    public static void deleteHabit(int habitID) {
+        HabitsDatabase.databaseWriteExecutor.execute(() -> habitsDatabase.habitDao().deleteHabit(habitID));
+    }
 }

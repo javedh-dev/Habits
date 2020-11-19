@@ -17,25 +17,12 @@ package tech.zenex.habits.database.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-
-import java.util.List;
 
 import tech.zenex.habits.database.entities.HabitTrackerEntity;
 
 @Dao
-public interface HabitTrackerDAO {
+public abstract class HabitTrackerDAO {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(HabitTrackerEntity habitTrackerEntity);
-
-    @Query(value = "DELETE FROM habits_tracker")
-    void deleteAll();
-
-    @Query(value = "Select * from habits_tracker order by checkInTime")
-    List<HabitTrackerEntity> getAllTrackerEntries();
-
-    @Query(value = "Select * from habits_tracker where habitID = :habitID order by checkInTime")
-    List<HabitTrackerEntity> getAllTrackerEntriesForHabit(int habitID);
-
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    public abstract void insert(HabitTrackerEntity habitTrackerEntity);
 }

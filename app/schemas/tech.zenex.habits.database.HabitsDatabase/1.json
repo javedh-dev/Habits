@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "843284b2ed1953740db688a609c28347",
+    "identityHash": "a10ebc67d47c67e88cfb67d61e2cb205",
     "entities": [
       {
         "tableName": "habits",
@@ -81,7 +81,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_habits_habitID",
+            "unique": false,
+            "columnNames": [
+              "habitID"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_habits_habitID` ON `${TABLE_NAME}` (`habitID`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -125,7 +134,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_journal_entries_habitID",
+            "unique": false,
+            "columnNames": [
+              "habitID"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_journal_entries_habitID` ON `${TABLE_NAME}` (`habitID`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "habits",
@@ -175,7 +193,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_habits_tracker_habitID",
+            "unique": false,
+            "columnNames": [
+              "habitID"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_habits_tracker_habitID` ON `${TABLE_NAME}` (`habitID`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "habits",
@@ -194,7 +221,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '843284b2ed1953740db688a609c28347')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a10ebc67d47c67e88cfb67d61e2cb205')"
     ]
   }
 }

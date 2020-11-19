@@ -29,8 +29,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import tech.zenex.habits.R;
+import tech.zenex.habits.database.HabitsRepository;
 import tech.zenex.habits.database.entities.HabitEntity;
-import tech.zenex.habits.models.MainActivityViewModel;
 
 public class HabitMenuSheetFragment extends BottomSheetDialogFragment {
     FragmentManager fragmentManager;
@@ -71,13 +71,12 @@ public class HabitMenuSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void deleteHabit() {
-        MainActivityViewModel.deleteHabit(habitEntity.getHabitID());
+        HabitsRepository.deleteHabit(habitEntity.getHabitID());
         this.dismiss();
     }
 
     private void openEditFragment() {
-        new NewHabitBottomSheetFragment(fragmentManager, habitEntity).
-                show(fragmentManager, "EditHabit");
+        new NewHabitBottomSheetFragment(habitEntity).show(fragmentManager, "EditHabit");
         this.dismiss();
     }
 

@@ -73,7 +73,7 @@
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_baseline_check_24"
+                    android:drawableLeft="@drawable/check_dark"
                     android:drawableTint="@color/green_900"
                     android:text="SUCCESS"
                     android:textColor="@color/green_900" />

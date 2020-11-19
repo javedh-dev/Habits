@@ -33,9 +33,9 @@ import java.util.TimerTask;
 
 import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitsDatabase;
+import tech.zenex.habits.database.HabitsRepository;
 import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.database.entities.HabitTrackerEntity;
-import tech.zenex.habits.models.MainActivityViewModel;
 
 public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
     FragmentManager fragmentManager;
@@ -63,9 +63,9 @@ public class HabitCheckInBottomSheetFragment extends BottomSheetDialogFragment {
             HabitEntity.HabitType checkInStatus = isCheckInStatus(checkedId, isChecked);
             HabitsDatabase.databaseWriteExecutor.execute(() -> {
                 HabitTrackerEntity tracker = new HabitTrackerEntity(habitEntity.getHabitID(), checkInStatus);
-                MainActivityViewModel.addHabitTracker(tracker);
+                HabitsRepository.addHabitTracker(tracker);
                 if (checkInStatus != habitEntity.getHabitType()) {
-                    habitEntity.incrementFailedCounter();
+                    habitEntity.incrementFailedCounter(getContext());
                     HabitsDatabase.getDatabase(getContext()).habitDao().update(habitEntity);
                 }
             });

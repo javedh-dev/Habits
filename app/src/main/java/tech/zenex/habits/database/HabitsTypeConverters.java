@@ -14,8 +14,6 @@
 
 package tech.zenex.habits.database;
 
-import android.util.Log;
-
 import androidx.room.TypeConverter;
 
 import org.joda.time.LocalDateTime;
@@ -31,13 +29,11 @@ public class HabitsTypeConverters {
 
     @TypeConverter
     public static LocalDateTime toDate(String dateTime) {
-//        Log.d("Date", dateTime);
         return dateTime == null ? null : formatter.parseLocalDateTime(dateTime);
     }
 
     @TypeConverter
     public static String fromDate(LocalDateTime dateTime) {
-        Log.d("Date", String.valueOf(dateTime));
         return dateTime == null ? null : formatter.print(dateTime);
     }
 

@@ -31,7 +31,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog;
 import com.github.dhaval2404.colorpicker.model.ColorShape;
@@ -42,34 +41,31 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import org.joda.time.LocalDateTime;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 import tech.zenex.habits.R;
+import tech.zenex.habits.database.HabitsRepository;
 import tech.zenex.habits.database.entities.HabitEntity;
-import tech.zenex.habits.models.MainActivityViewModel;
 
 public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
-    FragmentManager fragmentManager;
-    MaterialButton create, cancel;
+    private MaterialButton create;
 
-    HabitEntity habitEntity;
-    EditText habitName, habitDesc;
-    MaterialButtonToggleGroup habitType;
-    SwitchCompat onceADay;
-    Button advancedButton;
-    LinearLayout advancedOptions;
-    View colorPicker;
-    int color = Color.RED;
-    SeekBar streakSeekBar;
-    TextView streakText;
+    private HabitEntity habitEntity;
+    private EditText habitName, habitDesc;
+    private MaterialButtonToggleGroup habitType;
+    private SwitchCompat onceADay;
+    private LinearLayout advancedOptions;
+    private View colorPicker;
+    private int color = Color.RED;
+    private SeekBar streakSeekBar;
+    private TextView streakText;
     private boolean isUpdate = false;
 
-    public NewHabitBottomSheetFragment(FragmentManager fragmentManager) {
-        this.fragmentManager = fragmentManager;
+    public NewHabitBottomSheetFragment() {
     }
 
-    public NewHabitBottomSheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity) {
-        this.fragmentManager = fragmentManager;
+    public NewHabitBottomSheetFragment(HabitEntity habitEntity) {
         this.habitEntity = habitEntity;
         this.isUpdate = true;
     }
@@ -78,8 +74,6 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.SheetDialog);
-//        getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
-//        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -88,84 +82,75 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_habit_sheet, container, false);
-        habitName = view.findViewById(R.id.habit_name);
-        habitDesc = view.findViewById(R.id.habit_desc);
-        habitType = view.findViewById(R.id.habit_type);
-        onceADay = view.findViewById(R.id.once_a_day);
-        advancedButton = view.findViewById(R.id.advanced_button);
-        advancedOptions = view.findViewById(R.id.advanced_options);
-        colorPicker = view.findViewById(R.id.color_picker);
-        streakSeekBar = view.findViewById(R.id.streak_seekbar);
-        streakText = view.findViewById(R.id.streak_text);
-//        targetDate = view.findViewById(R.id.target_date);
-        /*
-        newHabitWizard = view.findViewById(R.id.new_habit_wizard);
-        newHabitWizard.setAdapter(new NewHabitWizardAdapter(this, habit));
-        newHabitWizard.getCurrentItem();
-        newHabitWizard.setUserInputEnabled(false);
-        getDialog().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
-        */
-        create = view.findViewById(R.id.create);
-        cancel = view.findViewById(R.id.cancel);
+        findViews(view);
+        Button advancedButton = view.findViewById(R.id.advanced_button);
+        MaterialButton cancel = view.findViewById(R.id.cancel);
         cancel.setOnClickListener(view1 -> Objects.requireNonNull(getDialog()).dismiss());
-        create.setOnClickListener(view1 -> {
-            if (habitEntity == null)
-                habitEntity = new HabitEntity();
-            habitEntity.setName(habitName.getText().toString());
-            habitEntity.setHabitType(getHabitType(habitType.getCheckedButtonId()));
-            habitEntity.setDescription(habitDesc.getText().toString());
-            habitEntity.setCreationDate(LocalDateTime.now());
-            habitEntity.setOnceADay(onceADay.isChecked());
-            habitEntity.setColor(color);
-            habitEntity.setStreakDays(streakSeekBar.getProgress());
-            MainActivityViewModel.upsertHabit(habitEntity);
-            Objects.requireNonNull(getDialog()).dismiss();
-        });
-        advancedButton.setOnClickListener(v -> {
-            if (advancedOptions.getVisibility() == View.GONE) {
-                advancedOptions.setVisibility(View.VISIBLE);
-            } else {
-                advancedOptions.setVisibility(View.GONE);
-            }
-        });
+        create.setOnClickListener(view1 -> createNewHabit());
+        advancedButton.setOnClickListener(v -> toggleAdvancedButton());
 
-        colorPicker.setOnClickListener(v -> new MaterialColorPickerDialog.
-                Builder(requireContext(),
-                "Pick Color",
-                "Choose",
-                "Cancel",
-                (i, s) -> {
-                    colorPicker.setBackgroundColor(i);
-                    color = i;
-                },
-                null,
-                ColorSwatch.A400,
-                ColorShape.CIRCLE,
-                null)
-                .show());
+        colorPicker.setOnClickListener(v -> getColorPickerBuilder().show());
 
-        /*targetDate.setOnClickListener(v -> {
-            AlertDialog dialog = new DatePickerDialog(Objects.requireNonNull(getContext()));
-            dialog.show();
-        });*/
         streakSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                streakText.setText(progress + " Days");
+                streakText.setText(MessageFormat.format("{0}{1}", progress, getString(R.string.days_text)));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
         setUpView();
         return view;
+    }
+
+    @NonNull
+    private MaterialColorPickerDialog.Builder getColorPickerBuilder() {
+        return new MaterialColorPickerDialog.
+                Builder(requireContext(), "Pick Color", "Choose", "Cancel",
+                (i, s) -> {
+                    colorPicker.setBackgroundColor(i);
+                    color = i;
+                }, null, ColorSwatch.A400, ColorShape.CIRCLE, null);
+    }
+
+    private void toggleAdvancedButton() {
+        if (advancedOptions.getVisibility() == View.GONE) {
+            advancedOptions.setVisibility(View.VISIBLE);
+        } else {
+            advancedOptions.setVisibility(View.GONE);
+        }
+    }
+
+    private void createNewHabit() {
+        if (habitEntity == null)
+            habitEntity = new HabitEntity();
+        habitEntity.setName(habitName.getText().toString());
+        habitEntity.setHabitType(getHabitType(habitType.getCheckedButtonId()));
+        habitEntity.setDescription(habitDesc.getText().toString());
+        habitEntity.setCreationDate(LocalDateTime.now());
+        habitEntity.setOnceADay(onceADay.isChecked());
+        habitEntity.setColor(color);
+        habitEntity.setStreakDays(streakSeekBar.getProgress());
+        HabitsRepository.upsertHabit(habitEntity);
+        Objects.requireNonNull(getDialog()).dismiss();
+    }
+
+    private void findViews(View view) {
+        habitName = view.findViewById(R.id.habit_name);
+        habitDesc = view.findViewById(R.id.habit_desc);
+        habitType = view.findViewById(R.id.habit_type);
+        onceADay = view.findViewById(R.id.once_a_day);
+        advancedOptions = view.findViewById(R.id.advanced_options);
+        colorPicker = view.findViewById(R.id.color_picker);
+        streakSeekBar = view.findViewById(R.id.streak_seekbar);
+        streakText = view.findViewById(R.id.streak_text);
+        create = view.findViewById(R.id.create);
     }
 
     private void setUpView() {
@@ -174,15 +159,13 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
             habitDesc.setText(habitEntity.getDescription());
             int hType = habitEntity.getHabitType() == HabitEntity.HabitType.BREAK ? R.id.break_btn :
                     R.id.develop_btn;
-//            if (habitType.getCheckedButtonId() != hType)
-//                habitType.clearChecked();
             habitType.check(hType);
             colorPicker.setBackgroundColor(habitEntity.getColor());
             color = habitEntity.getColor();
             onceADay.setChecked(habitEntity.isOnceADay());
             streakSeekBar.setProgress(habitEntity.getStreakDays());
             if (isUpdate) {
-                create.setText("Update");
+                create.setText(R.string.update_button);
             }
             habitType.getCheckedButtonId();
         }

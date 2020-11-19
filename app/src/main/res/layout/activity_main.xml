@@ -61,7 +61,7 @@
         app:fabAnimationMode="slide"
         app:hideOnScroll="true"
         app:menu="@menu/app_bar_menu"
-        app:navigationIcon="@drawable/ic_baseline_menu_24"
+        app:navigationIcon="@drawable/menu_dark"
         tools:targetApi="lollipop" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -74,7 +74,7 @@
         android:contentDescription="None"
         android:text="Add Habit"
         android:textColor="@color/white"
-        app:icon="@drawable/ic_baseline_add_24"
+        app:icon="@drawable/add_dark"
         app:iconTint="@color/colorWhite" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

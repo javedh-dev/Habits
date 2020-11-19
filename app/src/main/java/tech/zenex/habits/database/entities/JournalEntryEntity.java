@@ -14,15 +14,19 @@
 
 package tech.zenex.habits.database.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDateTime;
 
 @Entity(tableName = "journal_entries", foreignKeys = @ForeignKey(entity = HabitEntity.class,
-        parentColumns = "habitID", childColumns = "habitID", onDelete = ForeignKey.CASCADE))
+        parentColumns = "habitID", childColumns = "habitID", onDelete = ForeignKey.CASCADE),
+        indices = {@Index("habitID")})
 public class JournalEntryEntity implements Comparable<JournalEntryEntity> {
     @PrimaryKey(autoGenerate = true)
     private Long journalId;
@@ -34,6 +38,7 @@ public class JournalEntryEntity implements Comparable<JournalEntryEntity> {
     public JournalEntryEntity() {
     }
 
+    @Ignore
     public JournalEntryEntity(int habitID, JournalType journalType, String entry) {
         this.timestamp = LocalDateTime.now();
         this.habitID = habitID;
@@ -97,6 +102,18 @@ public class JournalEntryEntity implements Comparable<JournalEntryEntity> {
     @Override
     public int compareTo(JournalEntryEntity o) {
         return DateTimeComparator.getDateOnlyInstance().compare(this, o);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "JournalEntryEntity{" +
+                "journalId=" + journalId +
+                ", timestamp=" + timestamp +
+                ", habitID=" + habitID +
+                ", journalType=" + journalType +
+                ", entry='" + entry + '\'' +
+                '}';
     }
 
     public enum JournalType {

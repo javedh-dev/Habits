@@ -36,7 +36,7 @@
                 android:id="@+id/once_a_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/once"
+                android:src="@drawable/once_dark"
                 android:visibility="visible"
                 app:tint="@color/translucent" />
 
@@ -50,7 +50,7 @@
                 android:id="@+id/habit_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/link"
+                android:src="@drawable/link_dark"
                 android:visibility="visible"
                 app:tint="@color/translucent" />
         </LinearLayout>

@@ -17,24 +17,12 @@ package tech.zenex.habits.database.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-
-import java.util.List;
 
 import tech.zenex.habits.database.entities.JournalEntryEntity;
 
 @Dao
-public interface JournalEntryDAO {
+public abstract class JournalEntryDAO {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(JournalEntryEntity entry);
-
-    @Query(value = "DELETE FROM journal_entries")
-    void deleteAll();
-
-    @Query(value = "Select * from journal_entries")
-    List<JournalEntryEntity> getAllJournalEntries();
-
-    @Query(value = "Select * from journal_entries where habitID = :habitID")
-    List<JournalEntryEntity> getAllJournalEntriesForHabit(int habitID);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    public abstract void insert(JournalEntryEntity journalEntryEntity);
 }

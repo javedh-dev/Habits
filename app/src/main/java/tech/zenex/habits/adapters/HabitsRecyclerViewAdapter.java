@@ -50,7 +50,6 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View card = LayoutInflater.from(context).inflate(R.layout.habit_card, parent, false);
         return new ViewHolder(new HabitCard(context));
     }
 
@@ -71,12 +70,9 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
             }
         });
         holder.habitCard.setOnLongClickListener(v -> {
-//            JournalEntrySheetFragment bottomSheetFragment = new JournalEntrySheetFragment(fragmentManager,
-//                    habitDetails.getHabitEntity(), this);
             HabitMenuSheetFragment fragment = new HabitMenuSheetFragment(fragmentManager,
                     habitDetails.getHabitEntity());
             fragment.show(fragmentManager, "JournalEntrySheet");
-//            showPopUpMenu(holder.circleMenuView);
             return true;
         });
     }
@@ -88,31 +84,12 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        //        private final TextView habitName;
-//        private final TextView progressPercentage;
-//        private final TextView checkins;
-//        private final TextView journals;
-//        private final DonutProgressView progressBar;
-//        private final View card;
-//        private final CircleMenuView circleMenuView;
+
         private final HabitCard habitCard;
 
         public ViewHolder(@NonNull HabitCard habitCard) {
             super(habitCard);
             this.habitCard = habitCard;
-//            this.card = itemView;
-//            this.habitName = itemView.findViewById(R.id.habit_name);
-//            this.progressBar = itemView.findViewById(R.id.streak_progress);
-//            this.progressPercentage = itemView.findViewById(R.id.progress_percentage);
-//            this.checkins = itemView.findViewById(R.id.check_ins);
-//            this.journals = itemView.findViewById(R.id.journals);
-//            this.circleMenuView = itemView.findViewById(R.id.circle_menu);
         }
     }
-
-//    private void showPopUpMenu(CircleMenuView circleMenuView){
-//        circleMenuView.setVisibility(View.VISIBLE);
-//        circleMenuView.open(true);
-//    }
-
 }

@@ -141,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:drawableRight="@drawable/caret"
+                    android:drawableRight="@drawable/caret_dark"
                     android:padding="0dp"
                     android:text="Advanced Options"
                     android:textAlignment="textEnd"

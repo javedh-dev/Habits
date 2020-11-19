@@ -33,6 +33,7 @@ import java.util.Objects;
 
 import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitsDatabase;
+import tech.zenex.habits.database.HabitsRepository;
 import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.database.entities.JournalEntryEntity;
 
@@ -63,7 +64,7 @@ public class JournalEntrySheetFragment extends BottomSheetDialogFragment {
         Spinner journalType = v.findViewById(R.id.journal_type);
         journalTitle.setText(this.habitEntity.getName());
         add.setOnClickListener(v1 -> HabitsDatabase.databaseWriteExecutor.execute(() -> {
-            HabitsDatabase.getDatabase(null).journalDao().insert(
+            HabitsRepository.addJournalEntry(
                     new JournalEntryEntity(habitEntity.getHabitID(),
                             JournalEntryEntity.getJournalType(journalType.getSelectedItem().toString()),
                             entry.getText().toString()));

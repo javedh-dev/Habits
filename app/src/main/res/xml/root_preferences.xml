@@ -77,7 +77,7 @@
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
-            app:key="enable_dark_mode"
+            app:key="dark_mode"
             app:summary="Enables system wide dark mode"
             app:title="Dark Mode" />
 
