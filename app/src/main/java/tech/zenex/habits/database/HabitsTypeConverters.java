@@ -16,9 +16,15 @@ package tech.zenex.habits.database;
 
 import androidx.room.TypeConverter;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import java.lang.reflect.Type;
+import java.util.Map;
 
 import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.database.entities.JournalEntryEntity;
@@ -65,5 +71,18 @@ public class HabitsTypeConverters {
             default:
                 return JournalEntryEntity.JournalType.GENERAL;
         }
+    }
+
+    @TypeConverter
+    public static Map<String, String> fromString(String value) {
+        Type mapType = new TypeToken<Map<String, String>>() {
+        }.getType();
+        return new Gson().fromJson(value, mapType);
+    }
+
+    @TypeConverter
+    public static String fromStringMap(Map<String, String> map) {
+        Gson gson = new Gson();
+        return gson.toJson(map);
     }
 }

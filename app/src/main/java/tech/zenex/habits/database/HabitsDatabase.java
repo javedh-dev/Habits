@@ -15,12 +15,14 @@
 package tech.zenex.habits.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
@@ -32,8 +34,10 @@ import tech.zenex.habits.database.dao.JournalEntryDAO;
 import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.database.entities.HabitTrackerEntity;
 import tech.zenex.habits.database.entities.JournalEntryEntity;
+import tech.zenex.habits.database.entities.NotificationEntity;
 
-@Database(version = 1, entities = {HabitEntity.class, JournalEntryEntity.class, HabitTrackerEntity.class})
+@Database(version = 2, entities = {HabitEntity.class, JournalEntryEntity.class, HabitTrackerEntity.class,
+        NotificationEntity.class})
 @TypeConverters(value = HabitsTypeConverters.class)
 public abstract class HabitsDatabase extends RoomDatabase {
 
@@ -48,7 +52,16 @@ public abstract class HabitsDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     Builder<HabitsDatabase> habitsDatabaseBuilder =
                             Room.databaseBuilder(context.getApplicationContext(), HabitsDatabase.class,
-                                    "habits.db");
+                                    "habits.db").addMigrations(new Migration(1, 2) {
+                                @Override
+                                public void migrate(@NonNull SupportSQLiteDatabase database) {
+                                    Log.d("Room Migration", "Migrating room database to newer version");
+                                    database.execSQL("CREATE TABLE \"notifications\" (\"id\" INTEGER, " +
+                                            "\"from\" TEXT , \"to\" TEXT , \"data\" TEXT , " +
+                                            "\"received_time\" TEXT , \"title\" TEXT , \"description\" TEXT" +
+                                            " , \"is_read\" INTEGER, PRIMARY KEY(\"id\" AUTOINCREMENT))");
+                                }
+                            });
                     habitsDatabaseBuilder.addCallback(new Callback() {
                         @Override
                         public void onCreate(@NonNull SupportSQLiteDatabase db) {

@@ -74,19 +74,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/check_dark"
-                    android:drawableTint="@color/green_900"
+                    android:drawableTint="@color/colorGreen"
                     android:text="SUCCESS"
-                    android:textColor="@color/green_900" />
+                    android:textColor="@color/colorGreen" />
 
                 <Button
                     android:id="@+id/failure_btn"
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_close_black_24dp"
-                    android:drawableTint="@color/red_900"
+                    android:drawableLeft="@drawable/close_dark"
+                    android:drawableTint="@color/colorRed"
                     android:text="FAILURE"
-                    android:textColor="@color/red_900" />
+                    android:textColor="@color/colorRed" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>

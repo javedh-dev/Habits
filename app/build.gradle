@@ -13,8 +13,8 @@
  */
 
 apply plugin: 'com.android.application'
-
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
@@ -24,8 +24,8 @@ android {
         applicationId "tech.zenex.habits"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2001 //for internal testing
-//        versionCode 1001 //for closed beta testing
+        versionCode 2003 //for internal testing
+//        versionCode 3001 //for closed beta testing
 //        versionCode 9001 //for open beta testing
         versionName "alpha-0.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -56,6 +56,12 @@ dependencies {
     def constraint_layout_version= "2.0.4"
     def preference_version= "1.1.1"
     def material_version = "1.3.0-alpha03"
+    def donut_version = "2.0.0"
+    def carousel_view_version = "0.1.5"
+    def joda_time_version = "2.10.5"
+    def colorpicker_version = "1.1.10"
+    def guava_version = "28.0-android"
+    def gson_version = "2.8.6"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
@@ -64,13 +70,17 @@ dependencies {
     implementation "androidx.preference:preference:$preference_version"
     implementation "com.google.android.material:material:$material_version"
 
-    implementation 'app.futured.donut:library:2.0.0'
-    implementation 'com.synnapps:carouselview:0.1.5'
-    implementation 'joda-time:joda-time:2.10.5'
-    implementation 'com.github.dhaval2404:colorpicker:1.2.1'
-    implementation 'com.ramotion.circlemenu:circle-menu:0.3.2'
-    api 'com.google.guava:guava:28.0-android'
-    implementation 'com.github.marcoscgdev:EasyAbout:1.0.6'
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-messaging'
+
+    implementation "app.futured.donut:library:$donut_version"
+    implementation "com.synnapps:carouselview:$carousel_view_version"
+    implementation "joda-time:joda-time:$joda_time_version"
+    implementation "petrov.kristiyan:colorpicker-library:$colorpicker_version"
+    api "com.google.guava:guava:$guava_version"
+    implementation "com.google.code.gson:gson:$gson_version"
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"

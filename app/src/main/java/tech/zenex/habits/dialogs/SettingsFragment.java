@@ -46,7 +46,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private CharSequence getAppVersion() throws PackageManager.NameNotFoundException {
         PackageInfo pInfo =
                 getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-        return pInfo.versionName;
+        return pInfo.versionName + "(" + pInfo.versionCode + ")";
     }
 
     @Override

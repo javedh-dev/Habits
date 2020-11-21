@@ -19,5 +19,7 @@
     <color name="colorAccent">#e43f5a</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="translucent">#30AAAAAA</color>
+    <color name="colorGreen">#0A0</color>
+    <color name="colorRed">#A00</color>
 </resources>
 

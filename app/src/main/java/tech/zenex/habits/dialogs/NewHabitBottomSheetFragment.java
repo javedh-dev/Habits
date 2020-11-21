@@ -32,9 +32,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog;
-import com.github.dhaval2404.colorpicker.model.ColorShape;
-import com.github.dhaval2404.colorpicker.model.ColorSwatch;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -44,6 +41,7 @@ import org.joda.time.LocalDateTime;
 import java.text.MessageFormat;
 import java.util.Objects;
 
+import petrov.kristiyan.colorpicker.ColorPicker;
 import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitsRepository;
 import tech.zenex.habits.database.entities.HabitEntity;
@@ -110,13 +108,20 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     @NonNull
-    private MaterialColorPickerDialog.Builder getColorPickerBuilder() {
-        return new MaterialColorPickerDialog.
-                Builder(requireContext(), "Pick Color", "Choose", "Cancel",
-                (i, s) -> {
-                    colorPicker.setBackgroundColor(i);
-                    color = i;
-                }, null, ColorSwatch.A400, ColorShape.CIRCLE, null);
+    private ColorPicker getColorPickerBuilder() {
+
+        return new ColorPicker(getActivity()).setOnChooseColorListener(
+                new ColorPicker.OnChooseColorListener() {
+                    @Override
+                    public void onChooseColor(int position, int c) {
+                        colorPicker.setBackgroundColor(c);
+                        color = c;
+                    }
+
+                    @Override
+                    public void onCancel() {
+                    }
+                }).setRoundColorButton(true);
     }
 
     private void toggleAdvancedButton() {

@@ -1,42 +1,50 @@
 {
   "project_info": {
-    "project_number": "526875148403",
-    "firebase_url": "https://habits-zenex.firebaseio.com",
-    "project_id": "habits-zenex",
-    "storage_bucket": "habits-zenex.appspot.com"
+    "project_number": "940530419377",
+    "firebase_url": "https://tech-zenex-habits.firebaseio.com",
+    "project_id": "tech-zenex-habits",
+    "storage_bucket": "tech-zenex-habits.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:526875148403:android:3d526209ff169edd12aa06",
+        "mobilesdk_app_id": "1:940530419377:android:23fda5bf2ca4e6265d4490",
         "android_client_info": {
           "package_name": "tech.zenex.habits"
         }
       },
       "oauth_client": [
         {
-          "client_id": "526875148403-nhdj97te6h16nh5cup8vv38h23vl3lmn.apps.googleusercontent.com",
+          "client_id": "940530419377-mcvi1ropit8nrf1vml7ae0di6uh9lsi4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "tech.zenex.habits",
-            "certificate_hash": "1ddf73eea7ffe7261d87067af7ac3c6eec9fb269"
+            "certificate_hash": "7a6c63b565cab95e41c73db47fead24438f4632d"
           }
         },
         {
-          "client_id": "526875148403-3g1eiqall7u8jus1q07vpnn7koab0qdg.apps.googleusercontent.com",
+          "client_id": "940530419377-k764ebig7ha7cp4c7rd82apgrm3m4cje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.zenex.habits",
+            "certificate_hash": "f9b8d9f257714af469922dfeef558699b3b49d6d"
+          }
+        },
+        {
+          "client_id": "940530419377-mhblbih376ogmucq09n6a7vte8rh2sks.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDudWdpFY1FIWHQmgdYbTdhQsHJ_-ik0Fo"
+          "current_key": "AIzaSyCO19_0Hyo216vRQ_ufB0Mj8WJrkOKlsio"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "526875148403-3g1eiqall7u8jus1q07vpnn7koab0qdg.apps.googleusercontent.com",
+              "client_id": "940530419377-mhblbih376ogmucq09n6a7vte8rh2sks.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

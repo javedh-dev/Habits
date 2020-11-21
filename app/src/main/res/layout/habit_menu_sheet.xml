@@ -101,7 +101,7 @@
                         android:gravity="center"
                         android:text="Journal"
                         android:textColor="@color/white"
-                        app:backgroundTint="@color/green_900"
+                        app:backgroundTint="@color/color1"
                         app:icon="@drawable/journal_dark"
                         app:iconTint="@color/white" />
 
@@ -113,7 +113,7 @@
                         android:gravity="center"
                         android:text="Insights"
                         android:textColor="@color/white"
-                        app:backgroundTint="@color/amber_900"
+                        app:backgroundTint="@color/color5"
                         app:icon="@drawable/charts_dark"
                         app:iconTint="@color/white" />
 
@@ -137,8 +137,8 @@
                         android:gravity="center"
                         android:text="Delete"
                         android:textColor="@color/white"
-                        app:backgroundTint="@color/red_900"
-                        app:icon="@drawable/ic_close_black_24dp"
+                        app:backgroundTint="@color/colorRed"
+                        app:icon="@drawable/close_dark"
                         app:iconTint="@color/white" />
 
                 </LinearLayout>

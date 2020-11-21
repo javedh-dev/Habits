@@ -15,6 +15,25 @@
 package tech.zenex.habits;
 
 import android.app.Application;
+import android.util.Log;
+
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.Objects;
 
 public class HabitsApp extends Application {
+    private static final String TAG = "Firebase Token";
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.d(TAG, "Error getting token");
+                    } else {
+                        Log.d(TAG, Objects.requireNonNull(task.getResult()));
+                    }
+                });
+    }
 }

@@ -15,6 +15,7 @@
 package tech.zenex.habits;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -37,9 +37,10 @@ import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.dialogs.NewHabitBottomSheetFragment;
+import tech.zenex.habits.views.HabitsRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView rv;
+    HabitsRecyclerView rv;
     CarouselView carouselView;
     ExtendedFloatingActionButton addHabitFAB;
     BottomAppBar appBar;
@@ -48,12 +49,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String url = extras.getString("url");
+            if (url != null) {
+                Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+//                notificationIntent, 0);
+                startActivity(notificationIntent);
+            }
+            for (String key : extras.keySet()) {
+                String value = extras.getString(key);
+                Log.d("Main Intent", "Key: " + key + " Value: " + value);
+            }
+        }
         setContentView(R.layout.activity_main);
         setupRecyclerView();
-
         appBar = findViewById(R.id.app_bar);
-        appBar.setNavigationIcon(R.drawable.settings_dark);
+        appBar.setNavigationIcon(R.drawable.settings_light);
         setSupportActionBar(appBar);
         addHabitFAB = findViewById(R.id.add_habit);
         addHabitFAB.setOnClickListener(view -> openAddHabitFragment());
@@ -71,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Habit-Data", data.getValue().toString());
             Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged();
         });
+        rv.setEmptyView(findViewById(R.id.empty_view));
         rv.setAdapter(new HabitsRecyclerViewAdapter(this, data, getSupportFragmentManager()));
     }
 

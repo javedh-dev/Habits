@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import tech.zenex.habits.dialogs.SettingsFragment;
 
@@ -31,11 +32,13 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES)
-//            setTheme(R.style.AppTheme_Dark_ActionBar);
+//            setTheme(R.style.AppTheme);
 //        else
-//            setTheme(R.style.AppTheme_Light_ActionBar);
+//            setTheme(R.style.AppTheme_WithStatusBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -47,6 +50,8 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Settings");
         }
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setTitle("Settings");
 
     }
 
