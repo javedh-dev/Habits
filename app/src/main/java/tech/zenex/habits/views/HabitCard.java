@@ -94,7 +94,7 @@ public class HabitCard extends RelativeLayout {
     }
 
     public void setOnceADay(boolean onceADay) {
-        this.onceADay.setImageResource(onceADay ? R.drawable.once_dark : R.drawable.infinity_dark);
+        this.onceADay.setImageResource(onceADay ? R.drawable.once : R.drawable.infinite);
         boolean showOncePerDay = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
                 "show_once_per_day", false);
         this.onceADay.setVisibility(showOncePerDay ? VISIBLE : GONE);

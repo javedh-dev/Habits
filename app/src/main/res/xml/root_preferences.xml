@@ -54,11 +54,12 @@
             android:summary="Enable to backup and restore online privately."
             app:iconSpaceReserved="false"
             app:key="backup"
-            app:title="Backup &amp; Restore" />
+            app:title="Cloud Backup &amp; Restore" />
         <EditTextPreference
             android:summary="Always remember the key It'll be used to restore"
             app:dependency="backup"
             app:iconSpaceReserved="false"
+            app:key="backup_key"
             app:title="Backup key" />
         <SeekBarPreference
             android:defaultValue="3"
@@ -85,12 +86,14 @@
             app:iconSpaceReserved="false"
             app:key="show_once_per_day"
             app:summary="Display icon for check-in frequency in Habit Card"
+            app:defaultValue="true"
             app:title="Show Habit Frequency" />
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="show_habit_type"
             app:summary="Display icon for Habit type in Habit Card"
+            app:defaultValue="true"
             app:title="Show Habit Type" />
 
 

@@ -14,9 +14,15 @@
 
 package tech.zenex.habits.utils;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.util.Log;
 
+import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
 public class HabitsPreferencesUtil {
@@ -42,5 +48,25 @@ public class HabitsPreferencesUtil {
 
     public static SharedPreferences getDefaultSharedPreference(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public static boolean verifyPermissions(Activity context) {
+        String TAG = "Permission : ";
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (context.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG, "Permission is granted");
+                return true;
+            } else {
+
+                Log.v(TAG, "Permission is revoked");
+                ActivityCompat.requestPermissions(context,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG, "Permission is granted");
+            return true;
+        }
     }
 }

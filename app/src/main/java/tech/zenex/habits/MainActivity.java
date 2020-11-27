@@ -15,11 +15,13 @@
 package tech.zenex.habits;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +39,8 @@ import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.dialogs.NewHabitBottomSheetFragment;
+import tech.zenex.habits.utils.DatabaseBackupUtil;
+import tech.zenex.habits.utils.HabitsPreferencesUtil;
 import tech.zenex.habits.views.HabitsRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,15 +77,17 @@ public class MainActivity extends AppCompatActivity {
         carouselView = findViewById(R.id.carouselView);
         carouselView.setImageListener((position, imageView) -> imageView.setImageResource(images[position]));
         carouselView.setPageCount(images.length);
-
+        HabitsPreferencesUtil.verifyPermissions(this);
     }
+
+
 
     private void setupRecyclerView() {
         rv = findViewById(R.id.habits_list);
         rv.setLayoutManager(new GridLayoutManager(this, 2));
         LiveData<List<HabitDetails>> data = getHabits();
         data.observe(this, habitDetails -> {
-            Log.d("Habit-Data", data.getValue().toString());
+            Log.d("Habit-Data", Objects.requireNonNull(data.getValue()).toString());
             Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged();
         });
         rv.setEmptyView(findViewById(R.id.empty_view));
@@ -101,13 +107,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            case R.id.backup:
+                DatabaseBackupUtil.backup(this);
+                Toast.makeText(this, "Backup Completed", Toast.LENGTH_SHORT).show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -116,6 +129,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        this.rv.getAdapter().notifyDataSetChanged();
+        Objects.requireNonNull(this.rv.getAdapter()).notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        String TAG = "Permission : ";
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.v(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
+        }
     }
 }

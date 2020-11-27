@@ -20,17 +20,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowFullscreen">true</item>
+<!--        <item name="android:windowFullscreen">true</item>-->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
 
     </style>
 
-    <style name="AppTheme.WithStatusBar" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme.WithStatusBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">#60000000</item>
         <!--        <item name="android:windowFullscreen">true</item>-->
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <!--        <item name="android:windowTranslucentNavigation">true</item>-->

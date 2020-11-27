@@ -13,10 +13,19 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:icon="@drawable/settings_dark"
-        android:title="Settings"
-        app:showAsAction="always" />
+        android:id="@+id/notification"
+        android:icon="@drawable/notifications_light"
+        android:title="Notifications" />
+
+    <item
+        android:id="@+id/backup"
+        android:icon="@drawable/backup_light"
+        android:title="Backup" />
+
+    <item
+        android:id="@+id/restore"
+        android:icon="@drawable/backup_light"
+        android:title="Restore" />
 </menu>

@@ -17,7 +17,9 @@ package tech.zenex.habits.dialogs;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -41,6 +43,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        EditTextPreference preference = findPreference("backup_key");
+        preference.setOnPreferenceChangeListener((preference1, newValue) -> {
+            if (newValue.toString().length() < 16) {
+                Toast.makeText(getContext(), "Backup key must be of 16 characters", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            return true;
+        });
     }
 
     private CharSequence getAppVersion() throws PackageManager.NameNotFoundException {
