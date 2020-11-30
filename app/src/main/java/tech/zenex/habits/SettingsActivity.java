@@ -15,7 +15,6 @@
 package tech.zenex.habits;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -37,19 +36,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import tech.zenex.habits.dialogs.HabitsLoadingDialog;
 import tech.zenex.habits.dialogs.SettingsFragment;
+import tech.zenex.habits.utils.HabitsPreferenceListener;
 
-public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsActivity extends AppCompatActivity {
 
     private final int RC_SIGN_IN = 1001;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+    private HabitsLoadingDialog loader;
+    private HabitsPreferenceListener preferenceListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES)
-//            setTheme(R.style.AppTheme);
-//        else
-//            setTheme(R.style.AppTheme_WithStatusBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -57,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment(this))
+                    .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
         ActionBar actionBar = getSupportActionBar();
@@ -65,10 +65,9 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Settings");
         }
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setTitle("Settings");
-
+        loader = new HabitsLoadingDialog(this, null);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -78,37 +77,21 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("backup")) {
-            mAuth = FirebaseAuth.getInstance();
-            mAuth.getAccessToken(true).addOnCompleteListener(tokenTask -> {
-                if (!tokenTask.isSuccessful()) {
-                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken(getString(R.string.default_web_client_id))
-                            .requestEmail()
-                            .build();
-                    mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-                    signIn();
-                } else {
-                   Log.d("GSO", "Signed in successfully.");
-                }
-            });
-        }/*else if (key.equals("dark_mode")) {
-            if(sharedPreferences.getBoolean("dark_mode",false)){
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }else{
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    public void verifyLogin() {
+        loader.show();
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.getAccessToken(true).addOnCompleteListener(tokenTask -> {
+            if (!tokenTask.isSuccessful()) {
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+                mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+                signIn();
+            } else {
+                Log.d("GSO", "Signed in successfully.");
+                loader.dismiss();
+                sendPreferenceResult("backup", true);
             }
-            restartApp();
-            Toast.makeText(getApplicationContext(), "Changing backup option", Toast.LENGTH_SHORT).show();
-        }*/
-    }
-
-    private void restartApp() {
-        Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
-        startActivity(i);
-        finish();
+        });
     }
 
     private void signIn() {
@@ -116,28 +99,20 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    /*private void openMainActivity() {
-        Intent i = new Intent(SettingsActivity.this, MainActivity.class);
-        startActivity(i);
-        finish();
-    }*/
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d("GSO", "firebaseAuthWithGoogle:" + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
+                sendPreferenceResult("backup", false);
                 Log.w("GSO", "Google sign in failed", e);
-                // ...
+                loader.dismiss();
             }
         }
     }
@@ -147,19 +122,31 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         Log.d("GSO", "signInWithCredential:success");
                         FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
+                        sendPreferenceResult("backup", true);
                     } else {
-                        // If sign in fails, display a message to the user.
                         Log.w("GSO", "signInWithCredential:failure", task.getException());
                         Toast.makeText(getApplicationContext(), "Authentication Failed.",
                                 Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
+                        sendPreferenceResult("backup", false);
                     }
-
-                    // ...
+                    loader.dismiss();
                 });
     }
+
+    private void sendPreferenceResult(String key, boolean isSuccessful) {
+        if (this.preferenceListener != null)
+            this.preferenceListener.onPreferenceResult(key, isSuccessful);
+    }
+
+    public void registerPreferenceListener(HabitsPreferenceListener listener) {
+        this.preferenceListener = listener;
+    }
+
+    public void deRegisterPreferenceListener() {
+        this.preferenceListener = null;
+    }
+
+
 }

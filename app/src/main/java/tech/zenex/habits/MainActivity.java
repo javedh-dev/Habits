@@ -21,12 +21,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -77,9 +77,8 @@ public class MainActivity extends AppCompatActivity {
         carouselView = findViewById(R.id.carouselView);
         carouselView.setImageListener((position, imageView) -> imageView.setImageResource(images[position]));
         carouselView.setPageCount(images.length);
-        HabitsPreferencesUtil.verifyPermissions(this);
+//        HabitsPreferencesUtil.verifyPermissions(this);
     }
-
 
 
     private void setupRecyclerView() {
@@ -92,6 +91,23 @@ public class MainActivity extends AppCompatActivity {
         });
         rv.setEmptyView(findViewById(R.id.empty_view));
         rv.setAdapter(new HabitsRecyclerViewAdapter(this, data, getSupportFragmentManager()));
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy < -5 && !addHabitFAB.isExtended()) {
+                    addHabitFAB.extend();
+                } else if (dy > 5 && addHabitFAB.isExtended()) {
+                    addHabitFAB.shrink();
+                }
+                Log.d("SCROLL", String.format("dx : %d, dy : %d", dx, dy));
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 
     private LiveData<List<HabitDetails>> getHabits() {
@@ -108,19 +124,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.app_bar_menu, menu);
+        if (!HabitsPreferencesUtil.getDefaultSharedPreference(this)
+                .getBoolean("backup", false)) {
+            menu.removeItem(R.id.backup);
+            menu.removeItem(R.id.restore);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                break;
-            case R.id.backup:
-                DatabaseBackupUtil.backup(this);
-                Toast.makeText(this, "Backup Completed", Toast.LENGTH_SHORT).show();
-                break;
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        } else if (itemId == R.id.backup) {
+            DatabaseBackupUtil.backup(this);
+        } else if (itemId == R.id.restore) {
+            DatabaseBackupUtil.restore(this);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -130,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
         Objects.requireNonNull(this.rv.getAdapter()).notifyDataSetChanged();
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -141,4 +162,5 @@ public class MainActivity extends AppCompatActivity {
             Log.v(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
         }
     }
+
 }

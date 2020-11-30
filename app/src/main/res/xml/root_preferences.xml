@@ -60,6 +60,7 @@
             app:dependency="backup"
             app:iconSpaceReserved="false"
             app:key="backup_key"
+            app:defaultValue="DkXchK7bBSmtQtsS"
             app:title="Backup key" />
         <SeekBarPreference
             android:defaultValue="3"
@@ -86,7 +87,6 @@
             app:iconSpaceReserved="false"
             app:key="show_once_per_day"
             app:summary="Display icon for check-in frequency in Habit Card"
-            app:defaultValue="true"
             app:title="Show Habit Frequency" />
 
         <SwitchPreferenceCompat

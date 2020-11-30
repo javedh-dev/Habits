@@ -35,16 +35,11 @@
             app:slideInterval="3000"
             app:strokeColor="@color/translucent" />
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <tech.zenex.habits.views.HabitsRecyclerView
                 android:id="@+id/habits_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="?attr/actionBarSize" />
-        </androidx.core.widget.NestedScrollView>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <LinearLayout
             android:id="@+id/empty_view"

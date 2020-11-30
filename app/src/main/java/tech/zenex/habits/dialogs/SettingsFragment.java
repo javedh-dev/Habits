@@ -17,21 +17,18 @@ package tech.zenex.habits.dialogs;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 
 import tech.zenex.habits.R;
 import tech.zenex.habits.SettingsActivity;
+import tech.zenex.habits.utils.HabitsPreferenceListener;
 
-public class SettingsFragment extends PreferenceFragmentCompat {
-    private final SettingsActivity activity;
+public class SettingsFragment extends PreferenceFragmentCompat implements HabitsPreferenceListener {
 
-    public SettingsFragment(SettingsActivity activity) {
-        this.activity = activity;
-    }
+    private SwitchPreferenceCompat backup;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -43,14 +40,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        EditTextPreference preference = findPreference("backup_key");
-        preference.setOnPreferenceChangeListener((preference1, newValue) -> {
-            if (newValue.toString().length() < 16) {
-                Toast.makeText(getContext(), "Backup key must be of 16 characters", Toast.LENGTH_SHORT).show();
-                return false;
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        ((SettingsActivity) getActivity()).registerPreferenceListener(this);
+        backup = findPreference("backup");
+        backup.setOnPreferenceChangeListener((preference, newValue) -> {
+            if (newValue instanceof Boolean && (Boolean) newValue) {
+                ((SettingsActivity) getActivity()).verifyLogin();
             }
             return true;
         });
+
     }
 
     private CharSequence getAppVersion() throws PackageManager.NameNotFoundException {
@@ -60,14 +62,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this.activity);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this.activity);
+    public void onPreferenceResult(String key, boolean isSuccessful) {
+//        Toast.makeText(getContext(), String.format("Key : %s, isSuccessful : %s", key, isSuccessful),
+//                Toast.LENGTH_SHORT).show();
+        if ("backup".equals(key)) {
+            if (!isSuccessful) {
+                backup.setChecked(false);
+            }
+        }
     }
 }
