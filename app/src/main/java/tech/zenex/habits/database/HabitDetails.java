@@ -19,6 +19,7 @@ import androidx.room.Embedded;
 import androidx.room.Ignore;
 import androidx.room.Relation;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.database.entities.HabitTrackerEntity;
 import tech.zenex.habits.database.entities.JournalEntryEntity;
 
-public class HabitDetails {
+public class HabitDetails implements Serializable {
 
     @Ignore
     private boolean isSorted = false;

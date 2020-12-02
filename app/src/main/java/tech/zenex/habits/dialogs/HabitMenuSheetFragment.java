@@ -14,11 +14,11 @@
 
 package tech.zenex.habits.dialogs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,18 +28,19 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import tech.zenex.habits.InsightsActivity;
 import tech.zenex.habits.R;
+import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.HabitsRepository;
-import tech.zenex.habits.database.entities.HabitEntity;
 
 public class HabitMenuSheetFragment extends BottomSheetDialogFragment {
     FragmentManager fragmentManager;
-    HabitEntity habitEntity;
+    HabitDetails habitDetails;
     ExtendedFloatingActionButton journalBtn, insightsBtn, editBtn, deleteBtn;
 
-    public HabitMenuSheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity) {
+    public HabitMenuSheetFragment(FragmentManager fragmentManager, HabitDetails habitDetails) {
         this.fragmentManager = fragmentManager;
-        this.habitEntity = habitEntity;
+        this.habitDetails = habitDetails;
     }
 
     @Override
@@ -64,30 +65,33 @@ public class HabitMenuSheetFragment extends BottomSheetDialogFragment {
 //        deleteBtn.shrink();
 
         journalBtn.setOnClickListener(v1 -> openJournalFragment());
-        insightsBtn.setOnClickListener(v1 -> openInsightsActivity(insightsBtn));
+        insightsBtn.setOnClickListener(v1 -> openInsightsActivity());
         editBtn.setOnClickListener(v1 -> openEditFragment());
         deleteBtn.setOnClickListener(v1 -> deleteHabit());
         return v;
     }
 
     private void deleteHabit() {
-        HabitsRepository.deleteHabit(habitEntity.getHabitID());
+        HabitsRepository.deleteHabit(habitDetails.getHabitEntity().getHabitID());
         this.dismiss();
     }
 
     private void openEditFragment() {
-        new NewHabitBottomSheetFragment(habitEntity).show(fragmentManager, "EditHabit");
+        new NewHabitBottomSheetFragment(habitDetails.getHabitEntity()).show(fragmentManager, "EditHabit");
         this.dismiss();
     }
 
-    private void openInsightsActivity(ExtendedFloatingActionButton insightsBtn) {
-        insightsBtn.extend();
-        Toast.makeText(getContext(), "Coming Soon...", Toast.LENGTH_LONG).show();
+    private void openInsightsActivity() {
+        Intent intent = new Intent(getActivity(), InsightsActivity.class);
+        intent.putExtra("habit", habitDetails);
+        startActivity(intent);
+//        Toast.makeText(getContext(), "Coming Soon...", Toast.LENGTH_LONG).show();
         this.dismiss();
     }
 
     private void openJournalFragment() {
-        new JournalEntrySheetFragment(fragmentManager, habitEntity).show(fragmentManager, "Journal");
+        new JournalEntrySheetFragment(fragmentManager, habitDetails.getHabitEntity()).show(fragmentManager,
+                "Journal");
         this.dismiss();
     }
 

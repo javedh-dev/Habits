@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        new Handler().postDelayed(() -> openMainActivity(), 2000);
+        new Handler().postDelayed(() -> openMainActivity(), 1000);
 
     }
 

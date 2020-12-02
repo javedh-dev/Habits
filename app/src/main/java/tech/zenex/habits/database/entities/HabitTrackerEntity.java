@@ -24,10 +24,12 @@ import androidx.room.PrimaryKey;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDateTime;
 
+import java.io.Serializable;
+
 @Entity(tableName = "habits_tracker", foreignKeys = @ForeignKey(entity = HabitEntity.class,
         parentColumns = "habitID", childColumns = "habitID", onDelete = ForeignKey.CASCADE),
         indices = {@Index("habitID")})
-public class HabitTrackerEntity implements Comparable<HabitTrackerEntity> {
+public class HabitTrackerEntity implements Comparable<HabitTrackerEntity>, Serializable {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private int habitID;

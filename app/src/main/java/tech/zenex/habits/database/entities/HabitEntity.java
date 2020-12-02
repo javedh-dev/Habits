@@ -26,11 +26,13 @@ import androidx.room.PrimaryKey;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDateTime;
 
+import java.io.Serializable;
+
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.utils.HabitsPreferencesUtil;
 
 @Entity(tableName = "habits", indices = {@Index("habitID")})
-public class HabitEntity implements Comparable<HabitEntity> {
+public class HabitEntity implements Comparable<HabitEntity>, Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int habitID;

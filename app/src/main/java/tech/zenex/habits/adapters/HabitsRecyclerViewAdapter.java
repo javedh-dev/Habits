@@ -71,7 +71,7 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
         });
         holder.habitCard.setOnLongClickListener(v -> {
             HabitMenuSheetFragment fragment = new HabitMenuSheetFragment(fragmentManager,
-                    habitDetails.getHabitEntity());
+                    habitDetails);
             fragment.show(fragmentManager, "JournalEntrySheet");
             return true;
         });
