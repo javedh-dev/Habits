@@ -15,14 +15,12 @@
 package tech.zenex.habits.database;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
@@ -36,7 +34,7 @@ import tech.zenex.habits.database.entities.HabitTrackerEntity;
 import tech.zenex.habits.database.entities.JournalEntryEntity;
 import tech.zenex.habits.database.entities.NotificationEntity;
 
-@Database(version = 2, entities = {HabitEntity.class, JournalEntryEntity.class, HabitTrackerEntity.class,
+@Database(version = 1, entities = {HabitEntity.class, JournalEntryEntity.class, HabitTrackerEntity.class,
         NotificationEntity.class})
 @TypeConverters(value = HabitsTypeConverters.class)
 public abstract class HabitsDatabase extends RoomDatabase {
@@ -51,27 +49,19 @@ public abstract class HabitsDatabase extends RoomDatabase {
             synchronized (HabitsDatabase.class) {
                 if (INSTANCE == null) {
                     Builder<HabitsDatabase> habitsDatabaseBuilder =
-                            Room.databaseBuilder(context.getApplicationContext(), HabitsDatabase.class,
-                                    "habits.db").addMigrations(new Migration(1, 2) {
-                                @Override
-                                public void migrate(@NonNull SupportSQLiteDatabase database) {
-                                    Log.d("Room Migration", "Migrating room database to newer version");
-                                    database.execSQL("CREATE TABLE \"notifications\" (\"id\" INTEGER, " +
-                                            "\"from\" TEXT , \"to\" TEXT , \"data\" TEXT , " +
-                                            "\"received_time\" TEXT , \"title\" TEXT , \"description\" TEXT" +
-                                            " , \"is_read\" INTEGER, PRIMARY KEY(\"id\" AUTOINCREMENT))");
-                                }
-                            });
+                            Room.databaseBuilder(context, HabitsDatabase.class,
+                                    "habits.db");
                     habitsDatabaseBuilder.addCallback(new Callback() {
                         @Override
                         public void onCreate(@NonNull SupportSQLiteDatabase db) {
                             super.onCreate(db);
-                            db.execSQL("CREATE TRIGGER if not exists habits_tracker_added after insert on " +
+                            /*db.execSQL("CREATE TRIGGER if not exists habits_tracker_added after insert on
+                             " +
                                     "habits_tracker\n" +
                                     "begin\n" +
                                     "UPDATE habits set lastCheckIn=strftime('%d/%m/%Y %H:%M:%f','now') " +
                                     "where habits.habitID = new.habitID;\n" +
-                                    "end");
+                                    "end");*/
                         }
                     });
                     INSTANCE = habitsDatabaseBuilder.build();
@@ -86,5 +76,16 @@ public abstract class HabitsDatabase extends RoomDatabase {
     public abstract JournalEntryDAO journalDao();
 
     public abstract HabitTrackerDAO habitTrackerDAO();
+
+   /*new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Log.d("Room Migration", "Migrating room database to newer version");
+            database.execSQL("CREATE TABLE \"notifications\" (\"id\" INTEGER, " +
+                    "\"from\" TEXT , \"to\" TEXT , \"data\" TEXT , " +
+                    "\"received_time\" TEXT , \"title\" TEXT , \"description\" TEXT" +
+                    " , \"is_read\" INTEGER, PRIMARY KEY(\"id\" AUTOINCREMENT))");
+        }
+    });*/
 
 }

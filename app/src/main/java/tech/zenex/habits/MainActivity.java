@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.synnapps.carouselview.CarouselView;
 
 import java.util.List;
@@ -124,10 +126,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.app_bar_menu, menu);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (!HabitsPreferencesUtil.getDefaultSharedPreference(this)
-                .getBoolean("backup", false)) {
+                .getBoolean("backup", false) || user == null) {
             menu.removeItem(R.id.backup);
             menu.removeItem(R.id.restore);
+            if (user == null) {
+                HabitsPreferencesUtil.getDefaultSharedPreference(this)
+                        .edit().putBoolean("backup", false).apply();
+            }
         }
         return super.onCreateOptionsMenu(menu);
     }

@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.security.Key;
 import java.util.List;
+import java.util.Objects;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -62,7 +63,7 @@ public class DatabaseBackupUtil {
                 .fileName(HABITS_DATABASE_BACKUP)
                 .onWorkFinishListener((success, message) -> {
                     File file = new File(context.getFilesDir().getAbsolutePath(), HABITS_DATABASE_BACKUP);
-                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                     FirebaseStorage storage = FirebaseStorage.getInstance();
                     StorageReference storageRef = storage.getReference();
                     StorageReference userStorage = storageRef.child("/user/" + uid + "/" + file.getName());

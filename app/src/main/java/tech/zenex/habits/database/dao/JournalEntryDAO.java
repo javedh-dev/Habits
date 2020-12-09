@@ -17,6 +17,7 @@ package tech.zenex.habits.database.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 
 import tech.zenex.habits.database.entities.JournalEntryEntity;
 
@@ -24,5 +25,8 @@ import tech.zenex.habits.database.entities.JournalEntryEntity;
 public abstract class JournalEntryDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    public abstract void insert(JournalEntryEntity journalEntryEntity);
+    public abstract long insert(JournalEntryEntity journalEntryEntity);
+
+    @Query("SELECT journalId FROM journal_entries WHERE ROWID = :rowId")
+    public abstract int getIdFromRowId(long rowId);
 }

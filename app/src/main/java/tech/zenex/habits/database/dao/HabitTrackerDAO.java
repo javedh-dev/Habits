@@ -17,6 +17,7 @@ package tech.zenex.habits.database.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 
 import tech.zenex.habits.database.entities.HabitTrackerEntity;
 
@@ -24,5 +25,9 @@ import tech.zenex.habits.database.entities.HabitTrackerEntity;
 public abstract class HabitTrackerDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    public abstract void insert(HabitTrackerEntity habitTrackerEntity);
+    public abstract long insert(HabitTrackerEntity habitTrackerEntity);
+
+    @Query("SELECT id FROM habits_tracker WHERE ROWID = :rowId")
+    public abstract int getIdFromRowId(long rowId);
+
 }

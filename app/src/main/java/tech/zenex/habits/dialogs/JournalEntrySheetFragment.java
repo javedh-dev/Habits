@@ -67,7 +67,7 @@ public class JournalEntrySheetFragment extends BottomSheetDialogFragment {
             HabitsRepository.addJournalEntry(
                     new JournalEntryEntity(habitEntity.getHabitID(),
                             JournalEntryEntity.getJournalType(journalType.getSelectedItem().toString()),
-                            entry.getText().toString()));
+                            entry.getText().toString()), getContext());
             Objects.requireNonNull(getDialog()).dismiss();
         }));
         cancel.setOnClickListener(v12 -> Objects.requireNonNull(getDialog()).dismiss());

@@ -1,0 +1,24 @@
+<!--
+  ~ Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~         http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under
+  ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  ~ either express or implied. See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M45.42,111.05V44.14l-6.17,8.1c19,-7.39 41.15,-5.37 59.24,3.39C119.7,65.9 145.23,65.81 165.77,54l-12.64,-7.25V110l4.16,-7.26a17.36,17.36 0,0 1,-1.92 1.18c-0.76,0.42 -1.54,0.77 -2.32,1.15 -1.5,0.72 0.56,-0.21 -0.05,0s-1.41,0.54 -2.13,0.79c-8,2.72 -15.58,3.36 -24.05,3.08 -18.23,-0.6 -35.49,-7.51 -53.57,-9.58C60.54,98 46.79,98.05 34.79,103c-3.49,1.42 -6.17,4.08 -6.17,8.1v52.3c0,10.81 16.8,10.82 16.8,0v-52.3l-6.17,8.1c16.38,-6.69 35.69,-3.68 52.35,0.58 17.12,4.38 34.19,7.59 51.89,5.08 8,-1.14 25.72,-4.19 26.44,-14.78 0.63,-9.29 0,-18.85 0,-28.15V46.75a8.48,8.48 0,0 0,-12.64 -7.26,52.78 52.78,0 0,1 -38,5.59 71.86,71.86 0,0 1,-7.08 -1.93c-0.81,-0.26 -1.61,-0.54 -2.4,-0.83 -0.23,-0.09 -2.81,-1.12 -1.49,-0.56 1.1,0.46 -0.91,-0.42 -1.35,-0.64 -3,-1.45 -6,-2.91 -9.1,-4.14 -19.19,-7.62 -43.6,-8.51 -63.08,-0.94 -3.51,1.36 -6.17,4.13 -6.17,8.1v66.91c0,10.81 16.8,10.83 16.8,0Z" />
+</vector>

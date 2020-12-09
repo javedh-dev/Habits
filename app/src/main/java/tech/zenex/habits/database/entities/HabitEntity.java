@@ -14,9 +14,6 @@
 
 package tech.zenex.habits.database.entities;
 
-import android.content.Context;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -29,7 +26,6 @@ import org.joda.time.LocalDateTime;
 import java.io.Serializable;
 
 import tech.zenex.habits.database.HabitDetails;
-import tech.zenex.habits.utils.HabitsPreferencesUtil;
 
 @Entity(tableName = "habits", indices = {@Index("habitID")})
 public class HabitEntity implements Comparable<HabitEntity>, Serializable {
@@ -42,9 +38,9 @@ public class HabitEntity implements Comparable<HabitEntity>, Serializable {
     private HabitType habitType;
     private LocalDateTime creationDate;
     private boolean isOnceADay;
-    private LocalDateTime lastCheckIn = new LocalDateTime(0);
-    private int failureCounter = 0;
-    private LocalDateTime streakStart = LocalDateTime.now();
+    //    private LocalDateTime lastCheckIn = new LocalDateTime(0);
+//    private int failureCounter = 0;
+//    private LocalDateTime streakStart = LocalDateTime.now();
     private int streakDays = 21;
     private int color;
 
@@ -66,14 +62,14 @@ public class HabitEntity implements Comparable<HabitEntity>, Serializable {
         this.habitType = habitType;
     }
 
-    public HabitEntity(HabitDetails habitDetails) {
+    public HabitEntity(@NonNull HabitDetails habitDetails) {
         this.name = habitDetails.getHabitEntity().getName();
         this.description = habitDetails.getHabitEntity().getDescription();
         this.creationDate = habitDetails.getHabitEntity().getCreationDate();
         this.habitID = habitDetails.getHabitEntity().getHabitID();
         this.habitType = habitDetails.getHabitEntity().getHabitType();
         this.isOnceADay = habitDetails.getHabitEntity().isOnceADay();
-        this.lastCheckIn = habitDetails.getHabitEntity().getLastCheckIn();
+//        this.lastCheckIn = habitDetails.getHabitEntity().getLastCheckIn();
         this.streakDays = habitDetails.getHabitEntity().getStreakDays();
     }
 
@@ -137,21 +133,21 @@ public class HabitEntity implements Comparable<HabitEntity>, Serializable {
                 ", habitType=" + habitType +
                 ", creationDate=" + creationDate +
                 ", isOnceADay=" + isOnceADay +
-                ", lastCheckIn=" + lastCheckIn +
-                ", failureCounter=" + failureCounter +
-                ", streakStart=" + streakStart +
+//                ", lastCheckIn=" + lastCheckIn +
+//                ", failureCounter=" + failureCounter +
+//                ", streakStart=" + streakStart +
                 ", streakDays=" + streakDays +
                 ", color=" + color +
                 '}';
     }
 
-    public LocalDateTime getLastCheckIn() {
-        return lastCheckIn;
-    }
-
-    public void setLastCheckIn(LocalDateTime lastCheckIn) {
-        this.lastCheckIn = lastCheckIn;
-    }
+//    public LocalDateTime getLastCheckIn() {
+//        return lastCheckIn;
+//    }
+//
+//    public void setLastCheckIn(LocalDateTime lastCheckIn) {
+//        this.lastCheckIn = lastCheckIn;
+//    }
 
     public int getStreakDays() {
         return streakDays;
@@ -174,33 +170,40 @@ public class HabitEntity implements Comparable<HabitEntity>, Serializable {
         this.color = color;
     }
 
-    public int getFailureCounter() {
-        return failureCounter;
-    }
+//    public int getFailureCounter() {
+//        return failureCounter;
+//    }
+//
+//    public void setFailureCounter(int failureCounter) {
+//        this.failureCounter = failureCounter;
+//    }
+//
+//    public LocalDateTime getStreakStart() {
+//        return streakStart;
+//    }
+//
+//    public void setStreakStart(LocalDateTime streakStart) {
+//        this.streakStart = streakStart;
+//    }
 
-    public void setFailureCounter(int failureCounter) {
-        this.failureCounter = failureCounter;
-    }
+//    @Ignore
+//    public void incrementFailedCounter(Context context) {
+//        failureCounter = failureCounter >= HabitsPreferencesUtil.getDefaultSharedPreference(context).getInt(
+//                "allowed_failures", 3) ? 0 : failureCounter + 1;
+//        Log.d("Failure Counter", String.format("%d", failureCounter));
+//        if (failureCounter == 0) {
+//            streakStart = LocalDateTime.now();
+//        }
+//
+//    }
 
-    public LocalDateTime getStreakStart() {
-        return streakStart;
-    }
+    public enum HabitType {
+        DEVELOP, BREAK;
 
-    public void setStreakStart(LocalDateTime streakStart) {
-        this.streakStart = streakStart;
-    }
-
-    @Ignore
-    public void incrementFailedCounter(Context context) {
-        failureCounter = failureCounter >= HabitsPreferencesUtil.getDefaultSharedPreference(context).getInt(
-                "allowed_failures", 3) ? 0 : failureCounter + 1;
-        Log.d("Failure Counter", String.format("%d", failureCounter));
-        if (failureCounter == 0) {
-            streakStart = LocalDateTime.now();
+        public HabitType not() {
+            if (this == DEVELOP) return BREAK;
+            else return DEVELOP;
         }
-
     }
-
-    public enum HabitType {DEVELOP, BREAK}
 
 }

@@ -1,0 +1,27 @@
+<!--
+  ~ Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~         http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under
+  ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  ~ either express or implied. See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M82.46,159.34c-1.58,-0.17 1.07,0.2 -0.46,-0.05 -0.9,-0.15 -1.8,-0.31 -2.69,-0.51A47.37,47.37 0,0 1,73 157a33.86,33.86 0,0 1,-14.08 -9.62c-9.08,-10.71 -9.07,-26.58 -3,-38.71 7.17,-14.22 21.11,-24.07 29.88,-37.31 7.38,-11.14 8.74,-24 5.93,-36.89L83,41.22a188.64,188.64 0,0 1,35 25.65c10.67,10 20.58,20.31 25.42,34.44 3.75,10.92 5.69,24.16 2.22,35.44a35.73,35.73 0,0 1,-22.76 23c-7.29,2.42 -4.17,14 3.19,11.57 20.65,-6.88 33.58,-26 33.2,-47.62a82.24,82.24 0,0 0,-10 -38.48c-6,-10.85 -15,-19.68 -24.1,-28A203.49,203.49 0,0 0,89 30.86c-4.71,-2.72 -9.9,1.75 -8.81,6.77 1.51,6.92 1.57,14 -1,20.67 -2.44,6.42 -7.19,11.8 -11.66,16.89 -11.39,13 -24.22,24.92 -27.12,42.78C38.05,132.8 42,148.54 53.4,158.87c8,7.28 18.38,11.33 29.06,12.47 7.67,0.82 7.61,-11.18 0,-12Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M89.32,140.82a19.16,19.16 0,0 1,-7.61 -6.47c-5.4,-7.44 -1.78,-15.56 3.07,-22.27H74.42C79,118.27 85.78,126 94,126.26c20.27,0.61 14.27,-36.23 13.68,-47.17l-9,5.18a58.25,58.25 0,0 1,6.77 6.1,47 47,0 0,1 9.18,14c5.28,12.7 3.48,27 -3.56,38.62 -4,6.62 6.36,12.66 10.36,6.06 15.6,-25.75 7.4,-58 -16.7,-75.12 -3.66,-2.6 -9.26,0.86 -9,5.18 0.52,9.65 2.26,20.06 0.4,29.63a29.27,29.27 0,0 1,-1.81 5.43c-0.55,1.16 0.24,0.09 -0.19,0.2 0.63,-0.17 0.81,0.18 0,-0.14a14.5,14.5 0,0 1,-3.28 -1.87s-2.2,-2 -3,-2.8c-1,-1 -1.85,-2 -2.74,-3.08 -0.29,-0.33 -0.54,-0.67 -0.81,-1 1.26,1.56 0.72,1 0.45,0.58 -2.8,-3.81 -7.58,-3.86 -10.36,0 -7,9.72 -10.39,22 -4,33a32.62,32.62 0,0 0,12.81 12.18c6.87,3.49 12.95,-6.86 6.06,-10.36Z" />
+</vector>

@@ -38,19 +38,18 @@
                 android:src="@drawable/once"
                 app:tint="@color/translucent" />
 
-            <!--<View
+            <View
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/divider"
                 android:layout_margin="5dp"
                 android:background="@color/translucent"
-                android:id=""/>-->
+                android:layout_height="0dp" />
 
             <ImageView
                 android:id="@+id/habit_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/link_dark"
-                android:layout_marginLeft="10dp"
+                android:src="@drawable/link"
                 app:tint="@color/translucent" />
         </LinearLayout>
 
@@ -66,15 +65,7 @@
                 android:layout_height="wrap_content"
                 app:donut_bgLineColor="@color/translucent"
                 app:donut_gapWidth="60"
-                app:donut_strokeWidth="5dp" />
-
-            <!--            <app.futured.donut.DonutProgressView-->
-            <!--                android:id="@+id/daily_progress"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_margin="6dp"-->
-            <!--                app:donut_bgLineColor="@color/translucent"-->
-            <!--                app:donut_strokeWidth="5dp" />-->
+                app:donut_strokeWidth="6dp" />
 
             <LinearLayout
                 android:id="@+id/habit_details"

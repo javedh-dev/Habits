@@ -110,7 +110,7 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     @NonNull
     private ColorPicker getColorPickerBuilder() {
 
-        return new ColorPicker(getActivity()).setOnChooseColorListener(
+        return new ColorPicker(requireActivity()).setOnChooseColorListener(
                 new ColorPicker.OnChooseColorListener() {
                     @Override
                     public void onChooseColor(int position, int c) {
@@ -121,7 +121,8 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
                     @Override
                     public void onCancel() {
                     }
-                }).setRoundColorButton(true);
+                }).setRoundColorButton(true)
+                .setColors(getResources().getIntArray(R.array.colors_palette));
     }
 
     private void toggleAdvancedButton() {
@@ -133,16 +134,17 @@ public class NewHabitBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void createNewHabit() {
-        if (habitEntity == null)
+        if (habitEntity == null) {
             habitEntity = new HabitEntity();
+            habitEntity.setCreationDate(LocalDateTime.now());
+        }
         habitEntity.setName(habitName.getText().toString());
         habitEntity.setHabitType(getHabitType(habitType.getCheckedButtonId()));
         habitEntity.setDescription(habitDesc.getText().toString());
-        habitEntity.setCreationDate(LocalDateTime.now());
         habitEntity.setOnceADay(onceADay.isChecked());
         habitEntity.setColor(color);
         habitEntity.setStreakDays(streakSeekBar.getProgress());
-        HabitsRepository.upsertHabit(habitEntity);
+        HabitsRepository.upsertHabit(habitEntity, getContext());
         Objects.requireNonNull(getDialog()).dismiss();
     }
 

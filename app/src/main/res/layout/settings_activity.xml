@@ -39,6 +39,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/application_logo"
                 android:src="@mipmap/ic_launcher_round" />
 
             <TextView
@@ -54,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="alpha-1.0.0"
+                android:text="@string/version"
                 android:textSize="16sp" />
 
             <FrameLayout

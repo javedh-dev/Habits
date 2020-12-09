@@ -34,12 +34,16 @@ public abstract class HabitDAO {
     public abstract long insert(HabitEntity habitEntity);
 
     @Transaction
-    public void upsert(HabitEntity obj) {
+    public long upsert(HabitEntity obj) {
         long id = insert(obj);
         if (id == -1) {
             update(obj);
         }
+        return id;
     }
+
+    @Query("SELECT habitID FROM habits WHERE ROWID = :rowId")
+    public abstract int getIdFromRowId(long rowId);
 
     @Update
     public abstract void update(HabitEntity habitEntity);

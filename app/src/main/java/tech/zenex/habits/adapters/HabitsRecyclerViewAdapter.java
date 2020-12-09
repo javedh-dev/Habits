@@ -32,6 +32,7 @@ import java.util.Objects;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.dialogs.HabitCheckInBottomSheetFragment;
 import tech.zenex.habits.dialogs.HabitMenuSheetFragment;
+import tech.zenex.habits.utils.HabitsStats;
 import tech.zenex.habits.views.HabitCard;
 
 public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecyclerViewAdapter.ViewHolder> {
@@ -56,23 +57,22 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HabitDetails habitDetails = Objects.requireNonNull(habits.getValue()).get(position);
-        holder.habitCard.populateHabit(habitDetails);
-
+        HabitsStats stats = HabitsStats.calculateStats(habitDetails);
+        holder.habitCard.populateHabit(habitDetails, stats);
         holder.habitCard.setOnClickListener(view -> {
+            HabitMenuSheetFragment fragment = new HabitMenuSheetFragment(fragmentManager,
+                    habitDetails);
+            fragment.show(fragmentManager, "JournalEntrySheet");
+        });
+        holder.habitCard.setOnLongClickListener(v -> {
             if (habitDetails.getHabitEntity().isOnceADay() &&
-                    habitDetails.getHabitEntity().getLastCheckIn().toLocalDate()
-                            .equals(LocalDateTime.now().toLocalDate())) {
+                    stats.getLastCheckIn().toLocalDate().equals(LocalDateTime.now().toLocalDate())) {
                 Snackbar.make(holder.habitCard, "You have already checked in Today.", Snackbar.LENGTH_LONG).show();
             } else {
                 HabitCheckInBottomSheetFragment bottomSheetFragment =
                         new HabitCheckInBottomSheetFragment(fragmentManager, habitDetails.getHabitEntity());
                 bottomSheetFragment.show(fragmentManager, "HabitCheckInSheet");
             }
-        });
-        holder.habitCard.setOnLongClickListener(v -> {
-            HabitMenuSheetFragment fragment = new HabitMenuSheetFragment(fragmentManager,
-                    habitDetails);
-            fragment.show(fragmentManager, "JournalEntrySheet");
             return true;
         });
     }

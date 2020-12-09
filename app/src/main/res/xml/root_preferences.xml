@@ -80,7 +80,9 @@
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="dark_mode"
-            app:summary="Enables system wide dark mode"
+            android:enabled="false"
+            app:enabled="false"
+            app:summary="Coming soon"
             app:title="Dark Mode" />
 
         <SwitchPreferenceCompat

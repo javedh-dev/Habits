@@ -33,8 +33,9 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.Objects;
 
 import tech.zenex.habits.dialogs.HabitsLoadingDialog;
 import tech.zenex.habits.dialogs.SettingsFragment;
@@ -90,7 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 Log.d("GSO", "Signed in successfully.");
                 loader.dismiss();
-                sendPreferenceResult("backup", true);
+                sendPreferenceResult(true);
             }
         });
     }
@@ -108,10 +109,10 @@ public class SettingsActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d("GSO", "firebaseAuthWithGoogle:" + account.getId());
+                Log.d("GSO", "firebaseAuthWithGoogle:" + Objects.requireNonNull(account).getId());
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                sendPreferenceResult("backup", false);
+                sendPreferenceResult(false);
                 Log.w("GSO", "Google sign in failed", e);
                 loader.dismiss();
             }
@@ -124,30 +125,25 @@ public class SettingsActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Log.d("GSO", "signInWithCredential:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        sendPreferenceResult("backup", true);
+//                        FirebaseUser user = mAuth.getCurrentUser();
+                        sendPreferenceResult(true);
                     } else {
                         Log.w("GSO", "signInWithCredential:failure", task.getException());
                         Toast.makeText(getApplicationContext(), "Authentication Failed.",
                                 Toast.LENGTH_SHORT).show();
-                        sendPreferenceResult("backup", false);
+                        sendPreferenceResult(false);
                     }
                     loader.dismiss();
                 });
     }
 
-    private void sendPreferenceResult(String key, boolean isSuccessful) {
+    private void sendPreferenceResult(boolean isSuccessful) {
         if (this.preferenceListener != null)
-            this.preferenceListener.onPreferenceResult(key, isSuccessful);
+            this.preferenceListener.onPreferenceResult("backup", isSuccessful);
     }
 
     public void registerPreferenceListener(HabitsPreferenceListener listener) {
         this.preferenceListener = listener;
     }
-
-    public void deRegisterPreferenceListener() {
-        this.preferenceListener = null;
-    }
-
 
 }

@@ -21,7 +21,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDateTime;
 
 import java.io.Serializable;
@@ -73,7 +72,7 @@ public class HabitTrackerEntity implements Comparable<HabitTrackerEntity>, Seria
 
     @Override
     public int compareTo(HabitTrackerEntity o) {
-        return DateTimeComparator.getDateOnlyInstance().compare(this, o);
+        return this.checkInTime.compareTo(o.checkInTime);
     }
 
     public HabitEntity.HabitType getType() {

@@ -72,7 +72,7 @@ public class HabitMenuSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void deleteHabit() {
-        HabitsRepository.deleteHabit(habitDetails.getHabitEntity().getHabitID());
+        HabitsRepository.deleteHabit(habitDetails.getHabitEntity().getHabitID(), getContext());
         this.dismiss();
     }
 

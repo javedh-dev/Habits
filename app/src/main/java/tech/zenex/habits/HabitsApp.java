@@ -21,12 +21,30 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
+import tech.zenex.habits.utils.HabitsBasicUtil;
+import tech.zenex.habits.utils.HabitsPreferencesUtil;
+
 public class HabitsApp extends Application {
     private static final String TAG = "Firebase Token";
 
     @Override
     public void onCreate() {
         super.onCreate();
+        setupFirebase();
+        Thread t = new Thread(this::setupDatabase);
+        t.start();
+    }
+
+    private void setupDatabase() {
+        if (HabitsPreferencesUtil.getDefaultSharedPreference(getApplicationContext()).getBoolean(
+                "is_first_run", true)) {
+            HabitsBasicUtil.generateTestData(getApplicationContext());
+            HabitsPreferencesUtil.getDefaultSharedPreference(getApplicationContext()).edit().putBoolean(
+                    "is_first_run", false).apply();
+        }
+    }
+
+    private void setupFirebase() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {

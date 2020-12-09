@@ -15,35 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "940530419377-cu3djl4i78rk80pdlet6oadvpic25mro.apps.googleusercontent.com",
+          "client_id": "940530419377-6vmketrs4gchfqlmal301gjl6p78ui3v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "tech.zenex.habits",
-            "certificate_hash": "5a0c41925008724c382a449ea143fc976ec44ff3"
-          }
-        },
-        {
-          "client_id": "940530419377-5i8lpn5gmua9pkke2ecto0q9pbq2d8c7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "tech.zenex.habits",
-            "certificate_hash": "39caf2d47cd02b46b54c00b5eaa902f865629f77"
-          }
-        },
-        {
-          "client_id": "940530419377-mcvi1ropit8nrf1vml7ae0di6uh9lsi4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "tech.zenex.habits",
-            "certificate_hash": "7a6c63b565cab95e41c73db47fead24438f4632d"
-          }
-        },
-        {
-          "client_id": "940530419377-k764ebig7ha7cp4c7rd82apgrm3m4cje.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "tech.zenex.habits",
-            "certificate_hash": "f9b8d9f257714af469922dfeef558699b3b49d6d"
+            "certificate_hash": "55f2907fdbab752d1b081f5d512bf3fe15488ec5"
           }
         },
         {

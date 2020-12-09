@@ -21,7 +21,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDateTime;
 
 import java.io.Serializable;
@@ -31,7 +30,7 @@ import java.io.Serializable;
         indices = {@Index("habitID")})
 public class JournalEntryEntity implements Comparable<JournalEntryEntity>, Serializable {
     @PrimaryKey(autoGenerate = true)
-    private Long journalId;
+    private int journalId;
     private LocalDateTime timestamp;
     private int habitID;
     private JournalType journalType;
@@ -61,11 +60,11 @@ public class JournalEntryEntity implements Comparable<JournalEntryEntity>, Seria
         }
     }
 
-    public Long getJournalId() {
+    public int getJournalId() {
         return journalId;
     }
 
-    public void setJournalId(Long journalId) {
+    public void setJournalId(int journalId) {
         this.journalId = journalId;
     }
 
@@ -103,7 +102,7 @@ public class JournalEntryEntity implements Comparable<JournalEntryEntity>, Seria
 
     @Override
     public int compareTo(JournalEntryEntity o) {
-        return DateTimeComparator.getDateOnlyInstance().compare(this, o);
+        return this.timestamp.compareTo(o.timestamp);
     }
 
     @NonNull

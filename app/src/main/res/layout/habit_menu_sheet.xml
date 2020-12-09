@@ -83,15 +83,13 @@
                                 android:text="develop" />
 
                         </com.google.android.material.button.MaterialButtonToggleGroup>-->
-            <HorizontalScrollView
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                         android:id="@+id/journal_btn"
@@ -99,10 +97,13 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="center"
+                        android:layout_column="1"
                         android:text="Journal"
                         android:textColor="@color/white"
                         app:backgroundTint="@color/color1"
-                        app:icon="@drawable/journal_dark"
+                        android:layout_weight="1"
+                        app:icon="@drawable/journal"
+                        app:iconGravity="textStart"
                         app:iconTint="@color/white" />
 
                     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -111,11 +112,18 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="center"
+                        android:layout_column="2"
                         android:text="Insights"
                         android:textColor="@color/white"
-                        app:backgroundTint="@color/color5"
+                        android:layout_weight="1"
                         app:icon="@drawable/charts_dark"
+                        app:backgroundTint="@color/color4"
+                        app:iconGravity="textStart"
                         app:iconTint="@color/white" />
+
+                </TableRow>
+
+                <TableRow>
 
                     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                         android:id="@+id/edit_btn"
@@ -123,10 +131,13 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="center"
+                        android:layout_column="1"
                         android:text="Edit"
                         android:textColor="@color/white"
-                        app:backgroundTint="@color/colorPrimary"
+                        android:layout_weight="1"
                         app:icon="@drawable/edit_dark"
+                        app:backgroundTint="@color/color12"
+                        app:iconGravity="textStart"
                         app:iconTint="@color/white" />
 
                     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -135,14 +146,16 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="center"
+                        android:layout_column="2"
                         android:text="Delete"
                         android:textColor="@color/white"
                         app:backgroundTint="@color/colorRed"
                         app:icon="@drawable/close_dark"
+                        android:layout_weight="1"
+                        app:iconGravity="textStart"
                         app:iconTint="@color/white" />
-
-                </LinearLayout>
-            </HorizontalScrollView>
+                </TableRow>
+            </TableLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

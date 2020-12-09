@@ -16,14 +16,13 @@ package tech.zenex.habits.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
-
-import org.joda.time.Days;
-import org.joda.time.LocalDateTime;
 
 import java.util.Collections;
 
@@ -32,6 +31,7 @@ import app.futured.donut.DonutSection;
 import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.utils.HabitsStats;
 
 public class HabitCard extends RelativeLayout {
 
@@ -44,6 +44,7 @@ public class HabitCard extends RelativeLayout {
     private final TextView failed;
     private final ImageView habitType;
     private final ImageView onceADay;
+    private final View divider;
     private final DonutProgressView streakProgressBar;
 
     public HabitCard(Context context) {
@@ -59,7 +60,10 @@ public class HabitCard extends RelativeLayout {
         this.failed = findViewById(R.id.failed);
         this.habitType = findViewById(R.id.habit_type);
         this.onceADay = findViewById(R.id.once_a_day);
+        this.divider = findViewById(R.id.divider);
         this.streakProgressBar.setCap(100f);
+        this.streakProgressBar.setAnimateChanges(false);
+        this.streakProgressBar.setAnimation(null);
     }
 
     public void setHabitName(CharSequence habitName) {
@@ -68,8 +72,10 @@ public class HabitCard extends RelativeLayout {
 
     public void setProgressPercentage(int progressPercentage, int color) {
         this.progressPercentage.setText(String.format(context.getResources().getString(R.string.habit_percentage_placeholder), progressPercentage));
+        this.streakProgressBar.clear();
         DonutSection progress = new DonutSection("streak", color, progressPercentage);
         this.streakProgressBar.submitData(Collections.singletonList(progress));
+        this.streakProgressBar.animate();
     }
 
     public void setCheckIns(CharSequence checkIns) {
@@ -85,12 +91,19 @@ public class HabitCard extends RelativeLayout {
     }
 
     public void setHabitType(HabitEntity.HabitType type) {
-        habitType.setImageResource(type == HabitEntity.HabitType.DEVELOP ? R.drawable.link_dark :
-                R.drawable.broken_link_dark);
+        habitType.setImageResource(type == HabitEntity.HabitType.DEVELOP ? R.drawable.link :
+                R.drawable.broken_link);
         boolean showHabitType = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
                 "show_habit_type", false);
         habitType.setVisibility(showHabitType ? VISIBLE : GONE);
+    }
 
+    private void updateDividerVisibility() {
+        boolean showOncePerDay = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+                "show_once_per_day", false);
+        boolean showHabitType = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+                "show_habit_type", false);
+        divider.setVisibility(showHabitType && showOncePerDay ? VISIBLE : GONE);
     }
 
     public void setOnceADay(boolean onceADay) {
@@ -104,28 +117,19 @@ public class HabitCard extends RelativeLayout {
         this.failed.setText(failed);
     }
 
-    public void populateHabit(HabitDetails habitDetails) {
+    public void populateHabit(HabitDetails habitDetails, HabitsStats stats) {
         setHabitName(habitDetails.getHabitEntity().getName());
-        int percentage = getPercentage(habitDetails);
-        setProgressPercentage(percentage, habitDetails.getHabitEntity().getColor());
-        setJournals("" + habitDetails.getJournalEntryEntities().size());
-        setCheckIns("" + habitDetails.getHabitTrackerEntities().size());
-        setStreak(String.valueOf(getStreak(habitDetails)));
-        setFailed(String.valueOf(habitDetails.getHabitEntity().getFailureCounter()));
+        setProgressPercentage(stats.getStreakPercentage(), habitDetails.getHabitEntity().getColor());
+        setJournals("" + stats.getTotalJournalCount());
+        setCheckIns("" + stats.getTotalCheckIns());
+        setStreak(String.valueOf(stats.getStreakDays()));
+        setFailed(String.valueOf(stats.getFailureCounter()));
         setHabitType(habitDetails.getHabitEntity().getHabitType());
         setOnceADay(habitDetails.getHabitEntity().isOnceADay());
+        updateDividerVisibility();
+        Log.d("HabitStats", stats.toString());
     }
 
-    private int getPercentage(HabitDetails habitDetails) {
-        int streak = getStreak(habitDetails);
-        int per = (int) ((streak / (float) habitDetails.getHabitEntity().getStreakDays()) * 100);
-        return Math.min(per, 100);
-    }
-
-    private int getStreak(HabitDetails habitDetails) {
-        return Days.daysBetween(habitDetails.getHabitEntity().getStreakStart().toLocalDate(),
-                LocalDateTime.now().toLocalDate()).getDays();
-    }
 
     @Override
     public boolean isClickable() {
