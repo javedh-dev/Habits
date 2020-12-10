@@ -44,6 +44,7 @@ import tech.zenex.habits.utils.HabitsBasicUtil;
 import tech.zenex.habits.utils.HabitsPreferencesUtil;
 import tech.zenex.habits.utils.HabitsStats;
 import tech.zenex.habits.views.InsightsCard;
+import tech.zenex.habits.views.JournalsCard;
 
 public class InsightsActivity extends AppCompatActivity {
     private RadarChart radarChart;
@@ -63,11 +64,13 @@ public class InsightsActivity extends AppCompatActivity {
         InsightsCard checkIns = findViewById(R.id.check_ins);
         InsightsCard totalFailures = findViewById(R.id.total_failures);
         InsightsCard journals = findViewById(R.id.journals);
+        JournalsCard journalEntries = findViewById(R.id.journal_entries);
         streakDays.setInsightDesc(String.valueOf(habitsStats.getStreakDays()));
         streakStart.setInsightDesc(DateTimeFormat.forPattern("dd MMM, yyyy").print(habitsStats.getStreakStart()));
         checkIns.setInsightDesc(String.valueOf(habitsStats.getTotalCheckIns()));
         totalFailures.setInsightDesc(String.valueOf(habitsStats.getTotalFailures()));
         journals.setInsightDesc(String.valueOf(habitsStats.getTotalJournalCount()));
+        journalEntries.addEntries(habitDetails.getJournalEntryEntities());
 //        rv = findViewById(R.id.insights_rv);
 //        rv.setLayoutManager(new GridLayoutManager(this, 3));
 //        rv.setAdapter(new InsightsRecyclerViewAdapter(this, habitDetails, getSupportFragmentManager()));

@@ -82,6 +82,6 @@ public class InsightsCard extends CardView {
         icon.setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
         icon.setImageResource(iconRef);
         desc.setText(insightDesc);
-        setRadius(20);
+        setRadius(HabitsBasicUtil.pxFromDp(getContext(), 10));
     }
 }

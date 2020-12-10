@@ -60,6 +60,16 @@
 
             <include layout="@layout/insights_cards" />
 
+            <tech.zenex.habits.views.JournalsCard
+                android:id="@+id/journal_entries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

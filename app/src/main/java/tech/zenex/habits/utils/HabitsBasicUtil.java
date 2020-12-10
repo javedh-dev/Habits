@@ -73,11 +73,11 @@ public class HabitsBasicUtil {
                 }
 
             } else {
-                int temp = RANDOM.nextInt(1);
+                int temp = RANDOM.nextInt(2);
                 for (int i = 0; i <= temp; i++) {
                     generateJournalEntry(habitEntity, context, start);
                 }
-                temp = RANDOM.nextInt(1);
+                temp = RANDOM.nextInt(2);
                 for (int i = 0; i <= temp; i++) {
                     generateHabitTracker(habitEntity, context, start);
                 }
@@ -152,6 +152,14 @@ public class HabitsBasicUtil {
     private static LocalDateTime getRandomTime(LocalDateTime start) {
         return start.withTime(RANDOM.nextInt(24), RANDOM.nextInt(60), RANDOM.nextInt(60),
                 RANDOM.nextInt(1000));
+    }
+
+    public static float dpFromPx(final Context context, final float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public static float pxFromDp(final Context context, final float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
     }
 
 }
