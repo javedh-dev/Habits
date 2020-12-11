@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sudo apt-get intall openjdk-11-jdk
+export JAVA_HOME=$JAVA_HOME_11_X64
