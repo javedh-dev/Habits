@@ -21,7 +21,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
-import tech.zenex.habits.utils.HabitsBasicUtil;
 import tech.zenex.habits.utils.HabitsPreferencesUtil;
 
 public class HabitsApp extends Application {
@@ -38,7 +37,7 @@ public class HabitsApp extends Application {
     private void setupDatabase() {
         if (HabitsPreferencesUtil.getDefaultSharedPreference(getApplicationContext()).getBoolean(
                 "is_first_run", true)) {
-            HabitsBasicUtil.generateTestData(getApplicationContext());
+//            HabitsBasicUtil.generateTestData(getApplicationContext());
             HabitsPreferencesUtil.getDefaultSharedPreference(getApplicationContext()).edit().putBoolean(
                     "is_first_run", false).apply();
         }
