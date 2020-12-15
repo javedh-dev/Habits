@@ -1,29 +1,20 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -41,7 +32,7 @@ import java.util.ArrayList;
 
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.utils.HabitsBasicUtil;
-import tech.zenex.habits.utils.HabitsPreferencesUtil;
+import tech.zenex.habits.utils.HabitsConstants;
 import tech.zenex.habits.utils.HabitsStats;
 import tech.zenex.habits.views.InsightsCard;
 import tech.zenex.habits.views.JournalsCard;
@@ -50,7 +41,6 @@ public class InsightsActivity extends AppCompatActivity {
     private RadarChart radarChart;
     private HabitDetails habitDetails;
     private HabitsStats habitsStats;
-    private RecyclerView rv;
 
 
     @Override
@@ -71,9 +61,6 @@ public class InsightsActivity extends AppCompatActivity {
         totalFailures.setInsightDesc(String.valueOf(habitsStats.getTotalFailures()));
         journals.setInsightDesc(String.valueOf(habitsStats.getTotalJournalCount()));
         journalEntries.addEntries(habitDetails.getJournalEntryEntities());
-//        rv = findViewById(R.id.insights_rv);
-//        rv.setLayoutManager(new GridLayoutManager(this, 3));
-//        rv.setAdapter(new InsightsRecyclerViewAdapter(this, habitDetails, getSupportFragmentManager()));
     }
 
     private void displayRadarChart() {
@@ -87,7 +74,6 @@ public class InsightsActivity extends AppCompatActivity {
     private void setupYAxis() {
         YAxis yAxis = radarChart.getYAxis();
         yAxis.setLabelCount(5, false);
-//        yAxis.setTextSize(9f);
         yAxis.setAxisMinimum(0f);
         yAxis.setAxisMaximum(100f);
         yAxis.setDrawLabels(false);
@@ -95,16 +81,14 @@ public class InsightsActivity extends AppCompatActivity {
 
     private void setupXAxis() {
         XAxis xAxis = radarChart.getXAxis();
-//        xAxis.setTextSize(9f);
         xAxis.setYOffset(0f);
         xAxis.setXOffset(0f);
         xAxis.setValueFormatter(new ValueFormatter() {
-            private final String[] mActivities = new String[]{"Streak", "Journal", "Failure", "Check-in",
-                    "Consistency"};
+            private final String[] radarParams = getResources().getStringArray(R.array.radar_values);
 
             @Override
             public String getFormattedValue(float value) {
-                return mActivities[(int) value % mActivities.length];
+                return radarParams[(int) value % radarParams.length];
             }
         });
         xAxis.setTextColor(getColor(R.color.colorPrimaryDark));
@@ -113,7 +97,6 @@ public class InsightsActivity extends AppCompatActivity {
     private void defineChart() {
         radarChart = findViewById(R.id.radar);
         radarChart.getDescription().setEnabled(false);
-//        radarChart.setRotationEnabled(false);
         radarChart.setWebLineWidth(1f);
         radarChart.setWebColor(getColor(R.color.colorPrimary));
         radarChart.setWebLineWidthInner(1f);
@@ -136,7 +119,8 @@ public class InsightsActivity extends AppCompatActivity {
     private void parseExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            habitDetails = (HabitDetails) extras.getSerializable("habit");
+            habitDetails =
+                    (HabitDetails) extras.getSerializable(HabitsConstants.INSIGHT_EXTRAS_HABIT_DETAILS_KEY);
             habitsStats = HabitsStats.calculateStats(habitDetails);
         }
     }
@@ -174,7 +158,6 @@ public class InsightsActivity extends AppCompatActivity {
         float temp = ((float) (habitDetails.getHabitTrackerEntities().size()) /
                 HabitsBasicUtil.getDaysFromStart(habitDetails)) * 100;
         temp = temp > 100 ? 100 : temp;
-        Log.d("ChartData", String.format("Consistency : %f", temp));
         return new RadarEntry(temp);
     }
 
@@ -182,18 +165,16 @@ public class InsightsActivity extends AppCompatActivity {
         float temp = ((float) (habitDetails.getHabitTrackerEntities().size()) /
                 HabitsBasicUtil.getDaysFromStart(habitDetails)) * 100;
         temp = temp > 100 ? 100 : temp;
-        Log.d("ChartData", String.format("CheckIn : %f", temp));
         return new RadarEntry(temp);
     }
 
     private RadarEntry getFailureValue() {
-        int allowedFailures = HabitsPreferencesUtil.
+        int allowedFailures = HabitsBasicUtil.
                 getDefaultSharedPreference(getApplicationContext()).
-                getInt("allowed_failures", 3);
+                getInt(HabitsConstants.PREFERENCE_ALLOWED_FAILURES, 3);
         float temp = ((float) (allowedFailures - habitsStats.getFailureCounter())) /
                 allowedFailures * 100;
         temp = temp > 100 ? 100 : temp;
-        Log.d("ChartData", String.format("Failure : %f", temp));
         return new RadarEntry(temp);
     }
 
@@ -201,12 +182,10 @@ public class InsightsActivity extends AppCompatActivity {
         float temp = ((float) (habitDetails.getJournalEntryEntities().size())) /
                 habitDetails.getHabitTrackerEntities().size() * 100;
         temp = temp > 100 ? 100 : temp;
-        Log.d("ChartData", String.format("Journal : %f", temp));
         return new RadarEntry(temp);
     }
 
     private RadarEntry getStreakValue() {
-        Log.d("ChartData", String.format("Streak : %d", habitsStats.getStreakPercentage()));
         return new RadarEntry(habitsStats.getStreakPercentage());
     }
 
@@ -217,8 +196,4 @@ public class InsightsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    protected float getRandom(float range, float start) {
-//        return (float) (Math.random() * range) + start;
-//    }
 }

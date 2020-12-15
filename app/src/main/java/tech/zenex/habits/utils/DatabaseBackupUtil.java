@@ -1,147 +1,122 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.security.Key;
-import java.util.List;
 import java.util.Objects;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 
 import ir.androidexception.roomdatabasebackupandrestore.Backup;
 import ir.androidexception.roomdatabasebackupandrestore.Restore;
 import tech.zenex.habits.MainActivity;
-import tech.zenex.habits.database.HabitDetails;
+import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitsDatabase;
-import tech.zenex.habits.dialogs.HabitsLoadingDialog;
 
 public class DatabaseBackupUtil {
-
-
-    public static final String HABITS_DATABASE_BACKUP = "habits_database.backup";
 
     private DatabaseBackupUtil() {
     }
 
     public static void backup(MainActivity context) {
-        HabitsLoadingDialog loader = new HabitsLoadingDialog(context, "Backing up...");
-        loader.show();
+        String habitsDatabaseBkpFileName = HabitsConstants.DATABASE_BACKUP_FILENAME;
+        HabitsLoadingDialog loader = getHabitsLoadingDialog(context);
         new Backup.Init()
                 .database(HabitsDatabase.getDatabase(context))
                 .path(context.getFilesDir().getAbsolutePath())
-                .secretKey(HabitsPreferencesUtil.getDefaultSharedPreference(context).
-                        getString("backup_key", ""))
-                .fileName(HABITS_DATABASE_BACKUP)
-                .onWorkFinishListener((success, message) -> {
-                    File file = new File(context.getFilesDir().getAbsolutePath(), HABITS_DATABASE_BACKUP);
-                    String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                    StorageReference storageRef = storage.getReference();
-                    StorageReference userStorage = storageRef.child("/user/" + uid + "/" + file.getName());
-                    UploadTask task = userStorage.putFile(Uri.fromFile(file));
-                    task.addOnCompleteListener(task1 -> {
-                        Log.d("Upload", String.valueOf(task1.isSuccessful()));
-                        loader.dismiss();
-                        Toast.makeText(context, "Backup Completed Successfully...", Toast.LENGTH_SHORT).show();
-                    });
-
-                }).execute();
+                .secretKey(getSecretKey(context))
+                .fileName(habitsDatabaseBkpFileName)
+                .onWorkFinishListener((success, message) -> uploadToCloud(context,
+                        habitsDatabaseBkpFileName, loader)).execute();
 
     }
 
-    public static void restore(MainActivity context) {
-        HabitsLoadingDialog loader = new HabitsLoadingDialog(context, "Restoring...");
-        loader.show();
-        File file = new File(context.getFilesDir().getAbsolutePath(), HABITS_DATABASE_BACKUP);
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private static void uploadToCloud(Context context, String bkpFileName, HabitsLoadingDialog loader) {
+        File file = new File(context.getFilesDir().getAbsolutePath(), bkpFileName);
+        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-        StorageReference userStorage = storageRef.child("/user/" + uid + "/" + file.getName());
-        FileDownloadTask task = userStorage.getFile(Uri.fromFile(file));
+        StorageReference userStorage = getStoragePath(file, uid, storage);
+        UploadTask task = userStorage.putFile(Uri.fromFile(file));
         task.addOnCompleteListener(task1 -> {
-            Log.d("Download", String.valueOf(task1.isSuccessful()));
             if (task1.isSuccessful()) {
-                new Restore.Init()
-                        .database(HabitsDatabase.getDatabase(context))
-                        .backupFilePath(file.getAbsolutePath())
-                        .secretKey(HabitsPreferencesUtil.getDefaultSharedPreference(context).
-                                getString("backup_key", ""))
-                        .onWorkFinishListener((success, message) -> {
-//                            Toast.makeText(context, String.format("success : %s, message : %s", success,
-//                                    message), Toast.LENGTH_SHORT).show();
-                            loader.dismiss();
-                            Toast.makeText(context, "Restore Completed Successfully...",
-                                    Toast.LENGTH_SHORT).show();
-                            context.recreate();
-                        }).execute();
+                HabitsBasicUtil.notifyUser(context, R.string.backup_completion_message);
+            } else {
+                HabitsBasicUtil.notifyUser(context, R.string.backup_failed_message);
             }
+            loader.dismiss();
         });
     }
 
-    private static LiveData<List<HabitDetails>> getHabits(Context context) {
-        return HabitsDatabase.getDatabase(context).habitDao().getAllHabits();
+    @NonNull
+    private static StorageReference getStoragePath(File file, String uid,
+                                                   FirebaseStorage storage) {
+        return storage.getReference().child(HabitsConstants.REMOTE_STORAGE_BASE_DIR + uid +
+                File.separator + file.getName());
     }
 
-    private static String encrypt(String original) {
-        try {
-            String key = "Bar12345Bar12345";
-            Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, aesKey);
-            byte[] encrypted = cipher.doFinal(original.getBytes());
-            return new String(encrypted);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return original;
+    private static String getSecretKey(Context context) {
+        return HabitsBasicUtil.getDefaultSharedPreference(context).getString(
+                HabitsConstants.PREFERENCE_BACKUP_KEY, HabitsConstants.EMPTY_STRING);
+    }
+
+    @NonNull
+    private static HabitsLoadingDialog getHabitsLoadingDialog(MainActivity context) {
+        HabitsLoadingDialog loader = new HabitsLoadingDialog(context,
+                context.getString(R.string.backing_up_message));
+        loader.show();
+        return loader;
+    }
+
+    public static void restore(MainActivity context) {
+        String habitsDatabaseBkpFileName = HabitsConstants.DATABASE_BACKUP_FILENAME;
+        HabitsLoadingDialog loader = new HabitsLoadingDialog(context,
+                context.getString(R.string.restoring_message));
+        loader.show();
+        File file = new File(context.getFilesDir().getAbsolutePath(), habitsDatabaseBkpFileName);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String uid = user.getUid();
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference userStorage = getStoragePath(file, uid, storage);
+            FileDownloadTask task = userStorage.getFile(Uri.fromFile(file));
+            task.addOnCompleteListener(task1 -> {
+                if (task1.isSuccessful()) restoreDatabase(context, loader, file);
+                else {
+                    HabitsBasicUtil.notifyUser(context, R.string.restore_failed_message);
+                    loader.dismiss();
+                }
+            });
+        } else {
+            HabitsBasicUtil.notifyUser(context, R.string.restore_failed_message);
+            loader.dismiss();
         }
     }
 
-    //Create a Method in your Activity
-    private static void writeToStorage(Activity mContext, String fileName, String jsonContent) {
-        File mFolder = mContext.getExternalFilesDir(null);
-        assert mFolder != null;
-        Log.d("Backup", "External directory is : " + mFolder.getAbsolutePath());
-        if (!mFolder.exists()) mFolder.mkdirs();
-
-        try {
-            File mFile = new File(mFolder, fileName);
-            Log.d("Backup", "File is written at : " + mFile.getAbsolutePath());
-            FileWriter writer = new FileWriter(mFile);
-            writer.append(jsonContent);
-            writer.flush();
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private static void restoreDatabase(MainActivity context, HabitsLoadingDialog loader, File file) {
+        new Restore.Init()
+                .database(HabitsDatabase.getDatabase(context))
+                .backupFilePath(file.getAbsolutePath())
+                .secretKey(getSecretKey(context))
+                .onWorkFinishListener((success, message) -> {
+                    loader.dismiss();
+                    HabitsBasicUtil.notifyUser(context, R.string.restore_completion_message);
+                    context.recreate();
+                }).execute();
     }
 
 }
