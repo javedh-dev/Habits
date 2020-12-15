@@ -1,15 +1,8 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits;
@@ -23,11 +16,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Handler;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import tech.zenex.habits.utils.HabitsBasicUtil;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,19 +39,13 @@ public class LoginActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.P)
     private void authenticate() {
         BiometricPrompt biometricPrompt = new BiometricPrompt.Builder(this)
-                .setTitle("Biometric Demo")
-                .setSubtitle("Authentication is required to continue")
-                .setDescription("This app uses biometric authentication to protect your data.")
-                .setNegativeButton("Cancel", this.getMainExecutor(),
-                        (dialogInterface, i) -> notifyUser("Authentication cancelled"))
-                .build();
+                .setTitle("Fingerprint Authentication")
+                .setNegativeButton("Cancel", getMainExecutor(), (dialog, which) -> {
+
+                }).build();
 
         biometricPrompt.authenticate(getCancellationSignal(), getMainExecutor(),
                 getAuthenticationCallback());
-    }
-
-    private void notifyUser(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private Boolean checkBiometricSupport() {
@@ -68,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         PackageManager packageManager = this.getPackageManager();
 
         if (!keyguardManager.isKeyguardSecure()) {
-            notifyUser("Lock screen security not enabled in Settings");
+            HabitsBasicUtil.notifyUser(getApplicationContext(), R.string.fingerprint_not_enabled_message);
             return false;
         }
 
@@ -76,11 +64,10 @@ public class LoginActivity extends AppCompatActivity {
                 Manifest.permission.USE_BIOMETRIC) !=
                 PackageManager.PERMISSION_GRANTED) {
 
-            notifyUser("Fingerprint authentication permission not enabled");
+            HabitsBasicUtil.notifyUser(getApplicationContext(),
+                    R.string.fingerprint_permission_not_enabled_message);
             return false;
         }
-
-        //            notifyUser("Fingerprint service available.");
         return packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT);
     }
 
@@ -91,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationError(int errorCode,
                                               CharSequence errString) {
-                notifyUser("Authentication error: " + errString);
+                HabitsBasicUtil.notifyUser(getApplicationContext(), R.string.authentication_error_message);
                 super.onAuthenticationError(errorCode, errString);
             }
 
@@ -104,14 +91,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
-                notifyUser("Authentication failed");
+                HabitsBasicUtil.notifyUser(getApplicationContext(),
+                        R.string.authentication_failed_message);
                 authenticate();
             }
 
             @Override
             public void onAuthenticationSucceeded(
                     BiometricPrompt.AuthenticationResult result) {
-//                notifyUser("Authentication Succeeded");
                 super.onAuthenticationSucceeded(result);
                 openMainActivity();
             }
@@ -120,7 +107,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private CancellationSignal getCancellationSignal() {
         CancellationSignal cancellationSignal = new CancellationSignal();
-        cancellationSignal.setOnCancelListener(() -> notifyUser("Cancelled via signal"));
+        cancellationSignal.setOnCancelListener(() -> HabitsBasicUtil.notifyUser(getApplicationContext(),
+                R.string.cancelled_with_signal_message));
         return cancellationSignal;
     }
 

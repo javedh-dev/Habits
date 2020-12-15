@@ -1,15 +1,8 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits.adapters;
@@ -29,9 +22,11 @@ import org.joda.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitDetails;
-import tech.zenex.habits.dialogs.HabitCheckInBottomSheetFragment;
-import tech.zenex.habits.dialogs.HabitMenuSheetFragment;
+import tech.zenex.habits.fragments.HabitCheckInSheetFragment;
+import tech.zenex.habits.fragments.HabitMenuSheetFragment;
+import tech.zenex.habits.utils.HabitsConstants;
 import tech.zenex.habits.utils.HabitsStats;
 import tech.zenex.habits.views.HabitCard;
 
@@ -62,16 +57,16 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
         holder.habitCard.setOnClickListener(view -> {
             HabitMenuSheetFragment fragment = new HabitMenuSheetFragment(fragmentManager,
                     habitDetails);
-            fragment.show(fragmentManager, "JournalEntrySheet");
+            fragment.show(fragmentManager, HabitsConstants.JOURNAL_ENTRY_FRAGMENT_TAG);
         });
         holder.habitCard.setOnLongClickListener(v -> {
             if (habitDetails.getHabitEntity().isOnceADay() &&
                     stats.getLastCheckIn().toLocalDate().equals(LocalDateTime.now().toLocalDate())) {
-                Snackbar.make(holder.habitCard, "You have already checked in Today.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(holder.habitCard, R.string.already_check_in_message, Snackbar.LENGTH_LONG).show();
             } else {
-                HabitCheckInBottomSheetFragment bottomSheetFragment =
-                        new HabitCheckInBottomSheetFragment(fragmentManager, habitDetails.getHabitEntity());
-                bottomSheetFragment.show(fragmentManager, "HabitCheckInSheet");
+                HabitCheckInSheetFragment bottomSheetFragment =
+                        new HabitCheckInSheetFragment(fragmentManager, habitDetails.getHabitEntity());
+                bottomSheetFragment.show(fragmentManager, HabitsConstants.HABIT_CHECK_IN_FRAGMENT_TAG);
             }
             return true;
         });

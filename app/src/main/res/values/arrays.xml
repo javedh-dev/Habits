@@ -1,72 +1,12 @@
 <!--
-  ~ Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~         http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software distributed under
-  ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  ~ either express or implied. See the License for the specific language governing permissions and
-  ~ limitations under the License.
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
   -->
 
 <resources>
 
-
-    <string-array name="journals">
-        <item>It took him a month to finish the meal.</item>
-        <item>Everyone says they love nature until they realize how dangerous she can be.</item>
-        <item>Smoky the Bear secretly started the fires.</item>
-        <item>He went back to the video to see what had been recorded and was shocked at what he saw.</item>
-        <item>So long and thanks for the fish.</item>
-        <item>He created a pig burger out of beef.</item>
-        <item>I was very proud of my nickname throughout high school but today- I could not be any different to what my nickname was.</item>
-        <item>I love eating toasted cheese and tuna sandwiches.</item>
-        <item>Nobody questions who built the pyramids in Mexico.</item>
-        <item>Do not put peanut butter on the dog nose.</item>
-        <item>He decided that the time had come to be stronger than any of the excuses he had used until then.</item>
-        <item>Jason lived his life by the motto, "Anything worth doing is worth doing poorly.</item>
-        <item>He was surprised that his immense laziness was inspirational to others.</item>
-        <item>She says she has the ability to hear the soundtrack of your life.</item>
-        <item>Three generations with six decades of life experience.</item>
-        <item>Iguanas were falling out of the trees.</item>
-        <item>He did not want to go to the dentist, yet he went anyway.</item>
-        <item>He was sure the Devil created red sparkly glitter.</item>
-        <item>He hated that he loved what she hated about hate.</item>
-        <item>The delicious aroma from the kitchen was ruined by cigarette smoke.</item>
-        <item>There was coal in his stocking and he was thrilled.</item>
-        <item>She could not decide of the glass was half empty or half full so she drank it.</item>
-        <item>He decided to fake his disappearance to avoid jail.</item>
-        <item>People keep telling me "orange" but I still prefer "pink".</item>
-        <item>She advised him to come back at once.</item>
-        <item>The tart lemonade quenched her thirst, but not her longing.</item>
-        <item>The tears of a clown make my lipstick run, but my shower cap is still intact.</item>
-        <item>The lyrics of the song sounded like fingernails on a chalkboard.</item>
-        <item>He had decided to accept his fate of accepting his fate.</item>
-        <item>She had the gift of being able to paint songs.</item>
-        <item>The two walked down the slot canyon oblivious to the sound of thunder in the distance.</item>
-        <item>The tree fell unexpectedly short.</item>
-        <item>With a single flip of the coin, his life changed forever.</item>
-        <item>He watched the dancing piglets with panda bear tummies in the swimming pool.</item>
-        <item>Weather is not trivial - it is especially important when you are standing in it.</item>
-        <item>You can not compare apples and oranges, but what about bananas and plantains?</item>
-        <item>Thirty years later, she still thought it was okay to put the toilet paper roll under rather than over.</item>
-        <item>You are unsure whether or not to trust him, but very thankful that you wore a turtle neck.</item>
-        <item>He did not understand why the bird wanted to ride the bicycle.</item>
-        <item>The urgent care center was flooded with patients after the news of a new deadly virus was made public.</item>
-        <item>This is a Japanese doll.</item>
-        <item>I love bacon, beer, birds, and baboons.</item>
-        <item>Hang on, my kittens are scratching at the bathtub and they will upset by the lack of biscuits.</item>
-        <item>Sometimes you have to just give up and win by cheating.</item>
-        <item>His son quipped that power bars were nothing more than adult candy bars.</item>
-        <item>Joyce enjoyed eating pancakes with ketchup.</item>
-        <item>It is not often you find a soggy banana on the street.</item>
-        <item>He had concluded that pigs must be able to fly in Hog Heaven.</item>
-        <item>There are no heroes in a punk rock band.</item>
-        <item>I am a great listener, really good with empathy vs sympathy and all that, but I hate people.</item>
-    </string-array>
 
     <string-array name="habits_title">
         <item>Swearing</item>
@@ -96,32 +36,12 @@
         <item>Truthfulness</item>
     </string-array>
 
-    <string-array name="habits_desc">
-        <item>Talk with a positive person.</item>
-        <item>Express gratitude by writing down three good things that happened to you each day.  (This gratitude journal can help you.)</item>
-        <item>Laugh – even if you have to force it. The mere action of laughing releases endorphins.  If you get stuck, here are 27 funny podcasts you can listen to.</item>
-        <item>Get some sun (or a happy light, if it’s a gray day.)</item>
-        <item>Move your body (walk, exercise) for 20 minutes or longer. In fact, you can build a great habit by starting a walking routine.</item>
-        <item>Invest 30 minutes a day doing a hobby you enjoy and find relaxing.  To get started, here are hobbies for men and hobbies for women.</item>
-        <item>Buy something new (even something small, like a new type of coffee.)</item>
-        <item>If you want to manage stress more effectively.</item>
-        <item>Breathe deeply for at least two minutes. Focus on your breaths.  To learn more, check out these 71 mindfulness exercises.</item>
-        <item>Stretch different body parts for ten minutes.</item>
-        <item>Listen to something calming and distracting (i.e. music) unrelated to whatever is stressing you out.</item>
-        <item>Cuddle (with a lover, friend or even a pet – physical touch is comforting.)</item>
-        <item>Detach from the source of stress (excuse yourself from a meeting, take a break from a project, remove yourself from an argument) for a five-minute break.</item>
-        <item>Sniff lavender or geranium essential oil (both lower blood pressure.)  Here are a few essential oils that can help you reduce anxiety.</item>
-        <item>Sit in the sun (outside) for five minutes.</item>
-        <item>Talk to a friend for ten minutes, even if just to hear about his or her life.</item>
-        <item>Spend ten minutes grooming (nails, bath, hair.)</item>
-        <item>List three things you genuinely like about yourself. Read those three things out loud. Do this daily.</item>
-        <item>Stand up straight. Let your hands hang naturally at your sides.</item>
-        <item>Outline your thoughts/words before you enter an intimidating situation. Being prepared will help you feel more confident. Bring cheat notes if acceptable.</item>
-        <item>Refuse to fidget. Instead, go to a private place (car, restroom) where you can stretch and get out the jitters. Then focus on relaxing.</item>
-        <item>Pay attention to the other person instead of your own insecurity.</item>
-        <item>Repeat a mantra in your head.  Here is a list over 1,000 positive affirmations you can add to your daily routine.</item>
-        <item>Take a small risk daily.  Find something that makes you a little nervous, like talking to strangers, and strive to do it one time every day to build your confidence.</item>
-        <item>Ask for compliments from a trusted friend or relative.</item>
+    <string-array name="radar_values">
+        <item>Streak</item>
+        <item>Journal</item>
+        <item>Failure</item>
+        <item>Check-in</item>
+        <item>Consistency</item>
     </string-array>
 
     <array name="colors_palette">

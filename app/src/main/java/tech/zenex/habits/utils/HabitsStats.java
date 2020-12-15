@@ -1,20 +1,11 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits.utils;
-
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -31,6 +22,7 @@ import tech.zenex.habits.database.entities.JournalEntryEntity;
 
 public class HabitsStats {
 
+    public static final String DD_MM_YYYY = "dd/MM/yyyy";
     private final HashMap<Long, Integer> journalCountByDate = new HashMap<>();
     private final HashMap<Long, Integer> checkInByDate = new HashMap<>();
     private int habitID;
@@ -73,10 +65,6 @@ public class HabitsStats {
         return totalJournalCount;
     }
 
-    public HashMap<Long, Integer> getJournalCountByType() {
-        return journalCountByDate;
-    }
-
     public int getStreakDays() {
         return streakDays;
     }
@@ -87,10 +75,6 @@ public class HabitsStats {
 
     public int getStreakPercentage() {
         return Math.min(streakPercentage, 100);
-    }
-
-    public HashMap<Long, Integer> getCheckInByDate() {
-        return checkInByDate;
     }
 
     public int getTotalCheckIns() {
@@ -105,7 +89,6 @@ public class HabitsStats {
         Collections.sort(habitDetails.getJournalEntryEntities());
         for (HabitTrackerEntity hte : habitDetails.getHabitTrackerEntities()) {
             Long checkInDay = getLongDate(hte.getCheckInTime());
-            Log.d("TrackerTime", hte.getCheckInTime().toString());
             if (habitDetails.getHabitEntity().getHabitType() != hte.getType()) {
                 this.totalFailures += 1;
                 this.failureCounter = this.totalFailures % 3;
@@ -128,8 +111,7 @@ public class HabitsStats {
     }
 
     private Long getLongDate(LocalDateTime checkInTime) {
-        Log.d("Found date", DateTimeFormat.forPattern("dd/MM/yyyy").print(checkInTime));
-        return DateTimeFormat.forPattern("dd/MM/yyyy").parseMillis(DateTimeFormat.forPattern("dd/MM/yyyy").print(checkInTime));
+        return DateTimeFormat.forPattern(DD_MM_YYYY).parseMillis(DateTimeFormat.forPattern(DD_MM_YYYY).print(checkInTime));
     }
 
     private void incrementJournalCountByDate(Long day) {
@@ -151,16 +133,17 @@ public class HabitsStats {
         this.totalCheckIns += 1;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "HabitsStats{" +
-                "habitID=" + habitID +
+                "journalCountByDate=" + journalCountByDate +
+                ", checkInByDate=" + checkInByDate +
+                ", habitID=" + habitID +
                 ", failureCounter=" + failureCounter +
                 ", lastCheckIn=" + lastCheckIn +
                 ", streakStart=" + streakStart +
                 ", totalJournalCount=" + totalJournalCount +
-                ", journalCountByDate=" + journalCountByDate +
-                ", checkInByDate=" + checkInByDate +
                 ", streakDays=" + streakDays +
                 ", streakPercentage=" + streakPercentage +
                 ", totalFailures=" + totalFailures +

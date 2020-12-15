@@ -1,15 +1,8 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits.views;
@@ -24,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
+import java.text.MessageFormat;
 import java.util.Collections;
 
 import app.futured.donut.DonutProgressView;
@@ -31,6 +25,7 @@ import app.futured.donut.DonutSection;
 import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.entities.HabitEntity;
+import tech.zenex.habits.utils.HabitsConstants;
 import tech.zenex.habits.utils.HabitsStats;
 
 public class HabitCard extends RelativeLayout {
@@ -71,9 +66,11 @@ public class HabitCard extends RelativeLayout {
     }
 
     public void setProgressPercentage(int progressPercentage, int color) {
-        this.progressPercentage.setText(String.format(context.getResources().getString(R.string.habit_percentage_placeholder), progressPercentage));
+        this.progressPercentage.setText(MessageFormat.format(HabitsConstants.STREAK_PERCENTAGE_FORMAT,
+                progressPercentage));
         this.streakProgressBar.clear();
-        DonutSection progress = new DonutSection("streak", color, progressPercentage);
+        DonutSection progress = new DonutSection(HabitsConstants.DONUT_VIEW_SECTION_NAME, color,
+                progressPercentage);
         this.streakProgressBar.submitData(Collections.singletonList(progress));
         this.streakProgressBar.animate();
     }
@@ -94,22 +91,22 @@ public class HabitCard extends RelativeLayout {
         habitType.setImageResource(type == HabitEntity.HabitType.DEVELOP ? R.drawable.link :
                 R.drawable.broken_link);
         boolean showHabitType = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-                "show_habit_type", false);
+                HabitsConstants.PREFERENCE_SHOW_HABIT_TYPE, false);
         habitType.setVisibility(showHabitType ? VISIBLE : GONE);
     }
 
     private void updateDividerVisibility() {
         boolean showOncePerDay = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-                "show_once_per_day", false);
+                HabitsConstants.PREFERENCE_SHOW_ONCE_PER_DAY, false);
         boolean showHabitType = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-                "show_habit_type", false);
+                HabitsConstants.PREFERENCE_SHOW_HABIT_TYPE, false);
         divider.setVisibility(showHabitType && showOncePerDay ? VISIBLE : GONE);
     }
 
     public void setOnceADay(boolean onceADay) {
         this.onceADay.setImageResource(onceADay ? R.drawable.once : R.drawable.infinite);
         boolean showOncePerDay = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-                "show_once_per_day", false);
+                HabitsConstants.PREFERENCE_SHOW_ONCE_PER_DAY, false);
         this.onceADay.setVisibility(showOncePerDay ? VISIBLE : GONE);
     }
 

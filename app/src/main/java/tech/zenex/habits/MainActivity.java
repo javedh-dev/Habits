@@ -1,29 +1,22 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,9 +33,10 @@ import java.util.Objects;
 import tech.zenex.habits.adapters.HabitsRecyclerViewAdapter;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.database.HabitsDatabase;
-import tech.zenex.habits.dialogs.NewHabitBottomSheetFragment;
+import tech.zenex.habits.fragments.HabitEditSheetFragment;
 import tech.zenex.habits.utils.DatabaseBackupUtil;
-import tech.zenex.habits.utils.HabitsPreferencesUtil;
+import tech.zenex.habits.utils.HabitsBasicUtil;
+import tech.zenex.habits.utils.HabitsConstants;
 import tech.zenex.habits.views.HabitsRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,29 +51,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String url = extras.getString("url");
+            String url = extras.getString(HabitsConstants.MAIN_ACTIVITY_EXTRAS_URL_KEY);
             if (url != null) {
                 Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-//                notificationIntent, 0);
+
                 startActivity(notificationIntent);
-            }
-            for (String key : extras.keySet()) {
-                String value = extras.getString(key);
-                Log.d("Main Intent", "Key: " + key + " Value: " + value);
             }
         }
         setContentView(R.layout.activity_main);
         setupRecyclerView();
         appBar = findViewById(R.id.app_bar);
-        appBar.setNavigationIcon(R.drawable.settings_light);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.settings, null);
+        if (drawable != null) {
+            drawable.setTint(getResources().getColor(R.color.inverseIconColor, null));
+        }
+        appBar.setNavigationIcon(drawable);
         setSupportActionBar(appBar);
         addHabitFAB = findViewById(R.id.add_habit);
         addHabitFAB.setOnClickListener(view -> openAddHabitFragment());
         carouselView = findViewById(R.id.carouselView);
         carouselView.setImageListener((position, imageView) -> imageView.setImageResource(images[position]));
         carouselView.setPageCount(images.length);
-//        HabitsPreferencesUtil.verifyPermissions(this);
     }
 
 
@@ -87,10 +79,7 @@ public class MainActivity extends AppCompatActivity {
         rv = findViewById(R.id.habits_list);
         rv.setLayoutManager(new GridLayoutManager(this, 2));
         LiveData<List<HabitDetails>> data = getHabits();
-        data.observe(this, habitDetails -> {
-            Log.d("Habit-Data", Objects.requireNonNull(data.getValue()).toString());
-            Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged();
-        });
+        data.observe(this, habitDetails -> Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged());
         rv.setEmptyView(findViewById(R.id.empty_view));
         rv.setAdapter(new HabitsRecyclerViewAdapter(this, data, getSupportFragmentManager()));
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -102,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 } else if (dy > 5 && addHabitFAB.isExtended()) {
                     addHabitFAB.shrink();
                 }
-                Log.d("SCROLL", String.format("dx : %d, dy : %d", dx, dy));
             }
 
             @Override
@@ -117,22 +105,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openAddHabitFragment() {
-        NewHabitBottomSheetFragment bottomSheetFragment =
-                new NewHabitBottomSheetFragment();
+        HabitEditSheetFragment bottomSheetFragment =
+                new HabitEditSheetFragment();
         bottomSheetFragment.show(getSupportFragmentManager(), "AddHabitBottomSheet");
         bottomSheetFragment.setCancelable(false);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (!HabitsPreferencesUtil.getDefaultSharedPreference(this)
+        if (!HabitsBasicUtil.getDefaultSharedPreference(this)
                 .getBoolean("backup", false) || user == null) {
             menu.removeItem(R.id.backup);
             menu.removeItem(R.id.restore);
             if (user == null) {
-                HabitsPreferencesUtil.getDefaultSharedPreference(this)
+                HabitsBasicUtil.getDefaultSharedPreference(this)
                         .edit().putBoolean("backup", false).apply();
             }
         }
@@ -159,15 +147,4 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(this.rv.getAdapter()).notifyDataSetChanged();
         invalidateOptionsMenu();
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        String TAG = "Permission : ";
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.v(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
-        }
-    }
-
 }

@@ -1,15 +1,8 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits;
@@ -19,12 +12,10 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.Objects;
-
-import tech.zenex.habits.utils.HabitsPreferencesUtil;
+import tech.zenex.habits.utils.HabitsBasicUtil;
+import tech.zenex.habits.utils.HabitsConstants;
 
 public class HabitsApp extends Application {
-    private static final String TAG = "Firebase Token";
 
     @Override
     public void onCreate() {
@@ -35,11 +26,10 @@ public class HabitsApp extends Application {
     }
 
     private void setupDatabase() {
-        if (HabitsPreferencesUtil.getDefaultSharedPreference(getApplicationContext()).getBoolean(
-                "is_first_run", true)) {
-//            HabitsBasicUtil.generateTestData(getApplicationContext());
-            HabitsPreferencesUtil.getDefaultSharedPreference(getApplicationContext()).edit().putBoolean(
-                    "is_first_run", false).apply();
+        if (HabitsBasicUtil.getDefaultSharedPreference(getApplicationContext()).getBoolean(
+                HabitsConstants.PREFERENCE_IS_FIRST_RUN, true)) {
+            HabitsBasicUtil.getDefaultSharedPreference(getApplicationContext()).edit().putBoolean(
+                    HabitsConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }
     }
 
@@ -47,9 +37,10 @@ public class HabitsApp extends Application {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
-                        Log.d(TAG, "Error getting token");
+                        Log.e(HabitsConstants.FIREBASE_LOG, HabitsConstants.FIREBASE_ERROR_GETTING_TOKEN);
                     } else {
-                        Log.d(TAG, Objects.requireNonNull(task.getResult()));
+                        Log.d(HabitsConstants.FIREBASE_LOG,
+                                String.format(HabitsConstants.FIREBASE_TOKEN_ACQUIRED, task.getResult()));
                     }
                 });
     }

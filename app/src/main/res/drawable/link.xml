@@ -1,15 +1,8 @@
 <!--
-  ~ Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~         http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software distributed under
-  ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  ~ either express or implied. See the License for the specific language governing permissions and
-  ~ limitations under the License.
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,18 +12,9 @@
     android:viewportWidth="200"
     android:viewportHeight="200">
     <path
-        android:fillColor="#FF000000"
-        android:pathData="M53.18,77.71L95,77.71v-18L53.18,59.71a40.32,40.32 0,0 0,0 80.63L95,140.34v-18L53.18,122.34a22.32,22.32 0,0 1,0 -44.63ZM146.77,59.71L105,59.71v18h41.74a22.32,22.32 0,1 1,0 44.63L105,122.34v18h41.74a40.32,40.32 0,1 0,0 -80.63Z"
-        android:strokeWidth="1"
-        android:strokeColor="#000" />
+        android:fillColor="@color/iconColor"
+        android:pathData="M53.18,77.71L95,77.71v-18L53.18,59.71a40.32,40.32 0,0 0,0 80.63L95,140.34v-18L53.18,122.34a22.32,22.32 0,0 1,0 -44.63ZM146.77,59.71L105,59.71v18h41.74a22.32,22.32 0,1 1,0 44.63L105,122.34v18h41.74a40.32,40.32 0,1 0,0 -80.63Z" />
     <path
-        android:fillColor="#FF000000"
-        android:pathData="M137.91,100a9,9 0,0 1,-9 9H71.06a9,9 0,1 1,0 -18H128.9A9,9 0,0 1,137.91 100Z"
-        android:strokeWidth="1"
-        android:strokeColor="#000" />
-    <path
-        android:fillColor="#FF000000"
-        android:pathData="M95.03,91.02h10v18.01h-10z"
-        android:strokeWidth="1"
-        android:strokeColor="#000" />
+        android:fillColor="@color/iconColor"
+        android:pathData="M137.91,100a9,9 0,0 1,-9 9H71.06a9,9 0,1 1,0 -18H128.9A9,9 0,0 1,137.91 100Z" />
 </vector>

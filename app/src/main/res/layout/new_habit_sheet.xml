@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~         http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software distributed under
-  ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  ~ either express or implied. See the License for the specific language governing permissions and
-  ~ limitations under the License.
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
@@ -25,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:cardCornerRadius="0dp"
+        app:cardCornerRadius="@dimen/zero_dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,15 +27,15 @@
             android:orientation="vertical">
 
             <View
-                android:layout_width="50dp"
-                android:layout_height="5dp"
+                android:layout_width="@dimen/drag_view_width"
+                android:layout_height="@dimen/drag_view_height"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@drawable/dragger" />
+                android:layout_margin="@dimen/medium_space"
+                android:background="@drawable/drag_icon" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="10dp">
@@ -54,35 +46,24 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:autofillHints="@null"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/habit_name"
+                    android:background="@color/transparent"
+                    android:hint="@string/habit_title_placeholder"
                     android:inputType="textNoSuggestions"
                     android:shadowColor="@color/colorPrimary"
                     android:textCursorDrawable="@null"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/subtitle_text_size"
                     android:textStyle="bold">
 
                     <requestFocus />
                 </EditText>
-
-                <!--<TextView
-                    android:id="@+id/textView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/add_habit_text"
-                    android:textColor="#000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />-->
 
                 <com.google.android.material.button.MaterialButtonToggleGroup
                     android:id="@+id/habit_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:selectionRequired="true"
                     app:checkedButton="@+id/develop_btn"
+                    app:selectionRequired="true"
                     app:singleSelection="true">
 
                     <com.google.android.material.button.MaterialButton
@@ -90,15 +71,15 @@
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/develop_habit_type"
+                        android:text="@string/develop_text"
                         android:textAllCaps="false" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/break_btn"
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/break_habit_type"
-                        android:id="@+id/break_btn"
+                        android:text="@string/break_text"
                         android:textAllCaps="false" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -117,15 +98,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="@null"
-                android:background="@android:color/transparent"
+                android:background="@color/transparent"
                 android:gravity="top"
-                android:hint="Description"
+                android:hint="@string/habit_desc_placeholder"
                 android:inputType="textMultiLine"
                 android:lines="3"
-                android:padding="10dp"
+                android:padding="@dimen/medium_space"
                 android:shadowColor="@color/colorPrimary"
                 android:textCursorDrawable="@null"
-                android:textSize="16sp">
+                android:textSize="@dimen/subtitle_text_size">
 
             </EditText>
 
@@ -133,21 +114,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="@dimen/medium_space"
+                android:paddingRight="@dimen/medium_space">
 
                 <Button
                     android:id="@+id/advanced_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:drawableRight="@drawable/caret_dark"
+                    android:drawableEnd="@drawable/caret"
+                    android:drawableTint="@color/colorPrimary"
                     android:padding="0dp"
-                    android:text="Advanced Options"
+                    android:text="@string/advanced_options_text"
                     android:textAlignment="textEnd"
                     android:textAllCaps="true"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="12dp" />
+                    android:textSize="@dimen/small_text_size" />
 
                 <LinearLayout
                     android:id="@+id/advanced_options"
@@ -163,18 +145,18 @@
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/once_a_day"
-                            android:layout_width="0dp"
+                            android:layout_width="@dimen/zero_dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Once a day check-in" />
+                            android:text="@string/once_a_day_check_in_text" />
 
                         <Space
-                            android:layout_width="20dp"
+                            android:layout_width="@dimen/large_space"
                             android:layout_height="match_parent" />
 
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="@dimen/zero_dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="end|center_vertical"
@@ -183,19 +165,19 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Choose Color"
+                                android:text="@string/choose_color_text"
                                 android:textColor="@color/colorPrimaryDark"
-                                android:textSize="15sp" />
+                                android:textSize="@dimen/regular_text_size" />
 
                             <Space
-                                android:layout_width="20dp"
+                                android:layout_width="@dimen/large_space"
                                 android:layout_height="wrap_content" />
 
                             <View
                                 android:id="@+id/color_picker"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:background="#F00" />
+                                android:layout_width="@dimen/large_space"
+                                android:layout_height="@dimen/large_space"
+                                android:background="@color/colorAccent" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -205,15 +187,15 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingTop="18dp"
-                        android:paddingBottom="18dp">
+                        android:paddingTop="@dimen/large_space"
+                        android:paddingBottom="@dimen/large_space">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="Streak Limit"
+                            android:text="@string/streak_limit_text"
                             android:textColor="@color/colorPrimaryDark"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/regular_text_size" />
 
                         <SeekBar
                             android:id="@+id/streak_seekbar"
@@ -221,46 +203,18 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:max="100"
-                            android:min="0"
                             android:progress="21" />
 
                         <TextView
                             android:id="@+id/streak_text"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="21 Days"
                             android:textColor="@color/colorPrimaryDark"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/regular_text_size" />
                     </LinearLayout>
                 </LinearLayout>
-                <!--<Space
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />-->
-                <!--<TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Target"
-                    android:layout_weight="1"
-                    android:textAlignment="textEnd"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorPrimaryDark"/>-->
 
-                <!--<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="Target Date - **/**/****"
-                    android:textAlignment="textEnd"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:id="@+id/target_date"/>-->
             </LinearLayout>
-
-            <!--<androidx.viewpager2.widget.ViewPager2
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/new_habit_wizard"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -274,8 +228,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:text="@string/cancel_button_text"
-                    android:textColor="@color/colorAccent" />
+                    android:text="@string/cancel_text"
+                    android:textColor="@color/red" />
 
                 <Space
                     android:layout_width="0dp"
@@ -288,7 +242,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:text="@string/create_button_text"
+                    android:text="@string/create_text"
                     android:textColor="@color/colorPrimary" />
             </LinearLayout>
         </LinearLayout>

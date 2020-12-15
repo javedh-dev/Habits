@@ -1,15 +1,8 @@
 <!--
-  ~ Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~         http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software distributed under
-  ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  ~ either express or implied. See the License for the specific language governing permissions and
-  ~ limitations under the License.
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
@@ -57,10 +50,10 @@
             app:title="Cloud Backup &amp; Restore" />
         <EditTextPreference
             android:summary="Always remember the key It'll be used to restore"
+            app:defaultValue="DkXchK7bBSmtQtsS"
             app:dependency="backup"
             app:iconSpaceReserved="false"
             app:key="backup_key"
-            app:defaultValue="DkXchK7bBSmtQtsS"
             app:title="Backup key" />
         <SeekBarPreference
             android:defaultValue="3"
@@ -78,10 +71,10 @@
         app:title="Interface">
 
         <SwitchPreferenceCompat
-            app:iconSpaceReserved="false"
-            app:key="dark_mode"
             android:enabled="false"
             app:enabled="false"
+            app:iconSpaceReserved="false"
+            app:key="dark_mode"
             app:summary="Coming soon"
             app:title="Dark Mode" />
 
@@ -92,10 +85,10 @@
             app:title="Show Habit Frequency" />
 
         <SwitchPreferenceCompat
+            app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="show_habit_type"
             app:summary="Display icon for Habit type in Habit Card"
-            app:defaultValue="true"
             app:title="Show Habit Type" />
 
 

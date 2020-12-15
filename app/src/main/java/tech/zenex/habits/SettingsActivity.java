@@ -1,24 +1,15 @@
 /*
- * Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+ * This file is part of Habits project.
+ * This file and other under this project can not be copied and/or distributed
+ * without the express permission of Javed Hussain
  */
 
 package tech.zenex.habits;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -35,10 +26,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.Objects;
-
-import tech.zenex.habits.dialogs.HabitsLoadingDialog;
-import tech.zenex.habits.dialogs.SettingsFragment;
+import tech.zenex.habits.fragments.SettingsFragment;
+import tech.zenex.habits.utils.HabitsBasicUtil;
+import tech.zenex.habits.utils.HabitsConstants;
+import tech.zenex.habits.utils.HabitsLoadingDialog;
 import tech.zenex.habits.utils.HabitsPreferenceListener;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -52,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_activity);
+        setContentView(R.layout.activity_settings);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -63,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
+                    .replace(R.id.settings, new SettingsFragment(this))
                     .commit();
         }
 
@@ -89,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
                 mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
                 signIn();
             } else {
-                Log.d("GSO", "Signed in successfully.");
+
                 loader.dismiss();
                 sendPreferenceResult(true);
             }
@@ -109,11 +100,14 @@ public class SettingsActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d("GSO", "firebaseAuthWithGoogle:" + Objects.requireNonNull(account).getId());
-                firebaseAuthWithGoogle(account.getIdToken());
+                if (account != null) {
+                    firebaseAuthWithGoogle(account.getIdToken());
+                } else {
+                    sendPreferenceResult(false);
+                    loader.dismiss();
+                }
             } catch (ApiException e) {
                 sendPreferenceResult(false);
-                Log.w("GSO", "Google sign in failed", e);
                 loader.dismiss();
             }
         }
@@ -124,13 +118,10 @@ public class SettingsActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Log.d("GSO", "signInWithCredential:success");
-//                        FirebaseUser user = mAuth.getCurrentUser();
                         sendPreferenceResult(true);
                     } else {
-                        Log.w("GSO", "signInWithCredential:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), "Authentication Failed.",
-                                Toast.LENGTH_SHORT).show();
+                        HabitsBasicUtil.notifyUser(getApplicationContext(),
+                                R.string.authentication_failed_message);
                         sendPreferenceResult(false);
                     }
                     loader.dismiss();
@@ -139,7 +130,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void sendPreferenceResult(boolean isSuccessful) {
         if (this.preferenceListener != null)
-            this.preferenceListener.onPreferenceResult("backup", isSuccessful);
+            this.preferenceListener.onPreferenceResult(HabitsConstants.PREFERENCE_BACKUP, isSuccessful);
     }
 
     public void registerPreferenceListener(HabitsPreferenceListener listener) {
