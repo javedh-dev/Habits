@@ -8,6 +8,7 @@
 package tech.zenex.habits;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         setContentView(R.layout.activity_main);
-        setupRecyclerView();
         appBar = findViewById(R.id.app_bar);
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.settings, null);
         if (drawable != null) {
@@ -69,15 +69,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(appBar);
         addHabitFAB = findViewById(R.id.add_habit);
         addHabitFAB.setOnClickListener(view -> openAddHabitFragment());
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            setupCarousel();
+            setupRecyclerView(2);
+        } else {
+            setupRecyclerView(4);
+        }
+    }
+
+    private void setupCarousel() {
         carouselView = findViewById(R.id.carouselView);
         carouselView.setImageListener((position, imageView) -> imageView.setImageResource(images[position]));
         carouselView.setPageCount(images.length);
     }
 
 
-    private void setupRecyclerView() {
+    private void setupRecyclerView(int gridSize) {
         rv = findViewById(R.id.habits_list);
-        rv.setLayoutManager(new GridLayoutManager(this, 2));
+        rv.removeAllViews();
+        rv.setLayoutManager(new GridLayoutManager(this, gridSize));
         LiveData<List<HabitDetails>> data = getHabits();
         data.observe(this, habitDetails -> Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged());
         rv.setEmptyView(findViewById(R.id.empty_view));
@@ -147,4 +157,5 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(this.rv.getAdapter()).notifyDataSetChanged();
         invalidateOptionsMenu();
     }
+
 }
