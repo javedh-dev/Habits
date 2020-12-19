@@ -27,6 +27,7 @@ import tech.zenex.habits.utils.HabitsBasicUtil;
 public class JournalsCard extends CardView {
 
     private LinearLayout container;
+    private TextView title;
 
     public JournalsCard(@NonNull Context context) {
         super(context);
@@ -49,7 +50,7 @@ public class JournalsCard extends CardView {
         container = new LinearLayout(getContext());
         container.setOrientation(LinearLayout.VERTICAL);
         addView(container);
-        TextView title = new TextView(getContext());
+        title = new TextView(getContext());
         title.setTextSize(16);
         title.setText(R.string.journal_entries_text);
         title.setTextColor(HabitsBasicUtil.getRandomColor(getContext()));
@@ -63,6 +64,9 @@ public class JournalsCard extends CardView {
     }
 
     public void addEntries(List<JournalEntryEntity> entryEntities) {
+        if (entryEntities.isEmpty()) {
+            title.setText(R.string.no_journal_entries_text);
+        }
         Collections.reverse(entryEntities);
         for (JournalEntryEntity entity : entryEntities) {
             container.addView(new JournalCard(getContext(), entity.getTimestamp(), entity.getJournalType(),

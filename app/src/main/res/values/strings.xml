@@ -32,6 +32,7 @@
     <string name="restoring_message">Restoring…</string>
     <string name="backup_completion_message">Backup Completed Successfully…</string>
     <string name="journal_entries_text">Journal Entries</string>
+    <string name="no_journal_entries_text">No Journal Entries!!!</string>
     <string name="fingerprint_not_enabled_message">Lock screen security not enabled in settings</string>
     <string name="fingerprint_permission_not_enabled_message">Fingerprint authentication permission not enabled</string>
     <string name="authentication_failed_message">Authentication failed</string>
@@ -71,6 +72,8 @@
     <string name="check_ins_text">Check-ins</string>
     <string name="total_failures_text">Total Failures</string>
     <string name="filler_text">--</string>
+    <string name="check_in_failed_message">Check in failed…</string>
+    <string name="try_again_message">Unexpected error occurred. Please try again…</string>
 
 
     <string-array name="journal_types">

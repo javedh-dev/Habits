@@ -15,9 +15,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.util.Objects;
@@ -29,21 +27,28 @@ import tech.zenex.habits.database.HabitsDatabase;
 import tech.zenex.habits.database.HabitsRepository;
 import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.database.entities.HabitTrackerEntity;
+import tech.zenex.habits.utils.HabitsBasicUtil;
+import tech.zenex.habits.utils.HabitsConstants;
 
-public class HabitCheckInSheetFragment extends BottomSheetDialogFragment {
-    FragmentManager fragmentManager;
-    HabitEntity habitEntity;
+public class HabitCheckInSheetFragment extends HabitsBottomSheet {
     MaterialButtonToggleGroup checkIn;
 
-    public HabitCheckInSheetFragment(FragmentManager fragmentManager, HabitEntity habitEntity) {
-        this.fragmentManager = fragmentManager;
-        this.habitEntity = habitEntity;
+
+    public HabitCheckInSheetFragment() {
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.SheetDialog_WithoutKeyBoard);
+    }
+
+    public static HabitCheckInSheetFragment newInstance(HabitEntity habitEntity) {
+        Bundle args = new Bundle();
+        args.putSerializable(HabitsConstants.ARGS_HABITS_ENTITY_KEY, habitEntity);
+        HabitCheckInSheetFragment f = new HabitCheckInSheetFragment();
+        f.setArguments(args);
+        return f;
     }
 
     @Nullable
@@ -53,25 +58,45 @@ public class HabitCheckInSheetFragment extends BottomSheetDialogFragment {
         View v = inflater.inflate(R.layout.habit_checkin_sheet, container, false);
         checkIn = v.findViewById(R.id.check_in);
         checkIn.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            HabitEntity.HabitType checkInStatus = isCheckInStatus(checkedId, isChecked);
-            HabitsDatabase.databaseWriteExecutor.execute(() -> {
-                HabitTrackerEntity tracker = new HabitTrackerEntity(habitEntity.getHabitID(), checkInStatus);
-                HabitsRepository.addHabitTracker(tracker, getContext());
-                if (checkInStatus != habitEntity.getHabitType()) {
-                    HabitsDatabase.getDatabase(getContext()).habitDao().update(habitEntity);
-                }
-            });
+            checkInDatabase(checkedId, isChecked);
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
                     Objects.requireNonNull(getDialog()).dismiss();
                 }
-            }, 200);
+            }, 500);
         });
         return v;
     }
 
-    private HabitEntity.HabitType isCheckInStatus(int checkedId, boolean isChecked) {
+    private void checkInDatabase(int checkedId, boolean isChecked) {
+        HabitEntity habitEntity = getHabitEntity();
+        if (habitEntity != null) {
+            HabitEntity.HabitType checkInStatus = isCheckInStatus(checkedId, isChecked, habitEntity);
+            HabitsDatabase.databaseWriteExecutor.execute(() -> {
+                HabitTrackerEntity tracker = new HabitTrackerEntity(habitEntity.getHabitID(),
+                        checkInStatus);
+                HabitsRepository.addHabitTracker(tracker, getContext());
+                if (checkInStatus != habitEntity.getHabitType()) {
+                    HabitsDatabase.getDatabase(getContext()).habitDao().update(habitEntity);
+                }
+            });
+        } else {
+            HabitsBasicUtil.notifyUser(getContext(), R.string.check_in_failed_message);
+        }
+    }
+
+    @Nullable
+    private HabitEntity getHabitEntity() {
+        HabitEntity habitEntity = null;
+        if (getArguments() != null) {
+            habitEntity = (HabitEntity) getArguments().getSerializable(
+                    HabitsConstants.ARGS_HABITS_ENTITY_KEY);
+        }
+        return habitEntity;
+    }
+
+    private HabitEntity.HabitType isCheckInStatus(int checkedId, boolean isChecked, HabitEntity habitEntity) {
         if (checkedId == R.id.success_btn && isChecked) {
             return habitEntity.getHabitType();
         } else {

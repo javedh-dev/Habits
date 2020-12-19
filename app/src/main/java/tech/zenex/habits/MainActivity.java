@@ -45,7 +45,11 @@ public class MainActivity extends AppCompatActivity {
     CarouselView carouselView;
     ExtendedFloatingActionButton addHabitFAB;
     BottomAppBar appBar;
-    int[] images = {R.drawable.img3, R.drawable.img2, R.drawable.img1};
+    int[] images = {
+            R.drawable.img3,
+            R.drawable.img2,
+            R.drawable.img1
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             String url = extras.getString(HabitsConstants.MAIN_ACTIVITY_EXTRAS_URL_KEY);
             if (url != null) {
                 Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-
                 startActivity(notificationIntent);
             }
         }
@@ -82,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         carouselView.setImageListener((position, imageView) -> imageView.setImageResource(images[position]));
         carouselView.setPageCount(images.length);
     }
-
 
     private void setupRecyclerView(int gridSize) {
         rv = findViewById(R.id.habits_list);
@@ -149,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     protected void onPostResume() {

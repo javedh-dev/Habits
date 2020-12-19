@@ -22,11 +22,10 @@ import tech.zenex.habits.utils.HabitsPreferenceListener;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements HabitsPreferenceListener {
 
-    private final SettingsActivity activity;
     private SwitchPreferenceCompat backup;
 
-    public SettingsFragment(SettingsActivity activity) {
-        this.activity = activity;
+
+    public SettingsFragment() {
     }
 
     @Override
@@ -43,23 +42,28 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Habits
     }
 
     private void setupListeners() {
-        activity.registerPreferenceListener(this);
-        backup = findPreference(HabitsConstants.PREFERENCE_BACKUP);
-        if (backup != null) {
-            backup.setOnPreferenceChangeListener((preference, newValue) -> {
-                if (newValue instanceof Boolean && (Boolean) newValue) {
-                    activity.verifyLogin();
-                }
-                return true;
-            });
+        SettingsActivity activity = (SettingsActivity) getActivity();
+        if (activity != null) {
+            activity.registerPreferenceListener(this);
+            backup = findPreference(HabitsConstants.PREFERENCE_BACKUP);
+            if (backup != null) {
+                backup.setOnPreferenceChangeListener((preference, newValue) -> {
+                    if (newValue instanceof Boolean && (Boolean) newValue) {
+                        activity.verifyLogin();
+                    }
+                    return true;
+                });
+            }
         }
-
     }
 
     private CharSequence getAppVersion() throws PackageManager.NameNotFoundException {
-        PackageInfo pInfo =
-                activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
-        return pInfo.versionName + " (" + pInfo.versionCode + ")";
+        if (getActivity() != null) {
+            PackageInfo pInfo =
+                    getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            return pInfo.versionName + " (" + pInfo.versionCode + ")";
+        } else
+            return HabitsConstants.EMPTY_STRING;
     }
 
     @Override

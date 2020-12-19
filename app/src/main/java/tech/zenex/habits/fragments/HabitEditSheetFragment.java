@@ -25,7 +25,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
@@ -40,7 +39,7 @@ import tech.zenex.habits.database.HabitsRepository;
 import tech.zenex.habits.database.entities.HabitEntity;
 import tech.zenex.habits.utils.HabitsConstants;
 
-public class HabitEditSheetFragment extends BottomSheetDialogFragment {
+public class HabitEditSheetFragment extends HabitsBottomSheet {
     private MaterialButton create;
 
     private HabitEntity habitEntity;

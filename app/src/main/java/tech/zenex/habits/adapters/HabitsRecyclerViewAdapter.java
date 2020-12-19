@@ -15,8 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.joda.time.LocalDateTime;
 
 import java.util.List;
@@ -26,6 +24,7 @@ import tech.zenex.habits.R;
 import tech.zenex.habits.database.HabitDetails;
 import tech.zenex.habits.fragments.HabitCheckInSheetFragment;
 import tech.zenex.habits.fragments.HabitMenuSheetFragment;
+import tech.zenex.habits.utils.HabitsBasicUtil;
 import tech.zenex.habits.utils.HabitsConstants;
 import tech.zenex.habits.utils.HabitsStats;
 import tech.zenex.habits.views.HabitCard;
@@ -55,17 +54,16 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
         HabitsStats stats = HabitsStats.calculateStats(habitDetails);
         holder.habitCard.populateHabit(habitDetails, stats);
         holder.habitCard.setOnClickListener(view -> {
-            HabitMenuSheetFragment fragment = new HabitMenuSheetFragment(fragmentManager,
-                    habitDetails);
+            HabitMenuSheetFragment fragment = HabitMenuSheetFragment.newInstance(habitDetails);
             fragment.show(fragmentManager, HabitsConstants.JOURNAL_ENTRY_FRAGMENT_TAG);
         });
         holder.habitCard.setOnLongClickListener(v -> {
             if (habitDetails.getHabitEntity().isOnceADay() &&
                     stats.getLastCheckIn().toLocalDate().equals(LocalDateTime.now().toLocalDate())) {
-                Snackbar.make(holder.habitCard, R.string.already_check_in_message, Snackbar.LENGTH_LONG).show();
+                HabitsBasicUtil.notifyUser(context, R.string.already_check_in_message);
             } else {
                 HabitCheckInSheetFragment bottomSheetFragment =
-                        new HabitCheckInSheetFragment(fragmentManager, habitDetails.getHabitEntity());
+                        HabitCheckInSheetFragment.newInstance(habitDetails.getHabitEntity());
                 bottomSheetFragment.show(fragmentManager, HabitsConstants.HABIT_CHECK_IN_FRAGMENT_TAG);
             }
             return true;

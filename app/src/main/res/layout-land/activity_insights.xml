@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InsightsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:paddingLeft="@dimen/medium_space"
+        android:paddingRight="@dimen/medium_space">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/radar_card_height"
+                android:layout_marginBottom="@dimen/medium_space"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardUseCompatPadding="true">
+
+                <com.github.mikephil.charting.charts.RadarChart
+                    android:id="@+id/radar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.cardview.widget.CardView>
+
+            <include layout="@layout/insights_cards" />
+
+            <tech.zenex.habits.views.JournalsCard
+                android:id="@+id/journal_entries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardUseCompatPadding="true" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
