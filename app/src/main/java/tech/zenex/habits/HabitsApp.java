@@ -10,6 +10,7 @@ package tech.zenex.habits;
 import android.app.Application;
 import android.util.Log;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import tech.zenex.habits.utils.HabitsBasicUtil;
@@ -28,7 +29,7 @@ public class HabitsApp extends Application {
     private void setupDatabase() {
         if (HabitsBasicUtil.getDefaultSharedPreference(getApplicationContext()).getBoolean(
                 HabitsConstants.PREFERENCE_IS_FIRST_RUN, true)) {
-            HabitsBasicUtil.generateTestData(getApplicationContext());
+//            HabitsBasicUtil.generateTestData(getApplicationContext());
             HabitsBasicUtil.getDefaultSharedPreference(getApplicationContext()).edit().putBoolean(
                     HabitsConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }
@@ -44,5 +45,6 @@ public class HabitsApp extends Application {
                                 String.format(HabitsConstants.FIREBASE_TOKEN_ACQUIRED, task.getResult()));
                     }
                 });
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
     }
 }

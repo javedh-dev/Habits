@@ -137,5 +137,4 @@ public class HabitCard extends RelativeLayout {
     public boolean hasFocusable() {
         return true;
     }
-
 }

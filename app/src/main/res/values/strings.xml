@@ -74,6 +74,11 @@
     <string name="filler_text">--</string>
     <string name="check_in_failed_message">Check in failed…</string>
     <string name="try_again_message">Unexpected error occurred. Please try again…</string>
+    <string name="one_tap_spotlight_title">1. One tap</string>
+    <string name="one_tap_spotlight_desc">Tap once to open habit menu.</string>
+    <string name="long_tap_spotlight_title">2. Long tap</string>
+    <string name="long_tap_spotlight_desc">Tap and hold to check in today\'s progress.</string>
+    <string name="close_button">Close Button</string>
 
 
     <string-array name="journal_types">

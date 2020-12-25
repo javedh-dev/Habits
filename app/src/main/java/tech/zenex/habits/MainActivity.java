@@ -9,11 +9,14 @@ package tech.zenex.habits;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +30,10 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.synnapps.carouselview.CarouselView;
+import com.takusemba.spotlight.Spotlight;
+import com.takusemba.spotlight.Target;
+import com.takusemba.spotlight.effet.RippleEffect;
+import com.takusemba.spotlight.shape.Circle;
 
 import java.util.List;
 import java.util.Objects;
@@ -41,9 +48,10 @@ import tech.zenex.habits.utils.HabitsConstants;
 import tech.zenex.habits.views.HabitsRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
-    HabitsRecyclerView rv;
+
+    public HabitsRecyclerView rv;
     CarouselView carouselView;
-    ExtendedFloatingActionButton addHabitFAB;
+    public ExtendedFloatingActionButton addHabitFAB;
     BottomAppBar appBar;
     int[] images = {
             R.drawable.img3,
@@ -72,12 +80,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(appBar);
         addHabitFAB = findViewById(R.id.add_habit);
         addHabitFAB.setOnClickListener(view -> openAddHabitFragment());
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+        if (isLandscape()) {
             setupCarousel();
             setupRecyclerView(2);
         } else {
             setupRecyclerView(4);
         }
+    }
+
+    private boolean isLandscape() {
+        return getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE;
     }
 
     private void setupCarousel() {
@@ -91,7 +103,14 @@ public class MainActivity extends AppCompatActivity {
         rv.removeAllViews();
         rv.setLayoutManager(new GridLayoutManager(this, gridSize));
         LiveData<List<HabitDetails>> data = getHabits();
-        data.observe(this, habitDetails -> Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged());
+        data.observe(this, habitDetails -> {
+            Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged();
+            if (!habitDetails.isEmpty() && !HabitsBasicUtil.getDefaultSharedPreference(this).
+                    getBoolean(HabitsConstants.PREFERENCE_HABIT_CARD_SPOTLIGHT, false) && !habitDetails.isEmpty()) {
+                new Handler().postDelayed(this::showSpotlight, 1000);
+            }
+
+        });
         rv.setEmptyView(findViewById(R.id.empty_view));
         rv.setAdapter(new HabitsRecyclerViewAdapter(this, data, getSupportFragmentManager()));
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -112,6 +131,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void showSpotlight() {
+        View v = View.inflate(this, R.layout.spotlight_overlay, null);
+        View focus = rv.getChildAt(0);
+        Target target = new Target.Builder()
+                .setAnchor(focus)
+                .setOverlay(v)
+                .setShape(new Circle(focus.getWidth() / 2f))
+                .setEffect(new RippleEffect(0, focus.getWidth(), getColor(R.color.colorAccent)))
+                .build();
+
+        Spotlight sp = new Spotlight.Builder(this)
+                .setTargets(target)
+                .setBackgroundColor(Color.argb(255, 255, 255, 255))
+                .build();
+        sp.start();
+        HabitsBasicUtil.getDefaultSharedPreference(this).edit().putBoolean(HabitsConstants.PREFERENCE_HABIT_CARD_SPOTLIGHT, true).apply();
+        v.findViewById(R.id.close).setOnClickListener(v1 -> sp.finish());
+    }
+
     private LiveData<List<HabitDetails>> getHabits() {
         return HabitsDatabase.getDatabase(getApplicationContext()).habitDao().getAllHabits();
     }
@@ -119,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     private void openAddHabitFragment() {
         HabitEditSheetFragment bottomSheetFragment =
                 new HabitEditSheetFragment();
-        bottomSheetFragment.show(getSupportFragmentManager(), "AddHabitBottomSheet");
+        bottomSheetFragment.show(getSupportFragmentManager(), HabitsConstants.HABIT_EDIT_FRAGMENT_TAG);
         bottomSheetFragment.setCancelable(false);
     }
 
@@ -128,12 +166,12 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (!HabitsBasicUtil.getDefaultSharedPreference(this)
-                .getBoolean("backup", false) || user == null) {
+                .getBoolean(HabitsConstants.PREFERENCE_BACKUP, false) || user == null) {
             menu.removeItem(R.id.backup);
             menu.removeItem(R.id.restore);
             if (user == null) {
                 HabitsBasicUtil.getDefaultSharedPreference(this)
-                        .edit().putBoolean("backup", false).apply();
+                        .edit().putBoolean(HabitsConstants.PREFERENCE_BACKUP, false).apply();
             }
         }
         return super.onCreateOptionsMenu(menu);

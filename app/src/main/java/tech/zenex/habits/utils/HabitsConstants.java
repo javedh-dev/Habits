@@ -39,6 +39,8 @@ public class HabitsConstants {
     public static final String PREFERENCE_VERSION = "version";
     public static final String PREFERENCE_SHOW_HABIT_TYPE = "show_habit_type";
     public static final String PREFERENCE_SHOW_ONCE_PER_DAY = "show_once_per_day";
+    public static final String PREFERENCE_HABIT_CARD_SPOTLIGHT = "habit_card_spotlight_shown";
+
 
     // Logging Tags
     public static final String FIREBASE_LOG = "HABITS_FIREBASE";

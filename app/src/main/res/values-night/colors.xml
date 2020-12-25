@@ -7,6 +7,6 @@
 
 <resources>
     <!--  Theming colors  -->
-    <color name="iconColor">@color/black</color>
-    <color name="inverseIconColor">@color/white</color>
+<!--    <color name="iconColor">@color/black</color>-->
+<!--    <color name="inverseIconColor">@color/white</color>-->
 </resources>

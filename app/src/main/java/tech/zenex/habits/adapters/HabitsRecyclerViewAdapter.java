@@ -33,8 +33,7 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
 
     private final Context context;
     private final FragmentManager fragmentManager;
-    LiveData<List<HabitDetails>> habits;
-
+    private final LiveData<List<HabitDetails>> habits;
     public HabitsRecyclerViewAdapter(Context context, LiveData<List<HabitDetails>> mainActivityViewModel,
                                      FragmentManager fragmentManager) {
         this.context = context;
