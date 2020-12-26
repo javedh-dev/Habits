@@ -110,7 +110,8 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:text="@string/add_text"
-                    android:textColor="@color/colorPrimary" />
+                    android:enabled="false"
+                    android:textColor="@color/grey" />
 
             </LinearLayout>
         </LinearLayout>

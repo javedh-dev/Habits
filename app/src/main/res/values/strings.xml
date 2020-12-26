@@ -79,6 +79,7 @@
     <string name="long_tap_spotlight_title">2. Long tap</string>
     <string name="long_tap_spotlight_desc">Tap and hold to check in today\'s progress.</string>
     <string name="close_button">Close Button</string>
+    <string name="add_habit_failed">Habit name already exist..</string>
 
 
     <string-array name="journal_types">

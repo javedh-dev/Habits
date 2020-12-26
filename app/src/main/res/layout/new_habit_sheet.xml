@@ -243,7 +243,8 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:text="@string/create_text"
-                    android:textColor="@color/colorPrimary" />
+                    android:enabled="false"
+                    android:textColor="@color/grey" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

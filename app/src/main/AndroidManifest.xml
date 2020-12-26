@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tech.zenex.habits">
+    package="dev.javed.habits">
 
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
-        android:name=".HabitsApp"
+        android:name="dev.javed.habits.HabitsApp"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,10 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".InsightsActivity"
+            android:name="dev.javed.habits.InsightsActivity"
             android:theme="@style/AppTheme.WithStatusBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name="dev.javed.habits.LoginActivity"
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,14 +26,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="dev.javed.habits.SettingsActivity"
             android:theme="@style/AppTheme.WithStatusBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="dev.javed.habits.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <service
-            android:name=".HabitsFirebaseMessagingService"
+            android:name="dev.javed.habits.HabitsFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

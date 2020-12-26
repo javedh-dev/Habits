@@ -1,0 +1,209 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "fdc342189890a0921ee87f5c75579958",
+    "entities": [
+      {
+        "tableName": "habits",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`habitID` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `habitType` TEXT, `creationDate` TEXT, `isOnceADay` INTEGER NOT NULL, `streakDays` INTEGER NOT NULL, `color` INTEGER NOT NULL, PRIMARY KEY(`habitID`))",
+        "fields": [
+          {
+            "fieldPath": "habitID",
+            "columnName": "habitID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "habitType",
+            "columnName": "habitType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "creationDate",
+            "columnName": "creationDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isOnceADay",
+            "columnName": "isOnceADay",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "streakDays",
+            "columnName": "streakDays",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "habitID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_habits_habitID",
+            "unique": false,
+            "columnNames": [
+              "habitID"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_habits_habitID` ON `${TABLE_NAME}` (`habitID`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "journal_entries",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`journalId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `timestamp` TEXT, `habitID` INTEGER NOT NULL, `journalType` TEXT, `entry` TEXT, FOREIGN KEY(`habitID`) REFERENCES `habits`(`habitID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "journalId",
+            "columnName": "journalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "habitID",
+            "columnName": "habitID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "journalType",
+            "columnName": "journalType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "entry",
+            "columnName": "entry",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "journalId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_journal_entries_habitID",
+            "unique": false,
+            "columnNames": [
+              "habitID"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_journal_entries_habitID` ON `${TABLE_NAME}` (`habitID`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "habits",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "habitID"
+            ],
+            "referencedColumns": [
+              "habitID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "habits_tracker",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `habitID` INTEGER NOT NULL, `checkInTime` TEXT, `type` TEXT, FOREIGN KEY(`habitID`) REFERENCES `habits`(`habitID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "habitID",
+            "columnName": "habitID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkInTime",
+            "columnName": "checkInTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_habits_tracker_habitID",
+            "unique": false,
+            "columnNames": [
+              "habitID"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_habits_tracker_habitID` ON `${TABLE_NAME}` (`habitID`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "habits",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "habitID"
+            ],
+            "referencedColumns": [
+              "habitID"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fdc342189890a0921ee87f5c75579958')"
+    ]
+  }
+}

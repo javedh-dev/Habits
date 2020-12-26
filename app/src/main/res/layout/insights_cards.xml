@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/medium_space">
 
-        <tech.zenex.habits.views.InsightsCard
+        <dev.javed.habits.views.InsightsCard
             android:id="@+id/streak_days"
             android:layout_width="@dimen/zero_dp"
             android:layout_marginEnd="@dimen/small_space"
@@ -23,7 +23,7 @@
             app:insight_icon="@drawable/streak"
             app:insight_name="@string/streak_days_text" />
 
-        <tech.zenex.habits.views.InsightsCard
+        <dev.javed.habits.views.InsightsCard
             android:id="@+id/streak_start"
             android:layout_width="@dimen/zero_dp"
             android:layout_marginStart="@dimen/small_space"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/medium_space">
 
-        <tech.zenex.habits.views.InsightsCard
+        <dev.javed.habits.views.InsightsCard
             android:id="@+id/check_ins"
             android:layout_width="@dimen/zero_dp"
             android:layout_marginEnd="@dimen/small_space"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/medium_space">
 
-        <tech.zenex.habits.views.InsightsCard
+        <dev.javed.habits.views.InsightsCard
             android:id="@+id/total_failures"
             android:layout_width="@dimen/zero_dp"
             android:layout_marginEnd="@dimen/small_space"
@@ -60,7 +60,7 @@
             app:insight_icon="@drawable/failed"
             app:insight_name="@string/total_failures_text" />
 
-        <tech.zenex.habits.views.InsightsCard
+        <dev.javed.habits.views.InsightsCard
             android:id="@+id/journals"
             android:layout_width="@dimen/zero_dp"
             android:layout_marginStart="@dimen/small_space"

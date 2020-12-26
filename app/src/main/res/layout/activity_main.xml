@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context="tech.zenex.habits.MainActivity">
+    tools:context="dev.javed.habits.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             app:slideInterval="3000"
             app:strokeColor="@color/translucent" />
 
-        <tech.zenex.habits.views.HabitsRecyclerView
+        <dev.javed.habits.views.HabitsRecyclerView
             android:id="@+id/habits_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

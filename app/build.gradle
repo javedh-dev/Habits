@@ -14,7 +14,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "tech.zenex.habits"
+        applicationId "dev.javed.habits"
         minSdkVersion 24
         targetSdkVersion 30
 //        versionCode 2004 //for internal testing

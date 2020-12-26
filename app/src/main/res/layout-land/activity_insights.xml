@@ -52,7 +52,7 @@
 
             <include layout="@layout/insights_cards" />
 
-            <tech.zenex.habits.views.JournalsCard
+            <dev.javed.habits.views.JournalsCard
                 android:id="@+id/journal_entries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
