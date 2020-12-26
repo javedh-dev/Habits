@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/large_space">
+
+    <TextView
+        android:id="@+id/insight_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_text_size"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/insight_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/insight_icon_desc"
+        android:src="@drawable/ic_icon"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/insight_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_space"
+        android:textColor="@color/white"
+        android:textSize="@dimen/subtitle_text_size" />
+</LinearLayout>

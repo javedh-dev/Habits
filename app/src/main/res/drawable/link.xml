@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <path
+        android:fillColor="@color/iconColor"
+        android:pathData="M53.18,77.71L95,77.71v-18L53.18,59.71a40.32,40.32 0,0 0,0 80.63L95,140.34v-18L53.18,122.34a22.32,22.32 0,0 1,0 -44.63ZM146.77,59.71L105,59.71v18h41.74a22.32,22.32 0,1 1,0 44.63L105,122.34v18h41.74a40.32,40.32 0,1 0,0 -80.63Z" />
+    <path
+        android:fillColor="@color/iconColor"
+        android:pathData="M137.91,100a9,9 0,0 1,-9 9H71.06a9,9 0,1 1,0 -18H128.9A9,9 0,0 1,137.91 100Z" />
+</vector>

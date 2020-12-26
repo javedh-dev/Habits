@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/app_branding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/login_activity_margin_top"
+        android:drawablePadding="@dimen/medium_space"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/large_text_size"
+        android:textStyle="bold"
+        app:drawableTopCompat="@mipmap/ic_launcher_round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/medium_space"
+        android:text="@string/touch_the_fingerprint_sensor_text"
+        android:textSize="@dimen/regular_text_size"
+        app:drawableTopCompat="@drawable/fingerprint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_branding" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

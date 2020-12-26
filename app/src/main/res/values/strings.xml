@@ -1,19 +1,91 @@
 <!--
-  ~ Copyright (c) 2020.  Zenex.Tech@ https://zenex.tech
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~         http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software distributed under
-  ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  ~ either express or implied. See the License for the specific language governing permissions and
-  ~ limitations under the License.
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
   -->
 
 <resources>
     <string name="app_name">Habits</string>
-    <string name="test_string">This is sample card</string>
-    <string name="phone_number">Phone number</string>
+    <string name="add_habit_text">Add Habit</string>
+    <string name="develop_text">Develop</string>
+    <string name="break_text">Break</string>
+    <string name="create_text">Create</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="habit_title_placeholder">Habit Title</string>
+
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+    <string name="days_text">days</string>
+    <string name="update_text">Update</string>
+    <string name="app_logo_description">Habits App Logo</string>
+    <string name="app_tag_line">Take control of your life.</string>
+    <string name="already_check_in_message">You have already checked in today.</string>
+
+    <string name="backing_up_message">Backing up…</string>
+    <string name="restore_completion_message">Restore Completed Successfully…</string>
+    <string name="backup_failed_message">Backup failed…</string>
+    <string name="restore_failed_message">Restore failed…</string>
+    <string name="restoring_message">Restoring…</string>
+    <string name="backup_completion_message">Backup Completed Successfully…</string>
+    <string name="journal_entries_text">Journal Entries</string>
+    <string name="no_journal_entries_text">No Journal Entries!!!</string>
+    <string name="fingerprint_not_enabled_message">Lock screen security not enabled in settings</string>
+    <string name="fingerprint_permission_not_enabled_message">Fingerprint authentication permission not enabled</string>
+    <string name="authentication_failed_message">Authentication failed</string>
+    <string name="authentication_error_message">Authentication error</string>
+    <string name="cancelled_with_signal_message">Cancelled via signal</string>
+    <string name="touch_the_fingerprint_sensor_text">Touch the fingerprint sensor</string>
+    <string name="empty_view_desc">Placeholder image for no habits</string>
+    <string name="empty_view_title_text">No Habits yet!</string>
+    <string name="empty_view_subtitle_text">Please click + Add Habit Button to add new habits.</string>
+    <string name="add_habit_button_desc">Add Habit Button</string>
+    <string name="once_a_day_icon_desc">Once a Day Icon</string>
+    <string name="habit_type_icon_desc">Habit type icon</string>
+    <string name="check_in_text">Check-in</string>
+    <string name="journals_text">Journals</string>
+    <string name="streaks_text">Streaks</string>
+    <string name="failures_text">Failures</string>
+    <string name="check_in_title_text">So, How was it?</string>
+    <string name="success_text">Success</string>
+    <string name="failure_text">Failure</string>
+    <string name="journal_text">Journal</string>
+    <string name="insights_menu_text">Insights</string>
+    <string name="edit__menu_text">Edit</string>
+    <string name="delete_menu_text">Delete</string>
+    <string name="insight_icon_desc">Insights Icon</string>
+    <string name="journal_entry_placeholder_text">Speak your heart ;)</string>
+    <string name="journal_entry_title_text">Add Journal Entry</string>
+    <string name="add_text">Add</string>
+    <string name="habit_desc_placeholder">Please describe a little more…</string>
+    <string name="advanced_options_text">Advanced Options</string>
+    <string name="once_a_day_check_in_text">Once a day check-in</string>
+    <string name="choose_color_text">Choose Color</string>
+    <string name="streak_limit_text">Streak Limit</string>
+    <string name="backup_menu_text">Backup</string>
+    <string name="restore_menu_text">Restore</string>
+    <string name="streak_days_text">Streak Days</string>
+    <string name="streak_start_text">Streak Start</string>
+    <string name="check_ins_text">Check-ins</string>
+    <string name="total_failures_text">Total Failures</string>
+    <string name="filler_text">--</string>
+    <string name="check_in_failed_message">Check in failed…</string>
+    <string name="try_again_message">Unexpected error occurred. Please try again…</string>
+    <string name="one_tap_spotlight_title">1. One tap</string>
+    <string name="one_tap_spotlight_desc">Tap once to open habit menu.</string>
+    <string name="long_tap_spotlight_title">2. Long tap</string>
+    <string name="long_tap_spotlight_desc">Tap and hold to check in today\'s progress.</string>
+    <string name="close_button">Close Button</string>
+
+
+    <string-array name="journal_types">
+        <item>General</item>
+        <item>Gratitude</item>
+        <item>Guilt</item>
+        <item>Encourage</item>
+    </string-array>
+
 </resources>

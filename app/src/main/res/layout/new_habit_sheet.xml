@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    app:behavior_hideable="false"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/zero_dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="@dimen/drag_view_width"
+                android:layout_height="@dimen/drag_view_height"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/medium_space"
+                android:background="@drawable/drag_icon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/habit_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autofillHints="@null"
+                    android:background="@color/transparent"
+                    android:hint="@string/habit_title_placeholder"
+                    android:inputType="textNoSuggestions"
+                    android:shadowColor="@color/colorPrimary"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/subtitle_text_size"
+                    android:textStyle="bold">
+
+                    <requestFocus />
+                </EditText>
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/habit_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:checkedButton="@+id/develop_btn"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/develop_btn"
+                        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/develop_text"
+                        android:textAllCaps="false" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/break_btn"
+                        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/break_text"
+                        android:textAllCaps="false" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+            </LinearLayout>
+
+            <!--<View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />-->
+
+            <EditText
+                android:id="@+id/habit_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="@null"
+                android:background="@color/transparent"
+                android:gravity="top"
+                android:hint="@string/habit_desc_placeholder"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:padding="@dimen/medium_space"
+                android:shadowColor="@color/colorPrimary"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/subtitle_text_size">
+
+            </EditText>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/medium_space"
+                android:paddingRight="@dimen/medium_space">
+
+                <Button
+                    android:id="@+id/advanced_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableEnd="@drawable/caret"
+                    android:drawableTint="@color/colorPrimary"
+                    android:padding="0dp"
+                    android:text="@string/advanced_options_text"
+                    android:textAlignment="textEnd"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/small_text_size" />
+
+                <LinearLayout
+                    android:id="@+id/advanced_options"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/once_a_day"
+                            android:layout_width="@dimen/zero_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/once_a_day_check_in_text" />
+
+                        <Space
+                            android:layout_width="@dimen/large_space"
+                            android:layout_height="match_parent" />
+
+
+                        <LinearLayout
+                            android:layout_width="@dimen/zero_dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="end|center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/choose_color_text"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="@dimen/regular_text_size" />
+
+                            <Space
+                                android:layout_width="@dimen/large_space"
+                                android:layout_height="wrap_content" />
+
+                            <View
+                                android:id="@+id/color_picker"
+                                android:layout_width="@dimen/large_space"
+                                android:layout_height="@dimen/large_space"
+                                android:background="@color/colorAccent" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/large_space"
+                        android:paddingBottom="@dimen/large_space">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/streak_limit_text"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/regular_text_size" />
+
+                        <SeekBar
+                            android:id="@+id/streak_seekbar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="21" />
+
+                        <TextView
+                            android:id="@+id/streak_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/regular_text_size" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancel"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:text="@string/cancel_text"
+                    android:textColor="@color/red" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/create"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:text="@string/create_text"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

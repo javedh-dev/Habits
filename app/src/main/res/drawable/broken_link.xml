@@ -1,0 +1,23 @@
+<!--
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <path
+        android:fillColor="@color/iconColor"
+        android:pathData="M70.84,91.42L128.68,91.42A9.01,9.005 0,0 1,137.69 100.425L137.69,100.425A9.01,9.005 0,0 1,128.68 109.43L70.84,109.43A9.01,9.005 0,0 1,61.83 100.425L61.83,100.425A9.01,9.005 0,0 1,70.84 91.42z" />
+    <path
+        android:fillColor="@color/iconColor"
+        android:pathData="M55.946,43.89L156.1,144.045A9,9 0,0 1,156.1 156.773L156.1,156.773A9,9 0,0 1,143.373 156.773L43.218,56.618A9,9 104.12,0 1,43.218 43.89L43.218,43.89A9,9 104.12,0 1,55.946 43.89z" />
+    <path
+        android:fillColor="@color/iconColor"
+        android:pathData="M53,78.17L94.87,78.17v-18L53,60.17a40.32,40.32 0,0 0,0 80.63L94.87,140.8v-18L53,122.8a22.32,22.32 0,0 1,0 -44.63ZM146.59,60.17L104.87,60.17v18h41.74a22.32,22.32 0,1 1,0 44.63L104.87,122.8v18h41.74a40.32,40.32 0,1 0,0 -80.63Z" />
+</vector>

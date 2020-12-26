@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2020 - 2020 Javed Hussain <javedh.dev@gmail.com>
+  ~ This file is part of Habits project.
+  ~ This file and other under this project can not be copied and/or distributed
+  ~ without the express permission of Javed Hussain
+  -->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_peekHeight="@dimen/zero_dp"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/zero_dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="@dimen/drag_view_width"
+                android:layout_height="@dimen/drag_view_height"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/medium_space"
+                android:background="@drawable/drag_icon" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                        android:id="@+id/journal_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_margin="@dimen/medium_space"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/journal_text"
+                        android:textColor="@color/text_color"
+                        app:backgroundTint="@color/journal_menu_color"
+                        app:icon="@drawable/journal"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/iconColor" />
+
+                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                        android:id="@+id/insights_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:layout_margin="@dimen/medium_space"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/insights_menu_text"
+                        android:textColor="@color/text_color"
+                        app:backgroundTint="@color/insights_menu_color"
+                        app:icon="@drawable/charts"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/iconColor" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                        android:id="@+id/edit_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_margin="@dimen/medium_space"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/edit__menu_text"
+                        android:textColor="@color/text_color"
+                        app:backgroundTint="@color/edit_menu_color"
+                        app:icon="@drawable/edit"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/iconColor" />
+
+                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                        android:id="@+id/delete_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:layout_margin="@dimen/medium_space"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/delete_menu_text"
+                        android:textColor="@color/text_color"
+                        app:backgroundTint="@color/delete_menu_color"
+                        app:icon="@drawable/close"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/iconColor" />
+                </TableRow>
+            </TableLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
