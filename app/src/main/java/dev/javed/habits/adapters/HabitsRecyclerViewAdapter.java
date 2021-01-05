@@ -50,7 +50,7 @@ public class HabitsRecyclerViewAdapter extends RecyclerView.Adapter<HabitsRecycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HabitDetails habitDetails = Objects.requireNonNull(habits.getValue()).get(position);
-        HabitsStats stats = HabitsStats.calculateStats(habitDetails);
+        HabitsStats stats = HabitsStats.calculateStats(habitDetails, context);
         holder.habitCard.populateHabit(habitDetails, stats);
         holder.habitCard.setOnClickListener(view -> {
             HabitMenuSheetFragment fragment = HabitMenuSheetFragment.newInstance(habitDetails);

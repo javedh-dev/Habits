@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="@dimen/medium_space"
@@ -40,6 +40,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_branding" />
+        app:layout_constraintTop_toBottomOf="@+id/app_branding" />-->
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_width="@dimen/fingerprint_icon_size"
+        android:layout_height="@dimen/fingerprint_icon_size"
+        android:layout_marginBottom="@dimen/large_space"
+        app:drawableTopCompat="@drawable/fingerprint"
+        app:indicatorColor="@color/black"
+        app:indicatorName="BallClipRotateMultipleIndicator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

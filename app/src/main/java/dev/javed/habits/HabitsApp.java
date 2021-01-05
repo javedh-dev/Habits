@@ -29,7 +29,7 @@ public class HabitsApp extends Application {
     private void setupDatabase() {
         if (HabitsBasicUtil.getDefaultSharedPreference(getApplicationContext()).getBoolean(
                 HabitsConstants.PREFERENCE_IS_FIRST_RUN, true)) {
-//            HabitsBasicUtil.generateTestData(getApplicationContext());
+            HabitsBasicUtil.generateTestData(getApplicationContext());
             HabitsBasicUtil.getDefaultSharedPreference(getApplicationContext()).edit().putBoolean(
                     HabitsConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }

@@ -31,6 +31,7 @@ public abstract class HabitDAO {
         long id = insert(obj);
         if (id == -1) {
             update(obj);
+            id = 0;
         }
         return id;
     }

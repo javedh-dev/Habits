@@ -7,6 +7,8 @@
 
 package dev.javed.habits.utils;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import org.joda.time.Days;
@@ -39,9 +41,9 @@ public class HabitsStats {
     }
 
     @NonNull
-    public static HabitsStats calculateStats(HabitDetails habitDetails) {
+    public static HabitsStats calculateStats(HabitDetails habitDetails, Context context) {
         HabitsStats stats = new HabitsStats();
-        stats.calculate(habitDetails);
+        stats.calculate(habitDetails, context);
         return stats;
     }
 
@@ -66,7 +68,7 @@ public class HabitsStats {
     }
 
     public int getStreakDays() {
-        return streakDays;
+        return Math.max(streakDays, 0);
     }
 
     public int getTotalFailures() {
@@ -74,14 +76,14 @@ public class HabitsStats {
     }
 
     public int getStreakPercentage() {
-        return Math.min(streakPercentage, 100);
+        return Math.max(Math.min(streakPercentage, 100), 0);
     }
 
     public int getTotalCheckIns() {
         return totalCheckIns;
     }
 
-    public void calculate(@NonNull HabitDetails habitDetails) {
+    public void calculate(@NonNull HabitDetails habitDetails, Context context) {
         this.habitID = habitDetails.getHabitEntity().getHabitID();
         this.streakStart = habitDetails.getHabitEntity().getCreationDate();
         this.lastCheckIn = LocalDateTime.parse("1970-01-01T00:00:00.000");
@@ -91,7 +93,7 @@ public class HabitsStats {
             Long checkInDay = getLongDate(hte.getCheckInTime());
             if (habitDetails.getHabitEntity().getHabitType() != hte.getType()) {
                 this.totalFailures += 1;
-                this.failureCounter = this.totalFailures % 3;
+                this.failureCounter = this.totalFailures % getAllowedFailures(context);
                 if (this.failureCounter == 0) {
                     streakStart = hte.getCheckInTime();
                 }
@@ -104,10 +106,19 @@ public class HabitsStats {
             totalJournalCount += 1;
             incrementJournalCountByDate(checkInDay);
         }
+        if (Days.daysBetween(lastCheckIn.toLocalDate(), LocalDateTime.now().toLocalDate()).getDays() >=
+                getAllowedFailures(context)) {
+            this.streakStart = LocalDateTime.now();
+        }
         this.streakDays =
-                Days.daysBetween(streakStart.toLocalDate(), LocalDateTime.now().toLocalDate()).getDays();
-        this.streakPercentage =
-                (int) (((float) this.streakDays / habitDetails.getHabitEntity().getStreakDays()) * 100);
+                Days.daysBetween(streakStart.toLocalDate(), lastCheckIn.toLocalDate()).getDays();
+        this.streakPercentage = (int) (((float) this.streakDays / habitDetails.getHabitEntity()
+                .getStreakDays()) * 100);
+    }
+
+    private int getAllowedFailures(Context context) {
+        return HabitsBasicUtil.getDefaultSharedPreference(context)
+                .getInt(HabitsConstants.PREFERENCE_ALLOWED_FAILURES, 3);
     }
 
     private Long getLongDate(LocalDateTime checkInTime) {

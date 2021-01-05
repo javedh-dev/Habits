@@ -19,11 +19,17 @@
         android:layout_marginTop="@dimen/large_space"
         android:orientation="vertical">
 
-        <dev.javed.habits.views.HabitsRecyclerView
-            android:id="@+id/habits_list"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent">
+
+            <dev.javed.habits.views.HabitsRecyclerView
+                android:id="@+id/habits_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/empty_view"

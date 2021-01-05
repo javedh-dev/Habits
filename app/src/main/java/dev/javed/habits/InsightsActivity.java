@@ -121,7 +121,7 @@ public class InsightsActivity extends AppCompatActivity {
         if (extras != null) {
             habitDetails =
                     (HabitDetails) extras.getSerializable(HabitsConstants.INSIGHT_EXTRAS_HABIT_DETAILS_KEY);
-            habitsStats = HabitsStats.calculateStats(habitDetails);
+            habitsStats = HabitsStats.calculateStats(habitDetails, getApplicationContext());
         }
     }
 

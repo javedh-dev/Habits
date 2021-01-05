@@ -180,6 +180,8 @@ public class HabitEditSheetFragment extends HabitsBottomSheet {
         advancedOptions = view.findViewById(R.id.advanced_options);
         colorPicker = view.findViewById(R.id.color_picker);
         streakSeekBar = view.findViewById(R.id.streak_seekbar);
+        streakSeekBar.setMax(Integer.parseInt(Objects.requireNonNull(HabitsBasicUtil.getDefaultSharedPreference(getContext()).
+                getString(HabitsConstants.PREFERENCE_STREAK_LIMIT, "100"))));
         streakText = view.findViewById(R.id.streak_text);
         create = view.findViewById(R.id.create);
     }
