@@ -7,6 +7,7 @@
 
 package dev.javed.habits.fragments;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -50,7 +52,7 @@ public class HabitEditSheetFragment extends HabitsBottomSheet {
     private MaterialButtonToggleGroup habitType;
     private SwitchCompat onceADay;
     private LinearLayout advancedOptions;
-    private View colorPicker;
+    private ImageButton colorPicker;
     private int color = Color.RED;
     private SeekBar streakSeekBar;
     private TextView streakText;
@@ -133,7 +135,7 @@ public class HabitEditSheetFragment extends HabitsBottomSheet {
                 new ColorPicker.OnChooseColorListener() {
                     @Override
                     public void onChooseColor(int position, int c) {
-                        colorPicker.setBackgroundColor(c);
+                        colorPicker.setImageTintList(ColorStateList.valueOf(c));
                         color = c;
                     }
 
@@ -193,7 +195,7 @@ public class HabitEditSheetFragment extends HabitsBottomSheet {
             int hType = habitEntity.getHabitType() == HabitEntity.HabitType.BREAK ? R.id.break_btn :
                     R.id.develop_btn;
             habitType.check(hType);
-            colorPicker.setBackgroundColor(habitEntity.getColor());
+            colorPicker.setImageTintList(ColorStateList.valueOf(habitEntity.getColor()));
             color = habitEntity.getColor();
             onceADay.setChecked(habitEntity.isOnceADay());
             streakSeekBar.setProgress(habitEntity.getStreakDays());

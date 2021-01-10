@@ -173,11 +173,14 @@
                                 android:layout_width="@dimen/large_space"
                                 android:layout_height="wrap_content" />
 
-                            <View
+                            <ImageButton
                                 android:id="@+id/color_picker"
                                 android:layout_width="@dimen/large_space"
                                 android:layout_height="@dimen/large_space"
-                                android:background="@color/colorAccent" />
+                                android:background="@color/transparent"
+                                android:contentDescription="@string/choose_color_button"
+                                android:src="@drawable/color_palette"
+                                android:tint="@color/colorAccent" />
 
                         </LinearLayout>
                     </LinearLayout>
