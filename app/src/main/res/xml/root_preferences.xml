@@ -29,7 +29,7 @@
             android:summary="Streak will be reset to zero after failures."
             app:iconSpaceReserved="false"
             app:key="allowed_failures"
-            app:min="0"
+            app:min="1"
             app:showSeekBarValue="true"
             app:title="Streak Reset Threshold" />
         <EditTextPreference
