@@ -10,8 +10,10 @@ package dev.javed.habits.fragments;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.InputType;
 
 import androidx.annotation.NonNull;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
@@ -20,6 +22,7 @@ import java.util.Map;
 
 import dev.javed.habits.R;
 import dev.javed.habits.SettingsActivity;
+import dev.javed.habits.utils.HabitsBasicUtil;
 import dev.javed.habits.utils.HabitsConstants;
 import dev.javed.habits.utils.TaskCompletionListener;
 
@@ -35,6 +38,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements TaskCo
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        EditTextPreference streakLimit = getPreferenceManager().findPreference("streak_limit");
+        if (streakLimit != null) {
+            streakLimit.setOnBindEditTextListener(editText -> editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED));
+            streakLimit.setOnPreferenceChangeListener((preference, newValue) -> {
+                boolean result =
+                        !newValue.toString().isEmpty() && Integer.parseInt(newValue.toString()) >= 21;
+                if (!result) HabitsBasicUtil.notifyUser(getContext(), R.string.streak_limit_message);
+                return result;
+            });
+        }
         Preference version = findPreference(HabitsConstants.PREFERENCE_VERSION);
         try {
             assert version != null;
@@ -65,7 +78,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements TaskCo
         if (getActivity() != null) {
             PackageInfo pInfo =
                     getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            return pInfo.versionName + " (" + pInfo.versionCode + ")";
+            return pInfo.versionName;
         } else
             return HabitsConstants.EMPTY_STRING;
     }

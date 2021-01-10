@@ -29,47 +29,56 @@
             app:slideInterval="3000"
             app:strokeColor="@color/translucent" />
 
-        <dev.javed.habits.views.HabitsRecyclerView
-            android:id="@+id/habits_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <dev.javed.habits.views.HabitsSwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/large_space"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="@dimen/empty_view_image_size"
-                android:layout_height="@dimen/empty_view_image_size"
-                android:layout_marginBottom="@dimen/large_space"
-                android:contentDescription="@string/empty_view_desc"
-                android:src="@drawable/empty_state" />
+                <dev.javed.habits.views.HabitsRecyclerView
+                    android:id="@+id/habits_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_view_title_text"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/title_text_size"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                <LinearLayout
+                    android:id="@+id/empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/large_space"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/medium_space"
-                android:text="@string/empty_view_subtitle_text"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/subtitle_text_size"
-                android:visibility="visible" />
-        </LinearLayout>
+                    <ImageView
+                        android:layout_width="@dimen/empty_view_image_size"
+                        android:layout_height="@dimen/empty_view_image_size"
+                        android:layout_marginBottom="@dimen/large_space"
+                        android:contentDescription="@string/empty_view_desc"
+                        android:src="@drawable/empty_state" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty_view_title_text"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/title_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/medium_space"
+                        android:text="@string/empty_view_subtitle_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/subtitle_text_size" />
+                </LinearLayout>
+            </FrameLayout>
+        </dev.javed.habits.views.HabitsSwipeRefreshLayout>
     </LinearLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar

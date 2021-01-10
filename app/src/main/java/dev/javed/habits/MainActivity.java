@@ -24,6 +24,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -49,37 +50,28 @@ import dev.javed.habits.views.HabitsRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    public HabitsRecyclerView rv;
-    CarouselView carouselView;
-    public ExtendedFloatingActionButton addHabitFAB;
-    BottomAppBar appBar;
-    int[] images = {
+    private final int[] images = {
             R.drawable.img3,
             R.drawable.img2,
             R.drawable.img1
     };
+    private HabitsRecyclerView rv;
+    private ExtendedFloatingActionButton addHabitFAB;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String url = extras.getString(HabitsConstants.MAIN_ACTIVITY_EXTRAS_URL_KEY);
-            if (url != null) {
-                Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(notificationIntent);
-            }
-        }
+        handleExtras();
         setContentView(R.layout.activity_main);
-        appBar = findViewById(R.id.app_bar);
-        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.settings, null);
-        if (drawable != null) {
-            drawable.setTint(getResources().getColor(R.color.inverseIconColor, null));
-        }
-        appBar.setNavigationIcon(drawable);
-        setSupportActionBar(appBar);
+        setupAppBar();
         addHabitFAB = findViewById(R.id.add_habit);
         addHabitFAB.setOnClickListener(view -> openAddHabitFragment());
+        refreshLayout = findViewById(R.id.refresh);
+        refreshLayout.setOnRefreshListener(() -> {
+            Objects.requireNonNull(rv.getAdapter()).notifyDataSetChanged();
+            new Handler().postDelayed(() -> refreshLayout.setRefreshing(false), 1000);
+        });
         if (isLandscape()) {
             setupCarousel();
             setupRecyclerView(2);
@@ -88,12 +80,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void handleExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String url = extras.getString(HabitsConstants.MAIN_ACTIVITY_EXTRAS_URL_KEY);
+            if (url != null) {
+                Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(notificationIntent);
+            }
+        }
+    }
+
+    private void setupAppBar() {
+        BottomAppBar appBar = findViewById(R.id.app_bar);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.settings, null);
+        if (drawable != null) {
+            drawable.setTint(getResources().getColor(R.color.inverseIconColor, null));
+        }
+        appBar.setNavigationIcon(drawable);
+        setSupportActionBar(appBar);
+    }
+
     private boolean isLandscape() {
         return getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE;
     }
 
     private void setupCarousel() {
-        carouselView = findViewById(R.id.carouselView);
+        CarouselView carouselView = findViewById(R.id.carouselView);
         carouselView.setImageListener((position, imageView) -> imageView.setImageResource(images[position]));
         carouselView.setPageCount(images.length);
     }

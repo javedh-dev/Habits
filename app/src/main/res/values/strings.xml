@@ -80,6 +80,8 @@
     <string name="long_tap_spotlight_desc">Tap and hold to check in today\'s progress.</string>
     <string name="close_button">Close Button</string>
     <string name="add_habit_failed">Habit name already exist..</string>
+    <string name="_21_days">21 days</string>
+    <string name="streak_limit_message">Streak Limit should be minimum 21 days.</string>
 
 
     <string-array name="journal_types">

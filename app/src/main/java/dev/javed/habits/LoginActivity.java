@@ -29,11 +29,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && checkBiometricSupport()) {
-            authenticate();
-        } else {
-            new Handler().postDelayed(this::openMainActivity, 1000);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && checkBiometricSupport()) {
+//            authenticate();
+//        } else {
+        new Handler().postDelayed(this::openMainActivity, 1000);
+//        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)

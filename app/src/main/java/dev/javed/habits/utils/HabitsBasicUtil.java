@@ -18,6 +18,9 @@ import androidx.preference.PreferenceManager;
 import org.joda.time.Days;
 import org.joda.time.LocalDateTime;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import dev.javed.habits.R;
@@ -30,6 +33,7 @@ import dev.javed.habits.database.entities.JournalEntryEntity;
 public class HabitsBasicUtil {
 
     private static final Random RANDOM = new Random();
+    private static final List<String> titles = new ArrayList<>();
 
 
     public static int getDaysFromStart(HabitDetails habitDetails) {
@@ -54,9 +58,9 @@ public class HabitsBasicUtil {
         entity.setDescription(getRandomDesc(context));
         entity.setStreakDays(getRandomNumberInRange(21, 42));
         entity.setCreationDate(getRandomDate(20));
+        entity.setHabitID(entity.getName().hashCode());
         HabitsDatabase database = HabitsDatabase.getDatabase(context);
-        long id = database.habitDao().insert(entity);
-        entity.setHabitID(database.habitDao().getIdFromRowId(id));
+        database.habitDao().insert(entity);
         return entity;
     }
 
@@ -121,8 +125,9 @@ public class HabitsBasicUtil {
     }
 
     public static String getRandomTitle(Context context) {
-        String[] titles = context.getResources().getStringArray(R.array.habits_title);
-        return titles[RANDOM.nextInt(titles.length)];
+        if (titles.isEmpty())
+            Collections.addAll(titles, context.getResources().getStringArray(R.array.habits_title));
+        return titles.remove(RANDOM.nextInt(titles.size()));
     }
 
     private static String getRandomJournalEntry(Context context) {

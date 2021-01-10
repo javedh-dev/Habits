@@ -10,7 +10,6 @@ package dev.javed.habits;
 import android.app.Application;
 import android.util.Log;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import dev.javed.habits.utils.HabitsBasicUtil;
@@ -29,7 +28,8 @@ public class HabitsApp extends Application {
     private void setupDatabase() {
         if (HabitsBasicUtil.getDefaultSharedPreference(getApplicationContext()).getBoolean(
                 HabitsConstants.PREFERENCE_IS_FIRST_RUN, true)) {
-//            HabitsBasicUtil.generateTestData(getApplicationContext());
+            if (BuildConfig.DEBUG)
+                HabitsBasicUtil.generateTestData(getApplicationContext());
             HabitsBasicUtil.getDefaultSharedPreference(getApplicationContext()).edit().putBoolean(
                     HabitsConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }
@@ -45,6 +45,6 @@ public class HabitsApp extends Application {
                                 String.format(HabitsConstants.FIREBASE_TOKEN_ACQUIRED, task.getResult()));
                     }
                 });
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
+//        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(BuildConfig.DEBUG);
     }
 }

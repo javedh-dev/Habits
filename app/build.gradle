@@ -11,7 +11,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "dev.javed.habits"
@@ -21,7 +21,7 @@ android {
 //        versionCode 3001 //for closed beta testing
 //        versionCode 9001 //for open beta testing
         versionCode 1
-        versionName "Pre-Registration"
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -94,4 +94,5 @@ dependencies {
     implementation "androidx.biometric:biometric:$biometric_version"
 
     implementation 'com.github.takusemba:spotlight:2.0.3'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }

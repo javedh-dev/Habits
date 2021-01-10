@@ -36,6 +36,7 @@ public class HabitsConstants {
     public static final String PREFERENCE_ALLOWED_FAILURES = "allowed_failures";
     public static final String PREFERENCE_BACKUP = "backup";
     public static final String PREFERENCE_BACKUP_KEY = "backup_key";
+    public static final String PREFERENCE_STREAK_LIMIT = "streak_limit";
     public static final String PREFERENCE_VERSION = "version";
     public static final String PREFERENCE_SHOW_HABIT_TYPE = "show_habit_type";
     public static final String PREFERENCE_SHOW_ONCE_PER_DAY = "show_once_per_day";
