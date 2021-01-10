@@ -177,7 +177,7 @@
                                 android:id="@+id/color_picker"
                                 android:layout_width="@dimen/large_space"
                                 android:layout_height="@dimen/large_space"
-                                android:background="@color/transparent"
+                                android:background="?attr/selectableItemBackgroundBorderless"
                                 android:contentDescription="@string/choose_color_button"
                                 android:src="@drawable/color_palette"
                                 android:tint="@color/colorAccent" />

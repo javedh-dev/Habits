@@ -8,7 +8,6 @@
 package dev.javed.habits.fragments;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -53,7 +52,7 @@ public class HabitEditSheetFragment extends HabitsBottomSheet {
     private SwitchCompat onceADay;
     private LinearLayout advancedOptions;
     private ImageButton colorPicker;
-    private int color = Color.RED;
+    private int color;
     private SeekBar streakSeekBar;
     private TextView streakText;
     private boolean isUpdate = false;
@@ -79,6 +78,7 @@ public class HabitEditSheetFragment extends HabitsBottomSheet {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_habit_sheet, container, false);
         findViews(view);
+        color = getResources().getColor(R.color.colorAccent, null);
         habitName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -135,15 +135,18 @@ public class HabitEditSheetFragment extends HabitsBottomSheet {
                 new ColorPicker.OnChooseColorListener() {
                     @Override
                     public void onChooseColor(int position, int c) {
-                        colorPicker.setImageTintList(ColorStateList.valueOf(c));
-                        color = c;
+                        if (position != -1) {
+                            colorPicker.setImageTintList(ColorStateList.valueOf(c));
+                            color = c;
+                        }
                     }
 
                     @Override
                     public void onCancel() {
                     }
                 }).setRoundColorButton(true)
-                .setColors(getResources().getIntArray(R.array.colors_palette));
+                .setColors(getResources().getIntArray(R.array.colors_palette))
+                .setDefaultColorButton(color);
     }
 
     private void toggleAdvancedButton() {

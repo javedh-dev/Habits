@@ -126,7 +126,7 @@
     </string-array>
 
     <array name="colors_palette">
-        <item>#B71C1C</item>
+        <item>@color/colorAccent</item>
         <item>#880E4F</item>
         <item>#827717</item>
         <item>#01579B</item>
