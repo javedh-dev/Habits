@@ -144,4 +144,16 @@
 
     </array>
 
+    <array name="card_background_palette">
+        <item>#f1f6f9</item>
+        <item>#f1d4d4</item>
+        <item>#bce6eb</item>
+        <item>#ebebeb</item>
+        <item>#dbf6e9</item>
+        <item>#e8e8e8</item>
+        <item>#f3eac2</item>
+        <item>#fceef5</item>
+        <item>#eeeded</item>
+    </array>
+
 </resources>

@@ -10,6 +10,9 @@ package dev.javed.habits.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
@@ -148,6 +151,11 @@ public class HabitsBasicUtil {
         return colors[RANDOM.nextInt(colors.length)];
     }
 
+    public static int getRandomCardColor(Context context) {
+        int[] colors = context.getResources().getIntArray(R.array.card_background_palette);
+        return colors[RANDOM.nextInt(colors.length)];
+    }
+
     private static JournalEntryEntity.JournalType getRandomJournalType() {
         JournalEntryEntity.JournalType[] types = JournalEntryEntity.JournalType.values();
         return types[RANDOM.nextInt(types.length)];
@@ -173,5 +181,21 @@ public class HabitsBasicUtil {
         return start.withTime(RANDOM.nextInt(24), RANDOM.nextInt(60), RANDOM.nextInt(60),
                 RANDOM.nextInt(1000));
     }
+
+    public static Bitmap getBitmapFromView(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
+    public static Bitmap getBitmapFromView(View view, int defaultColor) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(defaultColor);
+        view.draw(canvas);
+        return bitmap;
+    }
+
 
 }

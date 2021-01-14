@@ -72,6 +72,18 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="Quotes">
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="daily_quote"
+            app:summary="Display an inspiring quote daily"
+            app:title="Daily Quotes" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="About">
         <PreferenceScreen
             app:iconSpaceReserved="false"

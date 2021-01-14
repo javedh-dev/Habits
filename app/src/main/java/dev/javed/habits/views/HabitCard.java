@@ -9,7 +9,6 @@ package dev.javed.habits.views;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -124,7 +123,7 @@ public class HabitCard extends RelativeLayout {
         setHabitType(habitDetails.getHabitEntity().getHabitType());
         setOnceADay(habitDetails.getHabitEntity().isOnceADay());
         updateDividerVisibility();
-        Log.d("HabitStats", stats.toString());
+//        Log.d("HabitStats", stats.toString());
     }
 
 

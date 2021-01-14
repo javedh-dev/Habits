@@ -83,6 +83,11 @@
     <string name="_21_days">21 days</string>
     <string name="streak_limit_message">Streak Limit should be minimum 21 days.</string>
     <string name="choose_color_button">Choose Color Button</string>
+    <string name="daily_quote">Daily Quote</string>
+    <string name="sample_quote">Everyday may not be good but there is something good in everyday.</string>
+    <string name="sample_author">Javed Hussain</string>
+    <string name="share_quote">share quote</string>
+    <string name="quote_of_the_day">Quote of the day</string>
 
 
     <string-array name="journal_types">

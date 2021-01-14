@@ -10,6 +10,7 @@ package dev.javed.habits;
 import android.app.Application;
 import android.util.Log;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import dev.javed.habits.utils.HabitsBasicUtil;
@@ -45,6 +46,6 @@ public class HabitsApp extends Application {
                                 String.format(HabitsConstants.FIREBASE_TOKEN_ACQUIRED, task.getResult()));
                     }
                 });
-//        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(BuildConfig.DEBUG);
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
     }
 }

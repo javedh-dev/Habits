@@ -33,6 +33,7 @@
 
     <!--  Specific  -->
     <dimen name="card_corner_radius">10dp</dimen>
+    <dimen name="quote_card_corner_radius">20dp</dimen>
 
     <dimen name="drag_view_height">5dp</dimen>
     <dimen name="drag_view_width">50dp</dimen>
@@ -52,5 +53,8 @@
 
     <dimen name="habit_card_padding">15dp</dimen>
     <dimen name="settings_logo_size">100dp</dimen>
+    <dimen name="quote_card_padding">50dp</dimen>
+    <dimen name="quote_text_qize">30sp</dimen>
+    <dimen name="quote_card_spacing">30dp</dimen>
 
 </resources>

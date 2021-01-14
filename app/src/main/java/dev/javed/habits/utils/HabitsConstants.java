@@ -24,6 +24,8 @@ public class HabitsConstants {
     public static final String MAIN_ACTIVITY_EXTRAS_URL_KEY = "URL";
     public static final String ARGS_HABITS_ENTITY_KEY = "HABIT_ENTITY";
     public static final String ARGS_HABITS_DETAILS_KEY = "HABIT_DETAILS";
+    public static final String ARGS_QUOTE_KEY = "QUOTE";
+    public static final String ARGS_AUTHOR_KEY = "AUTHOR";
     public static final String DONUT_VIEW_SECTION_NAME = "Streak";
 
     // Filename Constants

@@ -30,11 +30,16 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.synnapps.carouselview.CarouselView;
 import com.takusemba.spotlight.Spotlight;
 import com.takusemba.spotlight.Target;
 import com.takusemba.spotlight.effet.RippleEffect;
 import com.takusemba.spotlight.shape.Circle;
+
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,6 +48,7 @@ import dev.javed.habits.adapters.HabitsRecyclerViewAdapter;
 import dev.javed.habits.database.HabitDetails;
 import dev.javed.habits.database.HabitsDatabase;
 import dev.javed.habits.fragments.HabitEditSheetFragment;
+import dev.javed.habits.fragments.QuoteSheetFragment;
 import dev.javed.habits.utils.DatabaseBackupUtil;
 import dev.javed.habits.utils.HabitsBasicUtil;
 import dev.javed.habits.utils.HabitsConstants;
@@ -77,6 +83,15 @@ public class MainActivity extends AppCompatActivity {
             setupRecyclerView(2);
         } else {
             setupRecyclerView(4);
+        }
+        checkQuote();
+    }
+
+    private void checkQuote() {
+        long quoteShownAt = HabitsBasicUtil.getDefaultSharedPreference(this).getLong("quote_last_shown", 0);
+        boolean dailyQuote = HabitsBasicUtil.getDefaultSharedPreference(this).getBoolean("daily_quote", true);
+        if (dailyQuote && Days.daysBetween(new LocalDate(quoteShownAt), LocalDateTime.now().toLocalDate()).getDays() > 0) {
+            fetchQuote();
         }
     }
 
@@ -199,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
             DatabaseBackupUtil.backup(this);
         } else if (itemId == R.id.restore) {
             DatabaseBackupUtil.restore(this);
+        } else if (itemId == R.id.quote) {
+            fetchQuote();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -208,6 +225,19 @@ public class MainActivity extends AppCompatActivity {
         super.onPostResume();
         Objects.requireNonNull(this.rv.getAdapter()).notifyDataSetChanged();
         invalidateOptionsMenu();
+    }
+
+    private void fetchQuote() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Quotes").document("qod").get().
+                addOnSuccessListener(documentSnapshot -> {
+                    String author = String.valueOf(documentSnapshot.get("author"));
+                    String quote = String.valueOf(documentSnapshot.get("quote"));
+                    QuoteSheetFragment quoteSheetFragment = QuoteSheetFragment.newInstance(author, quote);
+                    quoteSheetFragment.show(getSupportFragmentManager(), null);
+                });
+        HabitsBasicUtil.getDefaultSharedPreference(this).edit().putLong("quote_last_shown",
+                LocalDate.now().toDate().getTime()).apply();
     }
 
 }

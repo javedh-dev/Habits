@@ -31,5 +31,8 @@
     <color name="insights_menu_color">#DD3E48</color>
     <color name="edit_menu_color">#8cc453</color>
     <color name="delete_menu_color">@color/red</color>
+    <color name="quote_card_color">#f2efea</color>
+    <color name="lightest_gray">#CCC</color>
+    <color name="light_gray">#AAA</color>
 </resources>
 
