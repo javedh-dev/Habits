@@ -46,6 +46,7 @@ public class HabitsApp extends Application {
                                 String.format(HabitsConstants.FIREBASE_TOKEN_ACQUIRED, task.getResult()));
                     }
                 });
+        FirebaseMessaging.getInstance().subscribeToTopic("quote");
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
     }
 }
