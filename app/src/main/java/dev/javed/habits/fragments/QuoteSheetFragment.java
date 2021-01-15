@@ -51,19 +51,6 @@ public class QuoteSheetFragment extends DialogFragment {
         return f;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    /*public static QuoteSheetFragment newInstance(HabitEntity habitEntity) {
-        Bundle args = new Bundle();
-        args.putSerializable(HabitsConstants.ARGS_HABITS_ENTITY_KEY, habitEntity);
-        QuoteSheetFragment f = new QuoteSheetFragment();
-        f.setArguments(args);
-        return f;
-    }*/
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -101,26 +88,7 @@ public class QuoteSheetFragment extends DialogFragment {
             Objects.requireNonNull(dialog.getWindow()).setLayout(width, height);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
-//        setCancelable(false);
     }
-
-    /*private void checkInDatabase(int checkedId, boolean isChecked) {
-        HabitEntity habitEntity = getHabitEntity();
-        if (habitEntity != null) {
-            HabitEntity.HabitType checkInStatus = isCheckInStatus(checkedId, isChecked, habitEntity);
-            HabitTrackerEntity tracker = new HabitTrackerEntity(habitEntity.getHabitID(),
-                    checkInStatus);
-            HabitsRepository.addHabitTracker(tracker, getContext(), result -> {
-                if (result.isSuccessful()) {
-                    Objects.requireNonNull(getDialog()).dismiss();
-                } else {
-                    HabitsBasicUtil.notifyUser(requireActivity(), result.getMessage());
-                }
-            });
-        } else {
-            HabitsBasicUtil.notifyUser(getContext(), R.string.check_in_failed_message);
-        }
-    }*/
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void shareBitmap(@NonNull Bitmap bitmap) {
@@ -152,6 +120,7 @@ public class QuoteSheetFragment extends DialogFragment {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra(Intent.EXTRA_STREAM, myImageFileUri);
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.quote_share_extra_text));
         intent.setType("image/png");
         startActivity(Intent.createChooser(intent, "Share with"));
     }

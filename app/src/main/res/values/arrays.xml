@@ -145,6 +145,7 @@
     </array>
 
     <array name="card_background_palette">
+        <item>@color/quote_card_color</item>
         <item>#f1f6f9</item>
         <item>#f1d4d4</item>
         <item>#bce6eb</item>

@@ -88,6 +88,7 @@
     <string name="sample_author">Javed Hussain</string>
     <string name="share_quote">share quote</string>
     <string name="quote_of_the_day">Quote of the day</string>
+    <string name="quote_share_extra_text">Found this awesome quote on Habits app!!!! Download now - https://ply.gl/dev.javed.habits</string>
 
 
     <string-array name="journal_types">
