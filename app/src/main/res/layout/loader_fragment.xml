@@ -22,13 +22,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.wang.avi.AVLoadingIndicatorView
+       <!-- <com.wang.avi.AVLoadingIndicatorView
             style="@style/AVLoadingIndicatorView"
             android:layout_width="@dimen/loader_view_size"
             android:layout_height="@dimen/loader_view_size"
             android:visibility="visible"
             app:indicatorColor="@color/iconColor"
-            app:indicatorName="BallClipRotateMultipleIndicator" />
+            app:indicatorName="BallClipRotateMultipleIndicator" />-->
 
         <TextView
             android:id="@+id/message_view"

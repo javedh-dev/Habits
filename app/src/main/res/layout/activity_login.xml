@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_branding" />-->
-    <com.wang.avi.AVLoadingIndicatorView
+<!--    <com.wang.avi.AVLoadingIndicatorView
         android:layout_width="@dimen/fingerprint_icon_size"
         android:layout_height="@dimen/fingerprint_icon_size"
         android:layout_marginBottom="@dimen/large_space"
@@ -50,6 +50,6 @@
         app:indicatorName="BallClipRotateMultipleIndicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
