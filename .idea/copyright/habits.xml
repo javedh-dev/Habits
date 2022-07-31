@@ -1,7 +1,0 @@
-<component name="CopyrightManager">
-  <copyright>
-    <option name="allowReplaceRegexp" value="Copyright" />
-    <option name="notice" value="Copyright (C) 2020 - &amp;#36;{today.year} Javed Hussain &lt;javedh.dev@gmail.com&gt; &#10;This file is part of Habits project.&#10;This file and other under this project can not be copied and/or distributed &#10;without the express permission of Javed Hussain" />
-    <option name="myName" value="habits" />
-  </copyright>
-</component>
