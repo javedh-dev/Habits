@@ -180,7 +180,7 @@
                                 android:background="?attr/selectableItemBackgroundBorderless"
                                 android:contentDescription="@string/choose_color_button"
                                 android:src="@drawable/color_palette"
-                                android:tint="@color/colorAccent" />
+                                app:tint="@color/colorAccent" />
 
                         </LinearLayout>
                     </LinearLayout>
